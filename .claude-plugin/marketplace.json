@@ -1,0 +1,12 @@
+{
+  "name": "panel-diagram",
+  "title": "Panel Diagram — Technical Diagrams",
+  "description": "Generate interactive, publication-quality technical diagrams as standalone HTML files. Powered by Mermaid.js — supports 11 diagram types including flowcharts, sequence diagrams, ER diagrams, class diagrams, git graphs, mind maps, and more.\n\nFeatures: dark/light mode toggle, step-through reveal for walkthroughs, hover highlight, and export to PNG/SVG/PDF/GIF via capture.js.",
+  "version": "1.0.0",
+  "category": "visualization",
+  "keywords": ["diagram", "mermaid", "infographic", "flowchart", "architecture", "ER diagram", "sequence diagram", "visualization"],
+  "author": "varkart",
+  "repository": "https://github.com/varkart/panel-diagram",
+  "homepage": "https://varkart.github.io/panel-diagram",
+  "license": "MIT"
+}
