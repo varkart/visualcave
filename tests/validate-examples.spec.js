@@ -4,13 +4,10 @@ const { mkdirSync } = require('fs');
 mkdirSync('tests/screenshots', { recursive: true });
 
 const DIAGRAMS = [
-  // Root-level transformer examples
-  { file: 'transformer-ultra.html',        type: 'graph',        stepThrough: true },
-  { file: 'transformer-pro.html',          type: 'graph',        stepThrough: true },
-  { file: 'transformer-animated.html',     type: 'graph',        stepThrough: false },
-  { file: 'transformer-architecture.html', type: 'graph',        stepThrough: false },
-
-  // examples/
+  { file: 'examples/transformer-ultra.html',        type: 'graph',        stepThrough: true },
+  { file: 'examples/transformer-pro.html',          type: 'graph',        stepThrough: true },
+  { file: 'examples/transformer-animated.html',     type: 'graph',        stepThrough: false },
+  { file: 'examples/transformer-architecture.html', type: 'graph',        stepThrough: false },
   { file: 'examples/class-diagram.html',         type: 'classDiagram', stepThrough: false },
   { file: 'examples/er-diagram.html',            type: 'erDiagram',    stepThrough: false },
   { file: 'examples/state-machine.html',         type: 'stateDiagram', stepThrough: false },

@@ -123,7 +123,7 @@ Output a **single self-contained `.html` file**. No markdown wrapper unless the 
 
 ## Interactive Features
 
-**Step-through** (sequential reveal): copy `setupSteps()` pattern from `transformer-ultra.html`, include `<script src="step-through.js"></script>`.
+**Step-through** (sequential reveal): copy `setupSteps()` pattern from `examples/transformer-ultra.html`, include `<script src="step-through.js"></script>`.
 
 **Hover highlight**: add `data-node` / `data-connects` attributes post-render, include `<script src="hover.js"></script>`.
 

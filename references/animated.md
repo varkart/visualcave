@@ -2,7 +2,7 @@
 
 > **Scope note:** The CSS animation classes below (`draw`, `fade`, `fade-up`, `slide-in`, `pop`, `pulse`, `flow-dot`) are for **manual SVG diagrams only** — they require hand-authored `<g>` elements with class and `--delay` attributes. They do **not** work on Mermaid-generated output.
 >
-> For Mermaid diagrams, use the step-through reveal system (`[data-step]` + `setupSteps()` pattern from `transformer-ultra.html`) or CSS targeting Mermaid's generated classes (`.node rect`, `.edgePath .path`). The marching-ants pattern in `transformer-animated.html` is the Mermaid-native animation example.
+> For Mermaid diagrams, use the step-through reveal system (`[data-step]` + `setupSteps()` pattern from `examples/transformer-ultra.html`) or CSS targeting Mermaid's generated classes (`.node rect`, `.edgePath .path`). The marching-ants pattern in `examples/transformer-animated.html` is the Mermaid-native animation example.
 
 Add CSS animations to make diagrams come alive. No JS required for the animated variant — pure CSS `@keyframes`. For step-through (click to advance), see the JS block at the bottom.
 
