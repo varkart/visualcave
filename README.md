@@ -25,6 +25,8 @@ git clone https://github.com/varkart/panel-diagram .claude/skills/panel-diagram
 
 **Codex CLI** — install via `.codex-plugin/plugin.json` or clone and reference the skill directory.
 
+**Gemini CLI** — clone the repo; Gemini CLI will pick up `gemini-extension.json` automatically and load `SKILL.md` as context.
+
 No restart required after installation.
 
 ---
