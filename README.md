@@ -1,100 +1,56 @@
 # panel-diagram
 
 ![Validate Diagrams](https://github.com/varkart/panel-diagram/actions/workflows/ci.yml/badge.svg)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 A Claude Code skill for creating professional technical diagrams as interactive standalone HTML files. Powered by **[Mermaid.js](https://mermaid.js.org)** — supports 11 diagram types including flowcharts, sequence diagrams, ER diagrams, class diagrams, git graphs, mind maps, and more. Dark mode, step-through reveal, and export (PNG/SVG/PDF) built in.
 
+**[View showcase →](https://varkart.github.io/panel-diagram)**
+
 ---
 
-## 🚀 Key Features
+## Installation
 
-- **Infographic Aesthetic:** High-contrast 2.5px strokes, 4px hard shadows, and Inter typography.
-- **Interactive Step-Through:** Support for narrative flows where users click to reveal architecture phases (Phase 1 → Phase 2 → Complete).
-- **Dynamic Theme Engine:** Full support for Dark and Light modes with smooth CSS transitions.
-- **Annotated "Deep Dives":** Built-in styling for technical "Notes" to explain complex logic.
-- **Zero-Build Portability:** Outputs a single self-contained `.html` file that renders anywhere.
+```bash
+# Install globally (available in all projects)
+git clone https://github.com/varkart/panel-diagram ~/.claude/skills/panel-diagram
+
+# Or per-project
+git clone https://github.com/varkart/panel-diagram .claude/skills/panel-diagram
+```
+
+The skill is available immediately — no restart required.
 
 ---
 
 ## Usage
 
-Invoke with `/panel-diagram` in Claude Code, then describe your technical requirement:
+Invoke with `/panel-diagram` in Claude Code, then describe your diagram:
 
 ```text
 /panel-diagram — how OAuth 2.0 works
 /panel-diagram — interactive walkthrough of a RAG pipeline
 /panel-diagram — Transformer architecture "Attention Is All You Need"
+/panel-diagram — order lifecycle state machine with all edge cases
+/panel-diagram — GitFlow branching strategy with release and hotfix branches
 ```
 
----
-
-## 🖼️ Featured Examples
-
-Explore these high-fidelity diagrams in the `examples/` directory:
-
-**Architecture & Flow**
-- **[Transformer Architecture](examples/transformer-deep-dive.html):** Complete visual breakdown of "Attention Is All You Need" with interactive step-through and dark mode.
-- **[OAuth 2.0 Flow](examples/oauth-flow.html):** Sequence diagram of the Authorization Code grant type.
-- **[API Gateway](examples/architecture-api-gateway.html):** System design overview of a modern cloud edge architecture.
-- **[CI/CD Pipeline](examples/pipeline-cicd.html):** Git push → build → test → deploy pipeline stages.
-- **[E-commerce Order Flow](examples/ecommerce-order-flow.html):** Order fulfillment from checkout to delivery notification.
-
-**Object & Data Models**
-- **[E-Commerce Domain Model](examples/class-diagram.html):** UML class diagram with User, Order, Product, Payment entities.
-- **[Blog Database Schema](examples/er-diagram.html):** ER diagram with tables, PK/FK/UK annotations, and relationships.
-- **[Order Lifecycle](examples/state-machine.html):** State machine covering all order states from Pending to Refunded.
-
-**Planning & Discovery**
-- **[Feature Priority Matrix](examples/quadrant-chart.html):** Quadrant chart of Q3 features by effort vs impact.
-- **[API Traffic Distribution](examples/pie-chart.html):** Pie chart of request volume across 8 microservices.
-
-**Knowledge & History**
-- **[Evolution of the Web](examples/timeline.html):** Timeline from Web 1.0 (1991) to the AI era (2024).
-- **[System Design Topics](examples/mindmap.html):** Mind map covering scalability, storage, caching, reliability, and more.
-- **[GitFlow Strategy](examples/git-graph.html):** Git graph showing feature branches, releases, hotfixes, and tags.
+Claude outputs a single self-contained `.html` file. Open it in any browser — no build step, no server.
 
 ---
 
-## Design System
+## Key Features
 
-The skill uses a calibrated design system to ensure all diagrams look "published":
-
-- **Panels (Subgraphs):** Rounded rectangles (`rx: 16px`) with neutral background tints.
-- **Nodes:** Thick outlines (`#1A1A1A`) and semi-bold Inter text.
-- **Notes:** Yellow-tinted callouts (`#FFF9C4`) for technical explanations.
-- **Typography:** Uses **Inter** for UI and **JetBrains Mono** for math/code.
-
-### Calibrated Color Palette
-
-| Class | Color (Light) | Color (Dark) | Logical Role |
-| :--- | :--- | :--- | :--- |
-| `yellow` | `#FFFDE7` | `#2A2310` | Users, Entry Points, Browsers |
-| `blue` | `#E3F2FD` | `#0A1929` | Services, APIs, Processing |
-| `green` | `#E8F5E9` | `#0A1F0A` | Databases, Storage, Success |
-| `purple` | `#F3E5F5` | `#1A0A2A` | Auth, AI Models, Security |
-| `orange` | `#FFF3E0` | `#2A1A08` | Queues, Events, Pipelines |
-| `teal` | `#E0F7FA` | `#002A2A` | Caching, External Edge APIs |
-
----
-
-## "Ultra" Mode Features
-
-When generating complex diagrams, the skill can include an interaction layer:
-
-### 1. Sequential Discovery (Step-Through)
-The diagram builds itself as the user clicks, revealing logical phases one-by-one. This is ideal for teaching complex architectures like **Transformers** or **OAuth 2.0**.
-
-### 2. Adaptive Theme Toggle
-The UI includes a professional theme toggle (🌙 Dark / ☀️ Light) that dynamically updates the entire SVG and UI without a page reload.
-
-### 3. Status Pill
-A floating, pulsing pill at the bottom-right guides the user through the interactive steps.
+- **11 diagram types** — flowchart, sequence, class, ER, state machine, quadrant, timeline, mind map, git graph, pie, gantt
+- **Interactive step-through** — click to reveal phases one by one (ideal for architecture walkthroughs)
+- **Dark / light mode toggle** — smooth CSS transition, respects `prefers-color-scheme`
+- **Copy Mermaid source** — one-click copy of the clean diagram source
+- **Export** — PNG, SVG, PDF, animated GIF, OG social card via `capture.js`
+- **Zero dependencies at runtime** — Mermaid loaded from CDN, everything else inline
 
 ---
 
 ## Diagram Type Reference
-
-Pick the right Mermaid keyword for the job:
 
 | Intent | Mermaid keyword |
 |---|---|
@@ -112,34 +68,73 @@ Pick the right Mermaid keyword for the job:
 
 ---
 
-## Example Mermaid Logic
+## Examples
 
-```mermaid
-graph TD
-  classDef blue fill:#E3F2FD,stroke:#1A1A1A,stroke-width:2.5px
-  classDef green fill:#E8F5E9,stroke:#1A1A1A,stroke-width:2.5px
+All 13 examples are in [`examples/`](examples/) and live at the [showcase site](https://varkart.github.io/panel-diagram).
 
-  subgraph "Backend"
-    API["API Gateway"]:::blue
-    DB["PostgreSQL"]:::green
-  end
+**Architecture & Flow**
+- [Transformer Architecture](examples/transformer-deep-dive.html) — step-through, dark mode
+- [OAuth 2.0 Flow](examples/oauth-flow.html) — sequence diagram
+- [API Gateway Architecture](examples/architecture-api-gateway.html)
+- [CI/CD Pipeline](examples/pipeline-cicd.html)
+- [E-commerce Order Flow](examples/ecommerce-order-flow.html)
 
-  API -->|Query| DB
+**Object & Data Models**
+- [E-Commerce Domain Model](examples/class-diagram.html) — `classDiagram`
+- [Blog Database Schema](examples/er-diagram.html) — `erDiagram`
+- [Order Lifecycle](examples/state-machine.html) — `stateDiagram-v2`
+
+**Planning & Analysis**
+- [Feature Priority Matrix](examples/quadrant-chart.html) — `quadrantChart`
+- [API Traffic Distribution](examples/pie-chart.html) — `pie`
+
+**Knowledge & History**
+- [Evolution of the Web](examples/timeline.html) — `timeline`
+- [System Design Topics](examples/mindmap.html) — `mindmap`
+- [GitFlow Strategy](examples/git-graph.html) — `gitGraph`
+
+---
+
+## Color Palette
+
+Apply these `classDef` classes in `graph` and `classDiagram` diagrams:
+
+| Class | Use for |
+|---|---|
+| `:::yellow` | Users, browsers, entry points |
+| `:::blue` | Services, APIs, compute |
+| `:::green` | Databases, storage, success states |
+| `:::purple` | Auth, AI models, security |
+| `:::orange` | Queues, events, pipelines |
+| `:::teal` | Caching, CDN, external APIs |
+| `:::note` | Annotations, callouts |
+
+---
+
+## Export
+
+```bash
+node capture.js diagram.html                    # animated GIF
+node capture.js diagram.html --format=png       # PNG screenshot
+node capture.js diagram.html --format=svg       # extracted SVG
+node capture.js diagram.html --format=pdf       # A4 PDF
+node capture.js diagram.html --format=og        # 1200×630 OG image
 ```
 
 ---
 
-## Export Formats
-
-`capture.js` supports high-quality exports for documentation and design tools:
+## Development
 
 ```bash
-# Animated GIF (captures the reveal sequence)
-node capture.js diagram.html --fps=12 --duration=5
-
-# High-Res PNG (perfect for blog posts)
-node capture.js diagram.html --format=png --scale=2
-
-# Vector SVG (for Figma/Sketch)
-node capture.js diagram.html --format=svg
+npm install
+npx playwright install chromium
+npm test             # run all diagram validation tests
+npm run test:ui      # Playwright UI mode
+npm run test:headed  # headed browser
 ```
+
+---
+
+## License
+
+MIT — see [LICENSE](LICENSE).

@@ -16,7 +16,9 @@
   "bugs": {
     "url": "https://github.com/varkart/panel-diagram/issues"
   },
-  "license": "ISC",
+  "author": "varkart",
+  "license": "MIT",
+  "keywords": ["claude-code", "skill", "diagram", "mermaid", "infographic", "technical-diagram"],
   "dependencies": {
     "@mermaid-js/mermaid-cli": "^11.15.0",
     "gif-encoder-2": "^1.0.5",
