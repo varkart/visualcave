@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Light Mode Tokens */
+      --bg: #F0F2F5;
+      --card-bg: #FFFFFF;
+      --text-main: #111827;
+      --text-muted: #6B7280;
+      --border: #E5E7EB;
+      --accent: #1E88E5;
+      --note-bg: #FFF9C4;
+      --note-border: #FBC02D;
+      --shadow: 0 4px 20px rgba(0,0,0,0.08);
+      --node-stroke: #1A1A1A;
+    }
+
+    [data-theme="dark"] {
+      --bg: #0F1117;
+      --card-bg: #1A1D27;
+      --text-main: #F9FAFB;
+      --text-muted: #9CA3AF;
+      --border: #2A2D3A;
+      --accent: #3B82F6;
+      --note-bg: #2A2310;
+      --note-border: #F9A825;
+      --shadow: 0 4px 24px rgba(0,0,0,0.4);
+      --node-stroke: #3A3D50;
+    }
+
+    body { 
+      background: var(--bg); 
+      color: var(--text-main);
+      display: flex; 
+      justify-content: center; 
+      padding: 40px; 
+      font-family: 'Inter', sans-serif; 
+      margin: 0; 
+      transition: background 0.3s ease;
+      min-height: 100vh;
+    }
+
+    .page { 
+      background: var(--card-bg); 
+      border-radius: 24px; 
+      padding: 48px; 
+      box-shadow: var(--shadow); 
+      width: 100%; 
+      max-width: 1200px; 
+      position: relative; 
+      min-height: 900px;
+      border: 1px solid var(--border);
+      transition: background 0.3s ease, border 0.3s ease;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 40px;
+    }
+
+    .title-group h1 { 
+      margin: 0; 
+      font-size: 36px; 
+      font-weight: 900; 
+      letter-spacing: -0.02em;
+      display: flex; 
+      align-items: center; 
+      gap: 16px; 
+    }
+    .title-group h1::before { 
+      content: ''; 
+      display: block; 
+      width: 8px; 
+      height: 40px; 
+      background: var(--accent); 
+      border-radius: 4px; 
+    }
+    .title-group p {
+      margin: 8px 0 0 24px;
+      color: var(--text-muted);
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .controls {
+      display: flex;
+      gap: 12px;
+    }
+
+    button {
+      font: 600 13px 'Inter', sans-serif;
+      padding: 10px 20px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-secondary {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+    }
+    .btn-secondary:hover {
+      background: var(--bg);
+      border-color: var(--accent);
+    }
+
+    /* Infographic Style Overrides */
+    .mermaid svg { max-width: 100%; height: auto; }
+    .node rect, .node circle, .node polygon, .node path { 
+      stroke-width: 2.5px !important; 
+      stroke: var(--node-stroke) !important; 
+      rx: 10px !important; 
+      ry: 10px !important; 
+      filter: drop-shadow(4px 4px 0px rgba(0,0,0,0.1)); 
+    }
+    .node text { font-weight: 500 !important; font-size: 14px !important; fill: var(--text-main) !important; }
+    .edgePath .path { stroke-width: 2.5px !important; stroke: var(--text-muted) !important; }
+    .edgeLabel { background-color: var(--card-bg) !important; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; border: 1.5px solid var(--border); color: var(--text-main) !important; }
+    .cluster rect { stroke-width: 2.5px !important; stroke: var(--node-stroke) !important; rx: 16px !important; fill: var(--bg) !important; }
+    .cluster text { font-weight: 600 !important; font-size: 16px !important; fill: var(--text-main) !important; }
+
+    /* Note Styling */
+    .note rect { fill: var(--note-bg) !important; stroke: var(--note-border) !important; stroke-dasharray: 6 !important; }
+    .note text { font-style: italic !important; font-size: 13px !important; fill: var(--text-main) !important; font-weight: 500 !important; }
+
+    /* Animation & Interaction Logic */
+    
+    /* Hide the entire SVG until initialization is complete */
+    .mermaid[data-initialized="false"] svg {
+      visibility: hidden !important;
+      opacity: 0 !important;
+    }
+
+    /* Hide everything that has a step assigned */
+    .mermaid svg [data-step] {
+      opacity: 0 !important;
+      visibility: hidden !important;
+      transition: opacity 0.6s ease;
+    }
+
+    /* Reveal when the class is added */
+    .mermaid svg [data-step].reveal {
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
+    
+    /* Force all children (paths, labels, markers) to be visible */
+    .mermaid svg [data-step].reveal * {
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
+
+    .highlight-edge path { stroke: var(--accent) !important; stroke-width: 4px !important; filter: drop-shadow(0 0 8px var(--accent)); }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+    
+    .status-pill {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      padding: 12px 24px;
+      border-radius: 100px;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      font-size: 14px;
+      z-index: 1000;
+      cursor: pointer;
+    }
+    .status-pill .dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
+    @keyframes pulse { 0% { transform: scale(0.8); opacity: 0.5; } 50% { transform: scale(1.2); opacity: 1; } 100% { transform: scale(0.8); opacity: 0.5; } }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="title-group">
+        <h1>Transformer Architecture</h1>
+        <p>The "Attention Is All You Need" visual deep-dive.</p>
+      </div>
+      <div class="controls">
+        <button class="btn-secondary" onclick="toggleTheme()" id="theme-toggle">
+          <span>🌙</span> Dark Mode
+        </button>
+        <button class="btn-secondary" onclick="copyMermaid(this)">
+          <span>📋</span> Copy Code
+        </button>
+      </div>
+    </header>
+
+    <div class="mermaid" data-initialized="false">
+      graph TD
+        classDef yellow fill:#FFFDE7,stroke:#1A1A1A,stroke-width:2px;
+        classDef blue fill:#E3F2FD,stroke:#1A1A1A,stroke-width:2px;
+        classDef green fill:#E8F5E9,stroke:#1A1A1A,stroke-width:2px;
+        classDef purple fill:#F3E5F5,stroke:#1A1A1A,stroke-width:2px;
+        classDef teal fill:#E0F7FA,stroke:#1A1A1A,stroke-width:2px;
+        classDef orange fill:#FFF3E0,stroke:#1A1A1A,stroke-width:2px;
+        classDef note fill:#FFF9C4,stroke:#FBC02D,stroke-dasharray:4;
+
+        subgraph "Input Layer"
+          In["Input Tokens"]:::yellow
+          InEmb["Embedding"]:::orange
+          InPos["Positional Enc."]:::purple
+          Note1["Note: Positional Encoding adds<br/>sine/cosine waves to tokens<br/>so the model knows word order."]:::note
+        end
+
+        subgraph "Encoder Stack (Nx)"
+          MHA1["Multi-Head Attention"]:::blue
+          AddNorm1["Add and Norm"]:::green
+          FFN1["Feed Forward"]:::orange
+          AddNorm2["Add and Norm"]:::green
+          Note2["Note: Attention Formula:<br/>Softmax(QK^T / sqrt(dk))V"]:::note
+        end
+
+        subgraph "Decoder Stack (Nx)"
+          MMHA["Masked MHA"]:::blue
+          AddNorm3["Add and Norm"]:::green
+          EncDecAttn["Cross-Attention"]:::blue
+          AddNorm4["Add and Norm"]:::green
+          FFN2["Feed Forward"]:::orange
+          AddNorm5["Add and Norm"]:::green
+          Note3["Note: Cross-Attention lets the<br/>decoder look at the final<br/>encoder state."]:::note
+        end
+
+        In --> InEmb --> InPos
+        InPos --> MHA1
+        MHA1 --> AddNorm1 --> FFN1 --> AddNorm2
+        
+        Out["Outputs"]:::yellow --> OutEmb["Embedding"]:::orange --> OutPos["Positional Enc."]:::purple
+        OutPos --> MMHA --> AddNorm3 --> EncDecAttn
+        AddNorm2 --> EncDecAttn
+        EncDecAttn --> AddNorm4 --> FFN2 --> AddNorm5
+        
+        AddNorm5 --> Lin["Linear"]:::purple --> Soft["Softmax"]:::teal --> Final["Probabilities"]:::yellow
+
+        %% Residual Links
+        InPos -.-> AddNorm1
+        AddNorm1 -.-> AddNorm2
+        OutPos -.-> AddNorm3
+        AddNorm3 -.-> AddNorm4
+        AddNorm4 -.-> AddNorm5
+    </div>
+
+    <div class="status-pill" onclick="advanceStep()">
+      <div class="dot"></div>
+      <span id="step-label">Click to start guide</span>
+    </div>
+  </div>
+
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+
+    // Snapshot source before Mermaid replaces the .mermaid div content
+    const mermaidDiv = document.querySelector('.mermaid');
+    mermaidDiv.dataset.source = mermaidDiv.textContent.trim();
+
+    const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (isDark) document.documentElement.setAttribute('data-theme', 'dark');
+
+    // Wait for fonts to load before initializing Mermaid to ensure accurate sizing
+    document.fonts.ready.then(() => {
+        mermaid.initialize({
+          startOnLoad: true,
+          theme: 'base',
+          flowchart: { 
+            htmlLabels: true,
+            useMaxWidth: true,
+            padding: 100
+          },
+          themeVariables: {
+            fontFamily: 'Inter, sans-serif',
+            primaryColor: '#FFFDE7',
+            primaryBorderColor: '#1A1A1A',
+            primaryTextColor: '#1A1A1A',
+            lineColor: '#424242',
+            clusterBkg: '#F8F9FA',
+            clusterBorder: '#1A1A1A'
+          }
+        });
+    });
+
+    // Theme Toggle
+    window.toggleTheme = () => {
+      const current = document.documentElement.getAttribute('data-theme');
+      const target = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', target);
+      document.getElementById('theme-toggle').innerHTML = target === 'dark' ? '<span>☀️</span> Light Mode' : '<span>🌙</span> Dark Mode';
+    };
+
+    // Step-through Logic
+    let currentStep = 0;
+    const stepConfig = [
+      { label: "Step 1: Input Processing", nodes: ['In', 'InEmb', 'InPos', 'Note1'], clusters: ['Input Layer'] },
+      { label: "Step 2: Encoder Architecture", nodes: ['MHA1', 'AddNorm1', 'FFN1', 'AddNorm2', 'Note2'], clusters: ['Encoder Stack'] },
+      { label: "Step 3: Masked Decoding", nodes: ['Out', 'OutEmb', 'OutPos', 'MMHA', 'AddNorm3'], clusters: ['Decoder Stack'] },
+      { label: "Step 4: Cross-Attention & Output", nodes: ['EncDecAttn', 'AddNorm4', 'FFN2', 'AddNorm5', 'Lin', 'Soft', 'Final', 'Note3'] }
+    ];
+
+    function setupSteps() {
+      const mermaidDiv = document.querySelector('.mermaid');
+      if (mermaidDiv.dataset.stepsReady) return;
+      const svg = mermaidDiv.querySelector('svg');
+      if (!svg) return setTimeout(setupSteps, 100);
+      // Mermaid inserts <svg> then populates nodes in a second pass — wait for nodes
+      if (svg.querySelectorAll('g.node').length === 0) return setTimeout(setupSteps, 100);
+      mermaidDiv.dataset.stepsReady = 'true';
+
+      const allGroups = Array.from(svg.querySelectorAll('g.node, g.cluster, g.edgePath, g.edgeLabel'));
+      
+      // Associate elements with steps
+      stepConfig.forEach((config, idx) => {
+        const stepNum = idx + 1;
+        
+        // Match nodes and clusters
+        allGroups.forEach(g => {
+          if (g.classList.contains('edgePath') || g.classList.contains('edgeLabel')) return;
+
+          const id = g.id || '';
+          const text = g.textContent || '';
+          const isNode = config.nodes.some(n => id.includes(`-${n}-`) || id.endsWith(`-${n}`) || id.startsWith(`${n}-`));
+          const isCluster = config.clusters?.some(c => text.includes(c));
+          
+          if (isNode || isCluster) {
+            g.setAttribute('data-step', stepNum);
+          }
+        });
+
+        // Match edges and edge labels
+        svg.querySelectorAll('g.edgePath, g.edgeLabel').forEach(edge => {
+          const classList = Array.from(edge.classList).join(' ');
+          const id = edge.id || '';
+          
+          const isConnected = config.nodes.some(n => 
+            classList.includes(`LS-${n}`) || 
+            classList.includes(`LE-${n}`) || 
+            classList.includes(`L-${n}-`) || 
+            classList.includes(`-${n}-`) ||
+            id.includes(`-${n}-`) ||
+            id.endsWith(`-${n}`) ||
+            id.startsWith(`${n}-`)
+          );
+
+          if (isConnected) {
+            edge.setAttribute('data-step', stepNum);
+          }
+        });
+      });
+
+      // Catch-all: Assign any remaining elements to the final step
+      allGroups.forEach(g => {
+        if (!g.hasAttribute('data-step')) {
+          g.setAttribute('data-step', stepConfig.length);
+        }
+      });
+
+      // Signal initialization is complete - this reveals the SVG
+      mermaidDiv.setAttribute('data-initialized', 'true');
+    }
+
+    window.advanceStep = () => {
+      const svg = document.querySelector('.mermaid svg');
+      if (!svg) return;
+
+      if (currentStep >= stepConfig.length) {
+        currentStep = 0;
+        svg.querySelectorAll('.reveal').forEach(el => {
+          el.classList.remove('reveal');
+        });
+        document.getElementById('step-label').textContent = "Click to start guide";
+        return;
+      }
+      
+      currentStep++;
+      const config = stepConfig[currentStep - 1];
+      document.getElementById('step-label').textContent = config.label;
+      
+      svg.querySelectorAll(`[data-step="${currentStep}"]`).forEach(el => {
+        el.classList.add('reveal');
+      });
+
+      if (currentStep === stepConfig.length) {
+        document.getElementById('step-label').textContent = "✓ Complete - Click to reset";
+      }
+    };
+
+    window.copyMermaid = function(btn) {
+      const source = document.querySelector('.mermaid').dataset.source || '';
+      navigator.clipboard.writeText(source).then(() => {
+        const original = btn.innerHTML;
+        btn.innerHTML = '<span>✅</span> Copied';
+        setTimeout(() => btn.innerHTML = original, 2000);
+      });
+    }
+
+    // Initialize logic after Mermaid renders
+    const observer = new MutationObserver(setupSteps);
+    observer.observe(document.querySelector('.mermaid'), { childList: true });
+
+  </script>
+</body>
+</html>

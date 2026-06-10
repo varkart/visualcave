@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CI/CD Pipeline</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{background:#F0F2F5;font-family:Inter,sans-serif;min-height:100vh;display:flex;justify-content:center;padding:40px 20px}
+    .page{background:#FFF;border-radius:16px;padding:32px;max-width:960px;width:100%;box-shadow:0 2px 12px rgba(0,0,0,.08);position:relative}
+    .title-row{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+    .bar{width:4px;height:52px;background:#FB8C00;border-radius:2px;flex-shrink:0}
+    h1{font-size:38px;font-weight:900;color:#1A1A1A;line-height:1.1}
+    .hl{display:inline-block;background:#FB8C00;color:#FFF;padding:1px 12px;border-radius:8px}
+    .sub{font-size:13px;color:#9E9E9E;margin-bottom:24px;padding-left:16px}
+    svg{width:100%;display:block}
+    .cards{display:grid;grid-template-columns:1.1fr 1fr .9fr;gap:16px;margin-top:28px}
+    .card{background:#FAFAFA;border:1px solid rgba(0,0,0,.08);border-radius:8px;padding:16px}
+    .eyebrow{font-size:10px;font-weight:700;color:#9E9E9E;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px}
+    .card h3{font-size:14px;font-weight:700;color:#1A1A1A;margin-bottom:8px}
+    .card ul{font-size:12px;color:#424242;padding-left:16px;line-height:1.8}
+    .copy-btn{position:absolute;top:16px;right:16px;font:600 11px Inter,sans-serif;color:#9E9E9E;background:#FFF;border:1px solid #E0E0E0;border-radius:20px;padding:5px 14px;cursor:pointer}
+  </style>
+</head>
+<body>
+<div class="page">
+  <button class="copy-btn" onclick="copySVG(this)">Copy SVG</button>
+  <div class="title-row">
+    <div class="bar"></div>
+    <h1><span class="hl">CI/CD</span> Pipeline</h1>
+  </div>
+  <p class="sub">From code commit to production — every stage, gate, and feedback loop</p>
+
+  <svg viewBox="0 0 896 400" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="a"  markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#757575"/></marker>
+      <marker id="ao" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#FB8C00"/></marker>
+      <marker id="ag" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#43A047"/></marker>
+      <marker id="ar" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#E53935"/></marker>
+      <marker id="ab" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#1E88E5"/></marker>
+    </defs>
+    <rect width="896" height="400" fill="#FFF"/>
+
+    <!-- Stage 1: Code (warm yellow) -->
+    <rect x="16" y="60" width="124" height="120" rx="12" fill="#FFFDE7" stroke="#F9A825" stroke-width="1.5"/>
+    <text x="78" y="80" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="#F57F17" text-anchor="middle" letter-spacing=".08em">① CODE</text>
+    <rect x="28" y="88" width="100" height="36" rx="6" fill="#FFF" stroke="#BDBDBD" stroke-width="1.2"/>
+    <text x="78" y="106" font-family="Inter,sans-serif" font-size="10" font-weight="600" fill="#1A1A1A" text-anchor="middle">git push</text>
+    <text x="78" y="119" font-family="'JetBrains Mono',monospace" font-size="8" fill="#757575" text-anchor="middle">feature branch</text>
+    <rect x="28" y="132" width="100" height="36" rx="6" fill="#FFF" stroke="#BDBDBD" stroke-width="1.2"/>
+    <text x="78" y="150" font-family="Inter,sans-serif" font-size="10" font-weight="600" fill="#1A1A1A" text-anchor="middle">Pull Request</text>
+    <text x="78" y="163" font-family="'JetBrains Mono',monospace" font-size="8" fill="#757575" text-anchor="middle">code review</text>
+
+    <!-- Stage 2: Build (warm orange) -->
+    <rect x="156" y="60" width="124" height="120" rx="12" fill="#FFF3E0" stroke="#FB8C00" stroke-width="1.5"/>
+    <text x="218" y="80" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="#E65100" text-anchor="middle" letter-spacing=".08em">② BUILD</text>
+    <rect x="168" y="88" width="100" height="36" rx="6" fill="#FFF" stroke="#BDBDBD" stroke-width="1.2"/>
+    <text x="218" y="106" font-family="Inter,sans-serif" font-size="10" font-weight="600" fill="#1A1A1A" text-anchor="middle">Compile</text>
+    <text x="218" y="119" font-family="'JetBrains Mono',monospace" font-size="8" fill="#757575" text-anchor="middle">npm build</text>
+    <rect x="168" y="132" width="100" height="36" rx="6" fill="#FFF" stroke="#BDBDBD" stroke-width="1.2"/>
+    <text x="218" y="150" font-family="Inter,sans-serif" font-size="10" font-weight="600" fill="#1A1A1A" text-anchor="middle">Docker Image</text>
+    <text x="218" y="163" font-family="'JetBrains Mono',monospace" font-size="8" fill="#757575" text-anchor="middle">docker build</text>
+
+    <!-- Stage 3: Test (cool blue) -->
+    <rect x="296" y="60" width="124" height="120" rx="12" fill="#E3F2FD" stroke="#1E88E5" stroke-width="1.5"/>
+    <text x="358" y="80" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="#0D47A1" text-anchor="middle" letter-spacing=".08em">③ TEST</text>
+    <rect x="308" y="88" width="100" height="36" rx="6" fill="#FFF" stroke="#BDBDBD" stroke-width="1.2"/>
+    <text x="358" y="106" font-family="Inter,sans-serif" font-size="10" font-weight="600" fill="#1A1A1A" text-anchor="middle">Unit Tests</text>
+    <text x="358" y="119" font-family="'JetBrains Mono',monospace" font-size="8" fill="#757575" text-anchor="middle">jest · pytest</text>
+    <rect x="308" y="132" width="100" height="36" rx="6" fill="#FFF" stroke="#BDBDBD" stroke-width="1.2"/>
+    <text x="358" y="150" font-family="Inter,sans-serif" font-size="10" font-weight="600" fill="#1A1A1A" text-anchor="middle">Integration</text>
+    <text x="358" y="163" font-family="'JetBrains Mono',monospace" font-size="8" fill="#757575" text-anchor="middle">e2e · coverage</text>
+
+    <!-- Stage 4: Security (soft purple) -->
+    <rect x="436" y="60" width="124" height="120" rx="12" fill="#F3E5F5" stroke="#7B1FA2" stroke-width="1.5"/>
+    <text x="498" y="80" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="#4A148C" text-anchor="middle" letter-spacing=".08em">④ SCAN</text>
+    <rect x="448" y="88" width="100" height="36" rx="6" fill="#FFF" stroke="#BDBDBD" stroke-width="1.2"/>
+    <text x="498" y="106" font-family="Inter,sans-serif" font-size="10" font-weight="600" fill="#1A1A1A" text-anchor="middle">SAST / DAST</text>
+    <text x="498" y="119" font-family="'JetBrains Mono',monospace" font-size="8" fill="#757575" text-anchor="middle">Snyk · SonarQube</text>
+    <rect x="448" y="132" width="100" height="36" rx="6" fill="#FFF" stroke="#BDBDBD" stroke-width="1.2"/>
+    <text x="498" y="150" font-family="Inter,sans-serif" font-size="10" font-weight="600" fill="#1A1A1A" text-anchor="middle">Dependency Audit</text>
+    <text x="498" y="163" font-family="'JetBrains Mono',monospace" font-size="8" fill="#757575" text-anchor="middle">CVE check</text>
+
+    <!-- Stage 5: Staging (soft teal) -->
+    <rect x="576" y="60" width="124" height="120" rx="12" fill="#E0F7FA" stroke="#00ACC1" stroke-width="1.5"/>
+    <text x="638" y="80" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="#006064" text-anchor="middle" letter-spacing=".08em">⑤ STAGING</text>
+    <rect x="588" y="88" width="100" height="36" rx="6" fill="#FFF" stroke="#BDBDBD" stroke-width="1.2"/>
+    <text x="638" y="106" font-family="Inter,sans-serif" font-size="10" font-weight="600" fill="#1A1A1A" text-anchor="middle">Deploy Preview</text>
+    <text x="638" y="119" font-family="'JetBrains Mono',monospace" font-size="8" fill="#757575" text-anchor="middle">staging.app.com</text>
+    <rect x="588" y="132" width="100" height="36" rx="6" fill="#FFF" stroke="#BDBDBD" stroke-width="1.2"/>
+    <text x="638" y="150" font-family="Inter,sans-serif" font-size="10" font-weight="600" fill="#1A1A1A" text-anchor="middle">Smoke Tests</text>
+    <text x="638" y="163" font-family="'JetBrains Mono',monospace" font-size="8" fill="#757575" text-anchor="middle">health checks</text>
+
+    <!-- Stage 6: Production (soft green, focal) -->
+    <rect x="716" y="60" width="164" height="120" rx="12" fill="#E8F5E9" stroke="#43A047" stroke-width="2"/>
+    <text x="798" y="80" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="#1B5E20" text-anchor="middle" letter-spacing=".08em">⑥ PRODUCTION</text>
+    <rect x="728" y="88" width="140" height="36" rx="6" fill="#FFF"/>
+    <rect x="728" y="88" width="140" height="36" rx="6" fill="#FFF" stroke="#43A047" stroke-width="1.5"/>
+    <text x="798" y="106" font-family="Inter,sans-serif" font-size="10" font-weight="600" fill="#1B5E20" text-anchor="middle">Blue/Green Deploy</text>
+    <text x="798" y="119" font-family="'JetBrains Mono',monospace" font-size="8" fill="#2E7D32" text-anchor="middle">zero downtime</text>
+    <rect x="728" y="132" width="140" height="36" rx="6" fill="#FFF" stroke="#BDBDBD" stroke-width="1.2"/>
+    <text x="798" y="150" font-family="Inter,sans-serif" font-size="10" font-weight="600" fill="#1A1A1A" text-anchor="middle">Monitor + Alert</text>
+    <text x="798" y="163" font-family="'JetBrains Mono',monospace" font-size="8" fill="#757575" text-anchor="middle">Grafana · PagerDuty</text>
+
+    <!-- Main pipeline arrows with step circles -->
+    <line x1="140" y1="120" x2="156" y2="120" stroke="#FB8C00" stroke-width="2" marker-end="url(#ao)"/>
+    <line x1="280" y1="120" x2="296" y2="120" stroke="#FB8C00" stroke-width="2" marker-end="url(#ao)"/>
+    <line x1="420" y1="120" x2="436" y2="120" stroke="#FB8C00" stroke-width="2" marker-end="url(#ao)"/>
+    <line x1="560" y1="120" x2="576" y2="120" stroke="#FB8C00" stroke-width="2" marker-end="url(#ao)"/>
+    <line x1="700" y1="120" x2="716" y2="120" stroke="#43A047" stroke-width="2" marker-end="url(#ag)"/>
+
+    <!-- Failure feedback loops (red dashed, below pipeline) -->
+    <!-- Build fail → back to Code -->
+    <path d="M 218,180 L 218,260 L 78,260 L 78,180" stroke="#E53935" stroke-width="1.2" stroke-dasharray="5,3" fill="none" marker-end="url(#ar)"/>
+    <rect x="112" y="250" width="72" height="13" rx="3" fill="#FFF" stroke="#E0E0E0" stroke-width=".8"/>
+    <text x="148" y="260" font-family="Inter,sans-serif" font-size="8" font-weight="600" fill="#E53935" text-anchor="middle">BUILD FAIL</text>
+
+    <!-- Test fail → back to Code -->
+    <path d="M 358,180 L 358,296 L 78,296 L 78,180" stroke="#E53935" stroke-width="1.2" stroke-dasharray="5,3" fill="none" marker-end="url(#ar)"/>
+    <rect x="192" y="286" width="72" height="13" rx="3" fill="#FFF" stroke="#E0E0E0" stroke-width=".8"/>
+    <text x="228" y="296" font-family="Inter,sans-serif" font-size="8" font-weight="600" fill="#E53935" text-anchor="middle">TEST FAIL</text>
+
+    <!-- Prod rollback -->
+    <path d="M 798,180 L 798,332 L 638,332 L 638,180" stroke="#E53935" stroke-width="1.2" stroke-dasharray="5,3" fill="none" marker-end="url(#ar)"/>
+    <rect x="692" y="322" width="68" height="13" rx="3" fill="#FFF" stroke="#E0E0E0" stroke-width=".8"/>
+    <text x="726" y="332" font-family="Inter,sans-serif" font-size="8" font-weight="600" fill="#E53935" text-anchor="middle">ROLLBACK</text>
+
+    <!-- Registry -->
+    <rect x="156" y="220" width="124" height="40" rx="8" fill="#E8EAF6" stroke="#3949AB" stroke-width="1.2"/>
+    <line x1="236" y1="228" x2="236" y2="252" stroke="#3949AB" stroke-width=".8" opacity=".4"/>
+    <line x1="256" y1="228" x2="256" y2="252" stroke="#3949AB" stroke-width=".8" opacity=".4"/>
+    <text x="218" y="241" font-family="Inter,sans-serif" font-size="10" font-weight="600" fill="#1A1A1A" text-anchor="middle">Image Registry</text>
+    <text x="218" y="254" font-family="'JetBrains Mono',monospace" font-size="8" fill="#757575" text-anchor="middle">ECR · GHCR</text>
+
+    <!-- Build → Registry → Staging -->
+    <path d="M 218,180 L 218,220" stroke="#757575" stroke-width="1.5" fill="none" marker-end="url(#a)"/>
+    <path d="M 280,240 L 638,240 L 638,180" stroke="#757575" stroke-width="1.5" fill="none" marker-end="url(#a)"/>
+    <rect x="394" y="230" width="68" height="13" rx="3" fill="#FFF" stroke="#E0E0E0" stroke-width=".8"/>
+    <text x="428" y="240" font-family="Inter,sans-serif" font-size="8" font-weight="600" fill="#757575" text-anchor="middle">PULL IMAGE</text>
+
+    <!-- Legend -->
+    <rect x="16" y="360" width="420" height="28" rx="8" fill="#FFF" stroke="#E0E0E0" stroke-width="1"/>
+    <line x1="28" y1="374" x2="52" y2="374" stroke="#FB8C00" stroke-width="2" marker-end="url(#ao)"/>
+    <text x="60" y="378" font-family="Inter,sans-serif" font-size="9" fill="#424242">Pipeline flow</text>
+    <line x1="140" y1="374" x2="164" y2="374" stroke="#E53935" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#ar)"/>
+    <text x="172" y="378" font-family="Inter,sans-serif" font-size="9" fill="#424242">Failure / rollback</text>
+    <line x1="280" y1="374" x2="304" y2="374" stroke="#757575" stroke-width="1.5" marker-end="url(#a)"/>
+    <text x="312" y="378" font-family="Inter,sans-serif" font-size="9" fill="#424242">Artifact flow</text>
+  </svg>
+
+  <div class="cards">
+    <div class="card">
+      <p class="eyebrow">CI — Continuous Integration</p>
+      <h3>Fast Feedback on Every Push</h3>
+      <ul>
+        <li>Build + test on every commit</li>
+        <li>Blocks merge if tests fail</li>
+        <li>Target: under 5 minutes</li>
+      </ul>
+    </div>
+    <div class="card">
+      <p class="eyebrow">CD — Continuous Delivery</p>
+      <h3>Always Deployable</h3>
+      <ul>
+        <li>Staging always mirrors prod</li>
+        <li>Manual approval gate optional</li>
+        <li>Automated smoke tests</li>
+      </ul>
+    </div>
+    <div class="card">
+      <p class="eyebrow">Safety</p>
+      <h3>Fail Fast, Roll Back Fast</h3>
+      <ul>
+        <li>Blue/green = zero downtime</li>
+        <li>Auto rollback on error spike</li>
+        <li>Feature flags decouple deploy</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<script>
+function copySVG(btn) {
+  const svg = document.querySelector('svg');
+  navigator.clipboard.writeText(svg.outerHTML).then(() => {
+    btn.textContent = '✓ Copied';
+    setTimeout(() => btn.textContent = 'Copy SVG', 2000);
+  });
+}
+</script>
+</body>
+</html>

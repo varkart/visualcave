@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Gateway Architecture</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{background:#F0F2F5;font-family:Inter,sans-serif;min-height:100vh;display:flex;justify-content:center;padding:40px 20px}
+    .page{background:#FFF;border-radius:16px;padding:32px;max-width:960px;width:100%;box-shadow:0 2px 12px rgba(0,0,0,.08);position:relative}
+    .title-row{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+    .bar{width:4px;height:52px;background:#1E88E5;border-radius:2px;flex-shrink:0}
+    h1{font-size:38px;font-weight:900;color:#1A1A1A;line-height:1.1}
+    .hl{display:inline-block;background:#1E88E5;color:#FFF;padding:1px 12px;border-radius:8px}
+    .sub{font-size:13px;color:#9E9E9E;margin-bottom:24px;padding-left:16px}
+    svg{width:100%;display:block}
+    .cards{display:grid;grid-template-columns:1.1fr 1fr .9fr;gap:16px;margin-top:28px}
+    .card{background:#FAFAFA;border:1px solid rgba(0,0,0,.08);border-radius:8px;padding:16px}
+    .eyebrow{font-size:10px;font-weight:700;color:#9E9E9E;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px}
+    .card h3{font-size:14px;font-weight:700;color:#1A1A1A;margin-bottom:8px}
+    .card ul{font-size:12px;color:#424242;padding-left:16px;line-height:1.8}
+    .copy-btn{position:absolute;top:16px;right:16px;font:600 11px Inter,sans-serif;color:#9E9E9E;background:#FFF;border:1px solid #E0E0E0;border-radius:20px;padding:5px 14px;cursor:pointer}
+  </style>
+</head>
+<body>
+<div class="page">
+  <button class="copy-btn" onclick="copySVG(this)">Copy SVG</button>
+  <div class="title-row">
+    <div class="bar"></div>
+    <h1>API <span class="hl">Gateway</span> Architecture</h1>
+  </div>
+  <p class="sub">How an API gateway routes, authenticates, and rate-limits client requests to backend services</p>
+
+  <svg viewBox="0 0 896 480" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="a"  markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#757575"/></marker>
+      <marker id="ab" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#1E88E5"/></marker>
+      <marker id="ag" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#43A047"/></marker>
+      <marker id="at" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#00ACC1"/></marker>
+      <marker id="ar" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#E53935"/></marker>
+    </defs>
+    <rect width="896" height="480" fill="#FFF"/>
+
+    <!-- PANEL A: Clients (warm yellow) -->
+    <rect x="16" y="16" width="148" height="448" rx="14" fill="#FFFDE7" stroke="#F9A825" stroke-width="1.5"/>
+    <text x="90" y="36" font-family="Inter,sans-serif" font-size="10" font-weight="700" fill="#F57F17" text-anchor="middle" letter-spacing=".08em">CLIENTS</text>
+
+    <!-- Web client -->
+    <rect x="28" y="52" width="124" height="56" rx="8" fill="#FFF"/>
+    <rect x="28" y="52" width="124" height="56" rx="8" fill="#FFF" stroke="#BDBDBD" stroke-width="1.5"/>
+    <!-- browser icon -->
+    <rect x="40" y="62" width="28" height="20" rx="4" fill="#E0E0E0"/>
+    <rect x="40" y="62" width="28" height="6" rx="4" fill="#BDBDBD"/>
+    <circle cx="43" cy="65" r="1.5" fill="#E53935"/><circle cx="47" cy="65" r="1.5" fill="#FB8C00"/><circle cx="51" cy="65" r="1.5" fill="#43A047"/>
+    <text x="90" y="87" font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#1A1A1A" text-anchor="middle">Web App</text>
+    <text x="90" y="101" font-family="'JetBrains Mono',monospace" font-size="9" fill="#757575" text-anchor="middle">browser</text>
+
+    <!-- Mobile client -->
+    <rect x="28" y="124" width="124" height="56" rx="8" fill="#FFF"/>
+    <rect x="28" y="124" width="124" height="56" rx="8" fill="#FFF" stroke="#BDBDBD" stroke-width="1.5"/>
+    <rect x="50" y="132" width="16" height="28" rx="3" fill="#E8F5E9" stroke="#43A047" stroke-width="1"/>
+    <circle cx="58" cy="157" r="2" fill="#43A047" opacity=".5"/>
+    <text x="90" y="155" font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#1A1A1A" text-anchor="middle">Mobile App</text>
+    <text x="90" y="169" font-family="'JetBrains Mono',monospace" font-size="9" fill="#757575" text-anchor="middle">iOS · Android</text>
+
+    <!-- Third-party client -->
+    <rect x="28" y="196" width="124" height="56" rx="8" fill="#FFF"/>
+    <rect x="28" y="196" width="124" height="56" rx="8" fill="#FFF" stroke="#BDBDBD" stroke-width="1.5"/>
+    <text x="90" y="224" font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#1A1A1A" text-anchor="middle">3rd-Party API</text>
+    <text x="90" y="240" font-family="'JetBrains Mono',monospace" font-size="9" fill="#757575" text-anchor="middle">partner · webhook</text>
+
+    <!-- PANEL B: Gateway (cool blue, focal) -->
+    <rect x="180" y="16" width="200" height="448" rx="14" fill="#E3F2FD" stroke="#1E88E5" stroke-width="2"/>
+    <text x="280" y="36" font-family="Inter,sans-serif" font-size="10" font-weight="700" fill="#0D47A1" text-anchor="middle" letter-spacing=".08em">API GATEWAY</text>
+
+    <rect x="192" y="52" width="176" height="52" rx="8" fill="#FFF"/>
+    <rect x="192" y="52" width="176" height="52" rx="8" fill="#FFF" stroke="#BDBDBD" stroke-width="1.5"/>
+    <text x="280" y="78" font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#1A1A1A" text-anchor="middle">Auth / JWT Verify</text>
+    <text x="280" y="94" font-family="'JetBrains Mono',monospace" font-size="9" fill="#757575" text-anchor="middle">Bearer token · API key</text>
+
+    <rect x="192" y="120" width="176" height="52" rx="8" fill="#FFF"/>
+    <rect x="192" y="120" width="176" height="52" rx="8" fill="#FFF" stroke="#BDBDBD" stroke-width="1.5"/>
+    <text x="280" y="146" font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#1A1A1A" text-anchor="middle">Rate Limiter</text>
+    <text x="280" y="162" font-family="'JetBrains Mono',monospace" font-size="9" fill="#757575" text-anchor="middle">1000 req / min</text>
+
+    <rect x="192" y="188" width="176" height="52" rx="8" fill="#FFF"/>
+    <rect x="192" y="188" width="176" height="52" rx="8" fill="#FFF" stroke="#BDBDBD" stroke-width="1.5"/>
+    <text x="280" y="214" font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#1A1A1A" text-anchor="middle">Request Router</text>
+    <text x="280" y="230" font-family="'JetBrains Mono',monospace" font-size="9" fill="#757575" text-anchor="middle">/users → svc-a</text>
+
+    <!-- Focal node: Load Balancer -->
+    <rect x="192" y="256" width="176" height="52" rx="8" fill="#E3F2FD"/>
+    <rect x="192" y="256" width="176" height="52" rx="8" fill="#E3F2FD" stroke="#1E88E5" stroke-width="2"/>
+    <text x="280" y="282" font-family="Inter,sans-serif" font-size="12" font-weight="700" fill="#0D47A1" text-anchor="middle">Load Balancer</text>
+    <text x="280" y="298" font-family="'JetBrains Mono',monospace" font-size="9" fill="#1565C0" text-anchor="middle">round-robin</text>
+
+    <rect x="192" y="324" width="176" height="52" rx="8" fill="#FFF"/>
+    <rect x="192" y="324" width="176" height="52" rx="8" fill="#FFF" stroke="#BDBDBD" stroke-width="1.5"/>
+    <text x="280" y="350" font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#1A1A1A" text-anchor="middle">Response Cache</text>
+    <text x="280" y="366" font-family="'JetBrains Mono',monospace" font-size="9" fill="#757575" text-anchor="middle">TTL 60s · Redis</text>
+
+    <rect x="192" y="392" width="176" height="52" rx="8" fill="#FFF"/>
+    <rect x="192" y="392" width="176" height="52" rx="8" fill="#FFF" stroke="#BDBDBD" stroke-width="1.5"/>
+    <text x="280" y="418" font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#1A1A1A" text-anchor="middle">Logging / Tracing</text>
+    <text x="280" y="434" font-family="'JetBrains Mono',monospace" font-size="9" fill="#757575" text-anchor="middle">OpenTelemetry</text>
+
+    <!-- PANEL C: Services (soft green) -->
+    <rect x="396" y="16" width="200" height="316" rx="14" fill="#E8F5E9" stroke="#43A047" stroke-width="1.5"/>
+    <text x="496" y="36" font-family="Inter,sans-serif" font-size="10" font-weight="700" fill="#1B5E20" text-anchor="middle" letter-spacing=".08em">MICROSERVICES</text>
+
+    <rect x="408" y="52" width="176" height="52" rx="8" fill="#FFF"/>
+    <rect x="408" y="52" width="176" height="52" rx="8" fill="#FFF" stroke="#BDBDBD" stroke-width="1.5"/>
+    <text x="496" y="78" font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#1A1A1A" text-anchor="middle">User Service</text>
+    <text x="496" y="94" font-family="'JetBrains Mono',monospace" font-size="9" fill="#757575" text-anchor="middle">:8001 · /users</text>
+
+    <rect x="408" y="120" width="176" height="52" rx="8" fill="#FFF"/>
+    <rect x="408" y="120" width="176" height="52" rx="8" fill="#FFF" stroke="#BDBDBD" stroke-width="1.5"/>
+    <text x="496" y="146" font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#1A1A1A" text-anchor="middle">Order Service</text>
+    <text x="496" y="162" font-family="'JetBrains Mono',monospace" font-size="9" fill="#757575" text-anchor="middle">:8002 · /orders</text>
+
+    <rect x="408" y="188" width="176" height="52" rx="8" fill="#FFF"/>
+    <rect x="408" y="188" width="176" height="52" rx="8" fill="#FFF" stroke="#BDBDBD" stroke-width="1.5"/>
+    <text x="496" y="214" font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#1A1A1A" text-anchor="middle">Payment Service</text>
+    <text x="496" y="230" font-family="'JetBrains Mono',monospace" font-size="9" fill="#757575" text-anchor="middle">:8003 · /payments</text>
+
+    <rect x="408" y="256" width="176" height="52" rx="8" fill="#FFF"/>
+    <rect x="408" y="256" width="176" height="52" rx="8" fill="#FFF" stroke="#BDBDBD" stroke-width="1.5"/>
+    <text x="496" y="282" font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#1A1A1A" text-anchor="middle">Notification Svc</text>
+    <text x="496" y="298" font-family="'JetBrains Mono',monospace" font-size="9" fill="#757575" text-anchor="middle">:8004 · async</text>
+
+    <!-- PANEL D: Data (soft teal) -->
+    <rect x="612" y="16" width="268" height="316" rx="14" fill="#E0F7FA" stroke="#00ACC1" stroke-width="1.5"/>
+    <text x="746" y="36" font-family="Inter,sans-serif" font-size="10" font-weight="700" fill="#006064" text-anchor="middle" letter-spacing=".08em">DATA LAYER</text>
+
+    <!-- DB cylinder: Users -->
+    <rect x="628" y="60" width="100" height="36" fill="#E0F7FA"/>
+    <rect x="628" y="60" width="100" height="36" fill="none" stroke="#00ACC1" stroke-width="1.5"/>
+    <ellipse cx="678" cy="96" rx="50" ry="11" fill="#E0F7FA" stroke="#00ACC1" stroke-width="1.5"/>
+    <ellipse cx="678" cy="60" rx="50" ry="11" fill="#B2EBF2" stroke="#00ACC1" stroke-width="1.5"/>
+    <text x="678" y="81" font-family="Inter,sans-serif" font-size="10" font-weight="600" fill="#006064" text-anchor="middle">Users DB</text>
+    <text x="678" y="111" font-family="'JetBrains Mono',monospace" font-size="8" fill="#757575" text-anchor="middle">PostgreSQL</text>
+
+    <!-- DB cylinder: Orders -->
+    <rect x="628" y="148" width="100" height="36" fill="#E0F7FA"/>
+    <rect x="628" y="148" width="100" height="36" fill="none" stroke="#00ACC1" stroke-width="1.5"/>
+    <ellipse cx="678" cy="184" rx="50" ry="11" fill="#E0F7FA" stroke="#00ACC1" stroke-width="1.5"/>
+    <ellipse cx="678" cy="148" rx="50" ry="11" fill="#B2EBF2" stroke="#00ACC1" stroke-width="1.5"/>
+    <text x="678" y="169" font-family="Inter,sans-serif" font-size="10" font-weight="600" fill="#006064" text-anchor="middle">Orders DB</text>
+    <text x="678" y="199" font-family="'JetBrains Mono',monospace" font-size="8" fill="#757575" text-anchor="middle">PostgreSQL</text>
+
+    <!-- Cache -->
+    <rect x="740" y="52" width="128" height="64" rx="8" fill="#FFF"/>
+    <rect x="740" y="52" width="128" height="64" rx="8" fill="#FFF" stroke="#BDBDBD" stroke-width="1.5"/>
+    <text x="804" y="82" font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#1A1A1A" text-anchor="middle">Redis Cache</text>
+    <text x="804" y="98" font-family="'JetBrains Mono',monospace" font-size="9" fill="#757575" text-anchor="middle">:6379</text>
+
+    <!-- Queue -->
+    <rect x="628" y="236" width="240" height="56" rx="8" fill="#E8EAF6" stroke="#3949AB" stroke-width="1.5"/>
+    <line x1="748" y1="244" x2="748" y2="284" stroke="#3949AB" stroke-width=".8" opacity=".4"/>
+    <line x1="788" y1="244" x2="788" y2="284" stroke="#3949AB" stroke-width=".8" opacity=".4"/>
+    <line x1="828" y1="244" x2="828" y2="284" stroke="#3949AB" stroke-width=".8" opacity=".4"/>
+    <text x="748" y="263" font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#1A1A1A" text-anchor="middle">Message Queue</text>
+    <text x="748" y="279" font-family="'JetBrains Mono',monospace" font-size="9" fill="#757575" text-anchor="middle">Kafka · async events</text>
+
+    <!-- ARROWS: Clients → Gateway -->
+    <path d="M 152,80 L 180,78" stroke="#1E88E5" stroke-width="2" fill="none" marker-end="url(#ab)"/>
+    <path d="M 152,152 L 180,146" stroke="#1E88E5" stroke-width="2" fill="none" marker-end="url(#ab)"/>
+    <path d="M 152,224 L 180,214" stroke="#1E88E5" stroke-width="2" fill="none" marker-end="url(#ab)"/>
+
+    <!-- Step circles on gateway internals -->
+    <line x1="280" y1="104" x2="280" y2="120" stroke="#1E88E5" stroke-width="1.5" marker-end="url(#ab)"/>
+    <circle cx="280" cy="112" r="10" fill="#1E88E5"/>
+    <text x="280" y="116" font-family="Inter,sans-serif" font-size="8" font-weight="700" fill="#FFF" text-anchor="middle">1</text>
+
+    <line x1="280" y1="172" x2="280" y2="188" stroke="#1E88E5" stroke-width="1.5" marker-end="url(#ab)"/>
+    <circle cx="280" cy="180" r="10" fill="#1E88E5"/>
+    <text x="280" y="184" font-family="Inter,sans-serif" font-size="8" font-weight="700" fill="#FFF" text-anchor="middle">2</text>
+
+    <line x1="280" y1="240" x2="280" y2="256" stroke="#1E88E5" stroke-width="1.5" marker-end="url(#ab)"/>
+    <circle cx="280" cy="248" r="10" fill="#1E88E5"/>
+    <text x="280" y="252" font-family="Inter,sans-serif" font-size="8" font-weight="700" fill="#FFF" text-anchor="middle">3</text>
+
+    <line x1="280" y1="308" x2="280" y2="324" stroke="#1E88E5" stroke-width="1.5" marker-end="url(#ab)"/>
+    <circle cx="280" cy="316" r="10" fill="#1E88E5"/>
+    <text x="280" y="320" font-family="Inter,sans-serif" font-size="8" font-weight="700" fill="#FFF" text-anchor="middle">4</text>
+
+    <!-- Error path: rate limit exceeded (red dashed) -->
+    <path d="M 280,172 L 180,172" stroke="#E53935" stroke-width="1.5" stroke-dasharray="5,3" fill="none" marker-end="url(#ar)"/>
+    <rect x="192" y="158" width="64" height="13" rx="3" fill="#FFF" stroke="#E0E0E0" stroke-width=".8"/>
+    <text x="224" y="168" font-family="Inter,sans-serif" font-size="8" font-weight="600" fill="#E53935" text-anchor="middle">429 REJECT</text>
+
+    <!-- Gateway → Services -->
+    <path d="M 380,282 L 396,78" stroke="#43A047" stroke-width="2" fill="none" marker-end="url(#ag)"/>
+    <path d="M 380,282 L 396,146" stroke="#43A047" stroke-width="2" fill="none" marker-end="url(#ag)"/>
+    <path d="M 380,282 L 396,214" stroke="#43A047" stroke-width="2" fill="none" marker-end="url(#ag)"/>
+    <path d="M 380,282 L 396,282" stroke="#43A047" stroke-width="2" fill="none" marker-end="url(#ag)"/>
+
+    <!-- Services → Data -->
+    <path d="M 584,78 L 612,78" stroke="#00ACC1" stroke-width="1.5" fill="none" marker-end="url(#at)"/>
+    <path d="M 584,146 L 612,165" stroke="#00ACC1" stroke-width="1.5" fill="none" marker-end="url(#at)"/>
+    <path d="M 584,214 L 628,264" stroke="#00ACC1" stroke-width="1.5" fill="none" marker-end="url(#at)"/>
+    <!-- Cache connection -->
+    <path d="M 740,282 L 804,116" stroke="#00ACC1" stroke-width="1.5" stroke-dasharray="5,3" fill="none" marker-end="url(#at)"/>
+
+    <!-- Arrow labels -->
+    <rect x="148" y="56" width="32" height="13" rx="3" fill="#FFF" stroke="#E0E0E0" stroke-width=".8"/>
+    <text x="164" y="66" font-family="Inter,sans-serif" font-size="8" font-weight="600" fill="#1E88E5" text-anchor="middle">HTTP</text>
+    <rect x="388" y="164" width="40" height="13" rx="3" fill="#FFF" stroke="#E0E0E0" stroke-width=".8"/>
+    <text x="408" y="174" font-family="Inter,sans-serif" font-size="8" font-weight="600" fill="#43A047" text-anchor="middle">ROUTE</text>
+
+    <!-- Legend -->
+    <rect x="16" y="356" width="360" height="80" rx="8" fill="#FFF" stroke="#E0E0E0" stroke-width="1"/>
+    <text x="28" y="374" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="#1A1A1A">Legend</text>
+    <line x1="28" y1="390" x2="60" y2="390" stroke="#1E88E5" stroke-width="2" marker-end="url(#ab)"/>
+    <text x="68" y="394" font-family="Inter,sans-serif" font-size="9" fill="#424242">Client request</text>
+    <line x1="28" y1="410" x2="60" y2="410" stroke="#E53935" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#ar)"/>
+    <text x="68" y="414" font-family="Inter,sans-serif" font-size="9" fill="#424242">Rejected (429)</text>
+    <line x1="160" y1="390" x2="192" y2="390" stroke="#43A047" stroke-width="2" marker-end="url(#ag)"/>
+    <text x="200" y="394" font-family="Inter,sans-serif" font-size="9" fill="#424242">Routed request</text>
+    <line x1="160" y1="410" x2="192" y2="410" stroke="#00ACC1" stroke-width="1.5" marker-end="url(#at)"/>
+    <text x="200" y="414" font-family="Inter,sans-serif" font-size="9" fill="#424242">Data access</text>
+  </svg>
+
+  <div class="cards">
+    <div class="card">
+      <p class="eyebrow">What it does</p>
+      <h3>Single Entry Point</h3>
+      <ul>
+        <li>Auth before any service sees the request</li>
+        <li>Rate limiting protects all services</li>
+        <li>One URL for all clients</li>
+      </ul>
+    </div>
+    <div class="card">
+      <p class="eyebrow">Key Benefits</p>
+      <h3>Cross-Cutting Concerns</h3>
+      <ul>
+        <li>No auth logic in each service</li>
+        <li>Centralized logging + tracing</li>
+        <li>Cache at gateway layer</li>
+      </ul>
+    </div>
+    <div class="card">
+      <p class="eyebrow">Trade-offs</p>
+      <h3>Single Point of Failure</h3>
+      <ul>
+        <li>Must be highly available</li>
+        <li>Can become bottleneck</li>
+        <li>Adds ~1–5ms latency</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<script>
+function copySVG(btn) {
+  const svg = document.querySelector('svg');
+  navigator.clipboard.writeText(svg.outerHTML).then(() => {
+    btn.textContent = '✓ Copied';
+    setTimeout(() => btn.textContent = 'Copy SVG', 2000);
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+  <style>
+    body { background: #F0F2F5; display: flex; justify-content: center; padding: 40px; font-family: 'Inter', sans-serif; margin: 0; }
+    .page { background: #FFF; border-radius: 16px; padding: 40px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); width: 100%; max-width: 1000px; position: relative; overflow: hidden; }
+    h1 { margin-top: 0; font-size: 32px; font-weight: 900; color: #111; display: flex; align-items: center; gap: 12px; }
+    h1::before { content: ''; display: block; width: 6px; height: 36px; background: #1E88E5; border-radius: 3px; }
+    
+    /* Infographic Style Overrides */
+    .node rect, .node circle, .node polygon, .node path { 
+      stroke-width: 2.5px !important; 
+      stroke: #1A1A1A !important; 
+      rx: 8px !important; 
+      ry: 8px !important; 
+      filter: drop-shadow(4px 4px 0px rgba(0,0,0,0.1)); 
+    }
+    .node text { font-weight: 600 !important; font-size: 14px !important; fill: #1A1A1A !important; }
+    .edgePath .path { stroke-width: 2.5px !important; stroke: #424242 !important; }
+    .edgeLabel { background-color: #FFF !important; padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight: 700; border: 1.5px solid #E0E0E0; }
+    .cluster rect { stroke-width: 2.5px !important; stroke: #1A1A1A !important; rx: 12px !important; }
+    .cluster text { font-weight: 800 !important; font-size: 16px !important; fill: #1A1A1A !important; }
+    
+    /* ─── Data Flow Animation (Marching Ants) ─── */
+    /* We target paths that have been 'tagged' with our specific blue color in Mermaid */
+    .mermaid svg g.edgePath path.path[stroke="#1E88E5"] {
+      stroke-dasharray: 10 !important;
+      animation: dash 0.8s linear infinite !important;
+      stroke-width: 3px !important;
+    }
+    
+    @keyframes dash {
+      from { stroke-dashoffset: 20; }
+      to { stroke-dashoffset: 0; }
+    }
+
+    /* ─── Pulse Animation for Nodes ─── */
+    .pulse rect {
+      animation: pulse-node 2s ease-in-out infinite !important;
+    }
+    
+    @keyframes pulse-node {
+      0%, 100% { opacity: 1; filter: drop-shadow(4px 4px 0px rgba(0,0,0,0.1)); }
+      50% { opacity: 0.8; filter: drop-shadow(6px 6px 12px rgba(30,136,229,0.3)); }
+    }
+
+    svg * { transform-box: fill-box; transform-origin: center; }
+
+    .copy-btn{position:absolute;top:20px;right:20px;font:600 12px Inter,sans-serif;color:#555;background:#FFF;border:2px solid #E0E0E0;border-radius:20px;padding:6px 16px;cursor:pointer; box-shadow: 2px 2px 0px rgba(0,0,0,0.05);}
+  </style>
+</head>
+<body>
+  <div class="page">
+    <button class="copy-btn" onclick="copyMermaid(this)">Copy Diagram</button>
+    <h1>Animated Transformer Flow</h1>
+    <div class="mermaid">
+      graph TD
+        classDef yellow fill:#FFFDE7,stroke:#1A1A1A,stroke-width:2px;
+        classDef blue fill:#E3F2FD,stroke:#1A1A1A,stroke-width:2px;
+        classDef green fill:#E8F5E9,stroke:#1A1A1A,stroke-width:2px;
+        classDef purple fill:#F3E5F5,stroke:#1A1A1A,stroke-width:2px;
+        classDef teal fill:#E0F7FA,stroke:#1A1A1A,stroke-width:2px;
+        classDef orange fill:#FFF3E0,stroke:#1A1A1A,stroke-width:2px;
+
+        subgraph "Encoder Block"
+          MHA1[Multi-Head Attention]:::blue
+          AddNorm1[Add & Norm]:::green
+          FFN1[Feed Forward]:::orange
+          AddNorm2[Add & Norm]:::green
+          
+          MHA1 --> AddNorm1
+          AddNorm1 --> FFN1
+          FFN1 --> AddNorm2
+        end
+
+        subgraph "Decoder Block"
+          MMHA[Masked Multi-Head Attention]:::blue
+          AddNorm3[Add & Norm]:::green
+          EncDecAttn[Multi-Head Attention]:::blue
+          AddNorm4[Add & Norm]:::green
+          FFN2[Feed Forward]:::orange
+          AddNorm5[Add & Norm]:::green
+          
+          MMHA --> AddNorm3
+          AddNorm3 --> EncDecAttn
+          AddNorm4 --> FFN2
+          FFN2 --> AddNorm5
+        end
+
+        %% Connections with Flow
+        In[Input Embeddings]:::yellow --> MHA1
+        AddNorm2 --> EncDecAttn
+        EncDecAttn --> AddNorm4
+        AddNorm5 --> Out[Final Linear/Softmax]:::teal
+
+        %% Apply classes for animation
+        class MHA1,MMHA,EncDecAttn pulse
+        %% Tagging links for 'marching ants' animation via stroke color
+        linkStyle 0,1,2,3,4,5,6,7,8,9,10 stroke:#1E88E5
+    </div>
+  </div>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    const _md = document.querySelector('.mermaid');
+    _md.dataset.source = _md.textContent.trim();
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'base',
+      themeVariables: {
+        fontFamily: 'Inter, sans-serif',
+        primaryColor: '#FFFDE7',
+        primaryBorderColor: '#1A1A1A',
+        primaryTextColor: '#1A1A1A',
+        lineColor: '#424242',
+        clusterBkg: '#F8F9FA',
+        clusterBorder: '#1A1A1A'
+      }
+    });
+    
+    window.copyMermaid = function(btn) {
+      const source = document.querySelector('.mermaid').dataset.source || '';
+      navigator.clipboard.writeText(source).then(() => {
+        btn.textContent = '✓ Copied';
+        setTimeout(() => btn.textContent = 'Copy Diagram', 2000);
+      });
+    }
+  </script>
+</body>
+</html>

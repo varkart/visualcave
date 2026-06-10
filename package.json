@@ -1,0 +1,30 @@
+{
+  "name": "panel-diagram",
+  "version": "1.0.0",
+  "description": "A Claude Code skill for creating technical infographic diagrams as standalone HTML files.",
+  "main": "capture.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "test:headed": "playwright test --headed"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/varkart/panel-diagram.git"
+  },
+  "homepage": "https://varkart.github.io/panel-diagram",
+  "bugs": {
+    "url": "https://github.com/varkart/panel-diagram/issues"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "@mermaid-js/mermaid-cli": "^11.15.0",
+    "gif-encoder-2": "^1.0.5",
+    "pngjs": "^7.0.0",
+    "puppeteer": "^25.1.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.45.0",
+    "serve": "^14.2.0"
+  }
+}
