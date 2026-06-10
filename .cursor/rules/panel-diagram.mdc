@@ -1,18 +1,32 @@
 ---
-name: panel-diagram
 description: Use when the user asks to create a diagram, chart, infographic, flowchart, architecture illustration, or any technical visualization. Covers flowcharts, sequence diagrams, ER diagrams, class diagrams, state machines, timelines, mind maps, git graphs, pie charts, and quadrant charts.
-license: MIT
+alwaysApply: false
 ---
 
 # Panel Diagram
 
-Output a **single self-contained `.html` file**. No markdown wrapper unless the user asks for it.
+Output a **single self-contained `.html` file**. No markdown wrapper unless the user asks.
 
 **Style rules:**
 - Thick strokes (2px), 4px drop shadow, rounded nodes.
 - Warm/cool subgraph alternation: yellow → blue → green → purple → teal → orange.
 - Inter font for UI; JetBrains Mono for code/math labels.
-- Pick the right Mermaid keyword — see `references/diagram-types.md`.
+- Pick the right Mermaid keyword for the diagram type.
+
+## Diagram Type Quick Reference
+
+| User says… | Use |
+|---|---|
+| flow, pipeline, architecture | `graph TD` / `graph LR` |
+| sequence, API calls, who calls who | `sequenceDiagram` |
+| class, OOP, domain model | `classDiagram` |
+| state, lifecycle, FSM | `stateDiagram-v2` |
+| database, schema, ER | `erDiagram` |
+| priority matrix, 2×2 | `quadrantChart` |
+| timeline, history, milestones | `timeline` |
+| mind map, brainstorm | `mindmap` |
+| git branching, gitflow | `gitGraph` |
+| pie chart, distribution | `pie` |
 
 ## HTML Template
 
@@ -109,22 +123,12 @@ Output a **single self-contained `.html` file**. No markdown wrapper unless the 
 
 ## Colors
 
-`classDef` works in `graph`, `classDiagram`, `stateDiagram-v2`. For other types use `themeVariables`.
-
-| Class | Fill | Use for |
-|---|---|---|
-| `:::yellow` | `#FFFDE7` | Users, browsers, entry points |
-| `:::blue` | `#E3F2FD` | Services, APIs, compute |
-| `:::green` | `#E8F5E9` | Databases, storage, success |
-| `:::purple` | `#F3E5F5` | Auth, AI models, security |
-| `:::teal` | `#E0F7FA` | Caching, CDN, external APIs |
-| `:::orange` | `#FFF3E0` | Queues, events, pipelines |
-| `:::note` | `#FFF9C4` | Annotations, callouts |
-
-## Interactive Features
-
-**Step-through** (sequential reveal): copy `setupSteps()` pattern from `transformer-ultra.html`, include `<script src="step-through.js"></script>`.
-
-**Hover highlight**: add `data-node` / `data-connects` attributes post-render, include `<script src="hover.js"></script>`.
-
-**Export**: `node capture.js file.html [--format=png|svg|pdf|og]`
+| Class | Use for |
+|---|---|
+| `:::yellow` | Users, browsers, entry points |
+| `:::blue` | Services, APIs, compute |
+| `:::green` | Databases, storage, success |
+| `:::purple` | Auth, AI models, security |
+| `:::teal` | Caching, CDN, external APIs |
+| `:::orange` | Queues, events, pipelines |
+| `:::note` | Annotations, callouts |

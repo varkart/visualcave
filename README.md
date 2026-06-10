@@ -11,19 +11,27 @@ A Claude Code skill for creating professional technical diagrams as interactive 
 
 ## Installation
 
+**Claude Code (global)**
 ```bash
-# Install globally (available in all projects)
 git clone https://github.com/varkart/panel-diagram ~/.claude/skills/panel-diagram
+```
 
-# Or per-project
+**Claude Code (per-project)**
+```bash
 git clone https://github.com/varkart/panel-diagram .claude/skills/panel-diagram
 ```
 
-The skill is available immediately — no restart required.
+**Cursor** — copy `.cursor/rules/panel-diagram.mdc` into your project's `.cursor/rules/` directory.
+
+**Codex CLI** — install via `.codex-plugin/plugin.json` or clone and reference the skill directory.
+
+No restart required after installation.
 
 ---
 
 ## Usage
+
+See **[EXAMPLES.md](EXAMPLES.md)** for real prompts and patterns showing what to ask for and what output to expect.
 
 Invoke with `/panel-diagram` in Claude Code, then describe your diagram:
 
