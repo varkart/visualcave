@@ -151,7 +151,7 @@ Add `data-step="N"` to each `<g>` in the SVG (starting at 1). Then include the s
 
 ```html
 <script>
-// Inline content of step-through.js (from panel-diagram/step-through.js)
+// Inline content of step-through.js (from visualcave/step-through.js)
 </script>
 ```
 
@@ -167,7 +167,7 @@ Add `data-node="id"` to node `<g>` elements and `data-connects="id1,id2"` to arr
 
 ```html
 <script>
-// Inline content of hover.js (from panel-diagram/hover.js)
+// Inline content of hover.js (from visualcave/hover.js)
 </script>
 ```
 

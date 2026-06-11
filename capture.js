@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * capture.js — Export panel-diagram HTML to GIF, PNG, SVG, or OG image
+ * capture.js — Export visualcave HTML to GIF, PNG, SVG, or OG image
  *
  * Usage:
  *   node capture.js diagram.html                         → diagram.gif (animated)
@@ -128,7 +128,7 @@ async function loadDiagram(page, url, vpWidth) {
   const absPath = path.resolve(inputFile);
   const url     = `file://${absPath}`;
 
-  console.log(`\n panel-diagram → ${format.toUpperCase()}`);
+  console.log(`\n visualcave → ${format.toUpperCase()}`);
   console.log(` Input:  ${inputFile}`);
   console.log(` Output: ${outputFile}\n`);
 

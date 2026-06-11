@@ -1,4 +1,4 @@
-# Contributing to panel-diagram
+# Contributing to visualcave
 
 ## Before You Open a PR
 

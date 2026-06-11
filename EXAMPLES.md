@@ -8,7 +8,7 @@ Real prompts and the patterns they produce. Use these as a reference for what to
 
 **Prompt:**
 ```
-/panel-diagram — microservices architecture for an e-commerce platform
+/visualcave — microservices architecture for an e-commerce platform
 showing API gateway, auth service, product catalog, order service, and
 payment service with a message queue between order and payment
 ```
@@ -34,7 +34,7 @@ end
 
 **Prompt:**
 ```
-/panel-diagram — OAuth 2.0 Authorization Code flow with all actors:
+/visualcave — OAuth 2.0 Authorization Code flow with all actors:
 browser, client app, auth server, resource server. Number each step.
 Show the authorization code exchange and token issuance.
 ```
@@ -55,7 +55,7 @@ Browser->>AuthServer: GET /authorize?response_type=code
 
 **Prompt:**
 ```
-/panel-diagram — Transformer architecture "Attention Is All You Need"
+/visualcave — Transformer architecture "Attention Is All You Need"
 with a step-through guide (4 phases: input encoding → encoder stack →
 decoder stack → output projection). Annotate positional encoding and
 the attention formula. Dark mode supported.
@@ -80,7 +80,7 @@ const stepConfig = [
 
 **Prompt:**
 ```
-/panel-diagram — UML class diagram for a blog platform: User, Post,
+/visualcave — UML class diagram for a blog platform: User, Post,
 Comment, Tag, Category. Show methods, field types, and multiplicity.
 Color-code by layer (user-facing vs content vs metadata).
 ```
@@ -107,7 +107,7 @@ class Post {
 
 **Prompt:**
 ```
-/panel-diagram — order lifecycle state machine. States: Pending,
+/visualcave — order lifecycle state machine. States: Pending,
 Confirmed, Processing, Shipped, Delivered, Cancelled, Refunded.
 Color-code by status category (pending=yellow, active=blue,
 success=green, terminal=red).
@@ -131,7 +131,7 @@ class Delivered,Refunded success
 
 **Prompt:**
 ```
-/panel-diagram — database schema for a SaaS app: users, organizations,
+/visualcave — database schema for a SaaS app: users, organizations,
 memberships, subscriptions, invoices. Show PK/FK/UK constraints and
 cardinality on all relationships.
 ```
@@ -155,7 +155,7 @@ USER {
 
 **Prompt:**
 ```
-/panel-diagram — feature priority matrix for Q3. X-axis: effort (low→high).
+/visualcave — feature priority matrix for Q3. X-axis: effort (low→high).
 Y-axis: impact (low→high). Plot: dark mode, SSO, GraphQL API, search
 autocomplete, offline mode, AI summaries, CSV export, audit logs.
 Label quadrants: Quick Wins, Major Projects, Fill-ins, Reconsider.

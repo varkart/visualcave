@@ -1,11 +1,11 @@
-# panel-diagram
+# visualcave
 
-![Validate Diagrams](https://github.com/varkart/panel-diagram/actions/workflows/ci.yml/badge.svg)
+![Validate Diagrams](https://github.com/varkart/visualcave/actions/workflows/ci.yml/badge.svg)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 A Claude Code skill for creating professional technical diagrams as interactive standalone HTML files. Powered by **[Mermaid.js](https://mermaid.js.org)** — supports 11 diagram types including flowcharts, sequence diagrams, ER diagrams, class diagrams, git graphs, mind maps, and more. Dark mode, step-through reveal, and export (PNG/SVG/PDF) built in.
 
-**[View showcase →](https://varkart.github.io/panel-diagram)**
+**[View showcase →](https://varkart.github.io/visualcave)**
 
 ---
 
@@ -13,15 +13,15 @@ A Claude Code skill for creating professional technical diagrams as interactive 
 
 **Claude Code (global)**
 ```bash
-git clone https://github.com/varkart/panel-diagram ~/.claude/skills/panel-diagram
+git clone https://github.com/varkart/visualcave ~/.claude/skills/visualcave
 ```
 
 **Claude Code (per-project)**
 ```bash
-git clone https://github.com/varkart/panel-diagram .claude/skills/panel-diagram
+git clone https://github.com/varkart/visualcave .claude/skills/visualcave
 ```
 
-**Cursor** — copy `.cursor/rules/panel-diagram.mdc` into your project's `.cursor/rules/` directory.
+**Cursor** — copy `.cursor/rules/visualcave.mdc` into your project's `.cursor/rules/` directory.
 
 **Codex CLI** — install via `.codex-plugin/plugin.json` or clone and reference the skill directory.
 
@@ -35,14 +35,14 @@ No restart required after installation.
 
 See **[EXAMPLES.md](EXAMPLES.md)** for real prompts and patterns showing what to ask for and what output to expect.
 
-Invoke with `/panel-diagram` in Claude Code, then describe your diagram:
+Invoke with `/visualcave` in Claude Code, then describe your diagram:
 
 ```text
-/panel-diagram — how OAuth 2.0 works
-/panel-diagram — interactive walkthrough of a RAG pipeline
-/panel-diagram — Transformer architecture "Attention Is All You Need"
-/panel-diagram — order lifecycle state machine with all edge cases
-/panel-diagram — GitFlow branching strategy with release and hotfix branches
+/visualcave — how OAuth 2.0 works
+/visualcave — interactive walkthrough of a RAG pipeline
+/visualcave — Transformer architecture "Attention Is All You Need"
+/visualcave — order lifecycle state machine with all edge cases
+/visualcave — GitFlow branching strategy with release and hotfix branches
 ```
 
 Claude outputs a single self-contained `.html` file. Open it in any browser — no build step, no server.
@@ -80,7 +80,7 @@ Claude outputs a single self-contained `.html` file. Open it in any browser — 
 
 ## Examples
 
-All 13 examples are in [`examples/`](examples/) and live at the [showcase site](https://varkart.github.io/panel-diagram).
+All 13 examples are in [`examples/`](examples/) and live at the [showcase site](https://varkart.github.io/visualcave).
 
 **Architecture & Flow**
 - [Transformer Architecture](examples/transformer-deep-dive.html) — step-through, dark mode

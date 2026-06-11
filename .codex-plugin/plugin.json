@@ -1,5 +1,5 @@
 {
-  "name": "panel-diagram",
+  "name": "visualcave",
   "description": "Generate interactive technical diagrams as standalone HTML files. Powered by Mermaid.js. Supports flowcharts, sequence diagrams, ER diagrams, class diagrams, state machines, timelines, mind maps, git graphs, pie charts, and quadrant charts. Dark mode, step-through reveal, and export built in.",
   "version": "1.0.0",
   "keywords": ["diagram", "mermaid", "infographic", "flowchart", "architecture", "technical-diagram", "visualization"],
