@@ -1,7 +1,7 @@
 {
   "name": "visualcave",
   "version": "1.0.0",
-  "description": "A Claude Code skill for creating technical infographic diagrams as standalone HTML files.",
+  "description": "Agentic skill for creating interactive technical diagrams as standalone HTML files. Powered by Mermaid.js.",
   "main": "capture.js",
   "scripts": {
     "test": "playwright test",
@@ -18,7 +18,14 @@
   },
   "author": "varkart",
   "license": "MIT",
-  "keywords": ["claude-code", "skill", "diagram", "mermaid", "infographic", "technical-diagram"],
+  "keywords": [
+    "claude-code",
+    "skill",
+    "diagram",
+    "mermaid",
+    "infographic",
+    "technical-diagram"
+  ],
   "dependencies": {
     "@mermaid-js/mermaid-cli": "^11.15.0",
     "gif-encoder-2": "^1.0.5",
@@ -28,5 +35,10 @@
   "devDependencies": {
     "@playwright/test": "^1.45.0",
     "serve": "^14.2.0"
+  },
+  "allowScripts": {
+    "fsevents@2.3.3": true,
+    "puppeteer@25.1.0": true,
+    "fsevents@2.3.2": true
   }
 }

@@ -170,7 +170,7 @@ Label quadrants: Quick Wins, Major Projects, Fill-ins, Reconsider.
 ## Tips
 
 - **Be specific about actors/entities.** "Show 5 services" → vague. "Show API gateway, auth, product catalog, order service, payment service" → precise output.
-- **Name the diagram type if you know it.** "sequence diagram" or "state machine" gives Claude the right Mermaid keyword immediately.
+- **Name the diagram type if you know it.** "sequence diagram" or "state machine" gives the right Mermaid keyword immediately.
 - **Ask for step-through** when the diagram is complex and meant for teaching.
 - **Ask for dark mode** when the output will be embedded in a dark-themed doc or presentation.
-- **Ask for export format** at generation time: "also export as PNG" → Claude will include `capture.js` instructions.
+- **Ask for export format** at generation time: "also export as PNG" → include a `node capture.js` call.

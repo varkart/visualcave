@@ -3,7 +3,9 @@
 ![Validate Diagrams](https://github.com/varkart/visualcave/actions/workflows/ci.yml/badge.svg)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-A Claude Code skill for creating professional technical diagrams as interactive standalone HTML files. Powered by **[Mermaid.js](https://mermaid.js.org)** — supports 11 diagram types including flowcharts, sequence diagrams, ER diagrams, class diagrams, git graphs, mind maps, and more. Dark mode, step-through reveal, and export (PNG/SVG/PDF) built in.
+An agentic skill for creating professional technical diagrams as interactive standalone HTML files. Powered by **[Mermaid.js](https://mermaid.js.org)** — supports 11 diagram types including flowcharts, sequence diagrams, ER diagrams, class diagrams, git graphs, mind maps, and more. Dark mode, step-through reveal, and export (PNG/SVG/PDF) built in.
+
+Works with **Claude Code**, **Cursor**, **Codex CLI**, and **Gemini CLI**.
 
 **[View showcase →](https://varkart.github.io/visualcave)**
 
@@ -35,7 +37,7 @@ No restart required after installation.
 
 See **[EXAMPLES.md](EXAMPLES.md)** for real prompts and patterns showing what to ask for and what output to expect.
 
-Invoke with `/visualcave` in Claude Code, then describe your diagram:
+Invoke with `/visualcave` in your AI assistant, then describe your diagram:
 
 ```text
 /visualcave — how OAuth 2.0 works
@@ -45,7 +47,7 @@ Invoke with `/visualcave` in Claude Code, then describe your diagram:
 /visualcave — GitFlow branching strategy with release and hotfix branches
 ```
 
-Claude outputs a single self-contained `.html` file. Open it in any browser — no build step, no server.
+Outputs a single self-contained `.html` file. Open it in any browser — no build step, no server.
 
 ---
 
@@ -135,6 +137,8 @@ node capture.js diagram.html --format=og        # 1200×630 OG image
 
 ## Development
 
+Requires **Node.js 18+** (for `capture.js` / puppeteer).
+
 ```bash
 npm install
 npx playwright install chromium
@@ -142,6 +146,12 @@ npm test             # run all diagram validation tests
 npm run test:ui      # Playwright UI mode
 npm run test:headed  # headed browser
 ```
+
+---
+
+## Contributing
+
+See [CLAUDE.md](CLAUDE.md) for contribution guidelines — what's accepted, what won't be merged, and how to run tests.
 
 ---
 
