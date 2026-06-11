@@ -9,6 +9,8 @@ Works with **Claude Code**, **Cursor**, **Codex CLI**, and **Gemini CLI**.
 
 **[View showcase →](https://varkart.github.io/visualcave)**
 
+![VisualCave demo — step-through transformer architecture](assets/showcase.gif)
+
 ---
 
 ## Installation
