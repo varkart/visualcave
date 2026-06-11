@@ -1,5 +1,5 @@
 {
-  "name": "panel-diagram",
+  "name": "visualcave",
   "version": "1.0.0",
   "description": "A Claude Code skill for creating technical infographic diagrams as standalone HTML files.",
   "main": "capture.js",
@@ -10,11 +10,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/varkart/panel-diagram.git"
+    "url": "git+https://github.com/varkart/visualcave.git"
   },
-  "homepage": "https://varkart.github.io/panel-diagram",
+  "homepage": "https://varkart.github.io/visualcave",
   "bugs": {
-    "url": "https://github.com/varkart/panel-diagram/issues"
+    "url": "https://github.com/varkart/visualcave/issues"
   },
   "author": "varkart",
   "license": "MIT",

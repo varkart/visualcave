@@ -3,7 +3,7 @@ description: Use when the user asks to create a diagram, chart, infographic, flo
 alwaysApply: false
 ---
 
-# Panel Diagram
+# VisualCave
 
 Output a **single self-contained `.html` file**. No markdown wrapper unless the user asks.
 

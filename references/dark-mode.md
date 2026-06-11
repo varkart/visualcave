@@ -4,7 +4,7 @@ Swap these token values when user asks for dark mode. Same SVG structure, same l
 
 ## Invoke
 
-`/panel-diagram dark — topic`
+`/visualcave dark — topic`
 
 ---
 

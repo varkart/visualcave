@@ -1,10 +1,10 @@
 ---
-name: panel-diagram
+name: visualcave
 description: Use when the user asks to create a diagram, chart, infographic, flowchart, architecture illustration, or any technical visualization. Covers flowcharts, sequence diagrams, ER diagrams, class diagrams, state machines, timelines, mind maps, git graphs, pie charts, and quadrant charts.
 license: MIT
 ---
 
-# Panel Diagram
+# VisualCave
 
 Output a **single self-contained `.html` file**. No markdown wrapper unless the user asks for it.
 

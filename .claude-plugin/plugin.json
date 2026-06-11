@@ -1,15 +1,15 @@
 {
-  "name": "panel-diagram",
+  "name": "visualcave",
   "description": "Generate interactive technical diagrams as standalone HTML files. Powered by Mermaid.js. Supports flowcharts, sequence diagrams, ER diagrams, class diagrams, state machines, timelines, mind maps, git graphs, pie charts, and quadrant charts. Dark mode, step-through reveal, and export built in.",
   "version": "1.0.0",
   "keywords": ["diagram", "mermaid", "infographic", "flowchart", "architecture", "technical-diagram", "visualization"],
   "skills": ["./"],
   "interface": {
     "defaultPrompt": [
-      "/panel-diagram — how OAuth 2.0 works",
-      "/panel-diagram — transformer architecture with step-through guide",
-      "/panel-diagram — order lifecycle state machine",
-      "/panel-diagram — microservices architecture overview"
+      "/visualcave — how OAuth 2.0 works",
+      "/visualcave — transformer architecture with step-through guide",
+      "/visualcave — order lifecycle state machine",
+      "/visualcave — microservices architecture overview"
     ]
   }
 }

@@ -1,5 +1,5 @@
 {
-  "name": "panel-diagram",
+  "name": "visualcave",
   "version": "1.0.0",
   "description": "Use when the user asks to create a diagram, chart, infographic, flowchart, architecture illustration, or any technical visualization. Outputs a self-contained HTML file using Mermaid.js.",
   "contextFileName": "SKILL.md"
