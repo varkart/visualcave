@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+  <style>
+    body { background: #F0F2F5; display: flex; justify-content: center; padding: 40px; font-family: 'Inter', sans-serif; margin: 0; }
+    .page { background: #FFF; border-radius: 16px; padding: 40px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); width: 100%; max-width: 1100px; position: relative; overflow: hidden; min-height: 800px; }
+    h1 { margin-top: 0; font-size: 32px; font-weight: 900; color: #111; display: flex; align-items: center; gap: 12px; }
+    h1::before { content: ''; display: block; width: 6px; height: 36px; background: #1E88E5; border-radius: 3px; }
+    
+    /* Infographic Style Overrides */
+    .node rect, .node circle, .node polygon, .node path { 
+      stroke-width: 2.5px !important; 
+      stroke: #1A1A1A !important; 
+      rx: 8px !important; 
+      ry: 8px !important; 
+      filter: drop-shadow(4px 4px 0px rgba(0,0,0,0.1)); 
+    }
+    .node text { font-weight: 600 !important; font-size: 13px !important; fill: #1A1A1A !important; }
+    .edgePath .path { stroke-width: 2.5px !important; stroke: #424242 !important; }
+    .edgeLabel { background-color: #FFF !important; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; border: 1.5px solid #E0E0E0; }
+    .cluster rect { stroke-width: 2.5px !important; stroke: #1A1A1A !important; rx: 12px !important; fill: #F8F9FA !important; }
+    .cluster text { font-weight: 800 !important; font-size: 15px !important; fill: #1A1A1A !important; }
+
+    /* Note Styling */
+    .note rect { fill: #FFF9C4 !important; stroke: #FBC02D !important; stroke-dasharray: 4 !important; }
+    .note text { font-style: italic !important; font-size: 12px !important; }
+
+    /* Animation Classes */
+    [data-step] { opacity: 0; transition: opacity 0.5s ease, transform 0.5s ease; transform: translateY(10px); }
+    [data-step].visible { opacity: 1; transform: translateY(0); }
+
+    .copy-btn{position:absolute;top:20px;right:20px;font:600 12px Inter,sans-serif;color:#555;background:#FFF;border:2px solid #E0E0E0;border-radius:20px;padding:6px 16px;cursor:pointer; box-shadow: 2px 2px 0px rgba(0,0,0,0.05);}
+    
+    /* Flowing link highlight */
+    .flow path { stroke: #1E88E5 !important; stroke-width: 3px !important; stroke-dasharray: 8; animation: dash 1s linear infinite; }
+    @keyframes dash { to { stroke-dashoffset: -16; } }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <button class="copy-btn" onclick="copyMermaid(this)">Copy Diagram</button>
+    <h1>Transformer: Deep Dive Guide</h1>
+    <div class="mermaid">
+      graph TD
+        classDef yellow fill:#FFFDE7,stroke:#1A1A1A,stroke-width:2px;
+        classDef blue fill:#E3F2FD,stroke:#1A1A1A,stroke-width:2px;
+        classDef green fill:#E8F5E9,stroke:#1A1A1A,stroke-width:2px;
+        classDef purple fill:#F3E5F5,stroke:#1A1A1A,stroke-width:2px;
+        classDef teal fill:#E0F7FA,stroke:#1A1A1A,stroke-width:2px;
+        classDef orange fill:#FFF3E0,stroke:#1A1A1A,stroke-width:2px;
+        classDef note fill:#FFF9C4,stroke:#FBC02D,stroke-dasharray:4;
+
+        subgraph "Input Processing"
+          In[Inputs]:::yellow
+          InEmb[Input Embedding]:::orange
+          InPos[Positional Encoding]:::purple
+          Note1[Note: Since Transformers process<br/>all tokens at once, we need<br/>Positional Encoding to<br/>capture word order.]:::note
+        end
+
+        subgraph "The Encoder Block"
+          MHA1[Multi-Head Attention]:::blue
+          AddNorm1[Add & Norm]:::green
+          FFN1[Feed Forward]:::orange
+          AddNorm2[Add & Norm]:::green
+          Note2[Note: Multi-Head Attention allows<br/>the model to focus on different<br/>parts of the sequence simultaneously.]:::note
+        end
+
+        subgraph "The Decoder Block"
+          MMHA[Masked Multi-Head Attention]:::blue
+          AddNorm3[Add & Norm]:::green
+          EncDecAttn[Cross-Attention]:::blue
+          AddNorm4[Add & Norm]:::green
+          FFN2[Feed Forward]:::orange
+          AddNorm5[Add & Norm]:::green
+          Note3[Note: Masking ensures the decoder<br/>cannot see future tokens<br/>during training - auto-regression.]:::note
+        end
+
+        In --> InEmb --> InPos
+        InPos --> MHA1
+        MHA1 --> AddNorm1 --> FFN1 --> AddNorm2
+        
+        Out[Outputs]:::yellow --> OutEmb[Output Embedding]:::orange --> OutPos[Positional Encoding]:::purple
+        OutPos --> MMHA --> AddNorm3 --> EncDecAttn
+        AddNorm2 --> EncDecAttn
+        EncDecAttn --> AddNorm4 --> FFN2 --> AddNorm5
+        
+        AddNorm5 --> Lin[Linear]:::purple --> Soft[Softmax]:::teal --> Final[Probabilities]:::yellow
+
+        %% Residual Links
+        InPos -.-> AddNorm1
+        AddNorm1 -.-> AddNorm2
+        OutPos -.-> AddNorm3
+        AddNorm3 -.-> AddNorm4
+        AddNorm4 -.-> AddNorm5
+
+        %% Logical Grouping for Steps
+        %% (Handled by JS based on Node names)
+    </div>
+  </div>
+
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    const _md = document.querySelector('.mermaid');
+    _md.dataset.source = _md.textContent.trim();
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'base',
+      themeVariables: { fontFamily: 'Inter, sans-serif' }
+    });
+
+    // Step-through Logic
+    document.addEventListener('DOMContentLoaded', () => {
+      const observer = new MutationObserver(() => {
+        const svg = document.querySelector('.mermaid svg');
+        // Wait for Mermaid's second-pass node population before running setup
+        if (svg && svg.querySelectorAll('g.node').length > 0) {
+          setupSteps(svg);
+          observer.disconnect();
+        }
+      });
+      observer.observe(document.querySelector('.mermaid'), { childList: true, subtree: true });
+    });
+
+    function setupSteps(svg) {
+      // Define which elements belong to which step
+      const stepConfig = [
+        { name: 'Input', nodes: ['In', 'InEmb', 'InPos', 'Note1'], clusters: ['Input Processing'] },
+        { name: 'Encoder', nodes: ['MHA1', 'AddNorm1', 'FFN1', 'AddNorm2', 'Note2'], clusters: ['The Encoder Block'] },
+        { name: 'Decoder Part 1', nodes: ['Out', 'OutEmb', 'OutPos', 'MMHA', 'AddNorm3', 'Note3'], clusters: ['The Decoder Block'] },
+        { name: 'Bridge & Output', nodes: ['EncDecAttn', 'AddNorm4', 'FFN2', 'AddNorm5', 'Lin', 'Soft', 'Final'] }
+      ];
+
+      // Find all groups and tag them with data-step
+      const groups = Array.from(svg.querySelectorAll('g.node, g.cluster, g.edgePath'));
+      
+      stepConfig.forEach((config, idx) => {
+        const stepNum = idx + 1;
+        
+        groups.forEach(g => {
+          const id = g.id || '';
+          const text = g.textContent || '';
+          
+          const isNode = config.nodes?.some(n => id.includes(`-${n}-`) || id.endsWith(`-${n}`));
+          const isCluster = config.clusters?.some(c => text.includes(c));
+          
+          if (isNode || isCluster) {
+            g.setAttribute('data-step', stepNum);
+            g.style.opacity = '0';
+            g.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            g.style.transform = 'translateY(10px)';
+          }
+        });
+
+        // Also tag edges connecting these nodes
+        svg.querySelectorAll('g.edgePath').forEach(edge => {
+          // Simplistic edge tagging: if it's after the previous step nodes
+          // We'll let edges appear with their destination nodes for better flow
+          stepConfig.forEach((c, i) => {
+            c.nodes.forEach(n => {
+                if (edge.classList.contains(`LS-${n}`) || edge.classList.contains(`LE-${n}`)) {
+                   edge.setAttribute('data-step', i + 1);
+                   edge.style.opacity = '0';
+                }
+            });
+          });
+        });
+      });
+
+      let currentStep = 0;
+      const totalSteps = stepConfig.length;
+      
+      const hint = document.createElement('div');
+      hint.style.cssText = "position:fixed;bottom:24px;right:24px;font:600 12px 'Inter',sans-serif;color:#555;background:#FFF;border:2px solid #E0E0E0;padding:10px 20px;border-radius:30px;box-shadow:0 4px 12px rgba(0,0,0,0.1);cursor:pointer;z-index:1000;";
+      hint.textContent = `Click to begin (${totalSteps} phases)`;
+      document.body.appendChild(hint);
+
+      function next() {
+        if (currentStep >= totalSteps) {
+            // Reset
+            currentStep = 0;
+            svg.querySelectorAll('[data-step]').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(10px)';
+            });
+            hint.textContent = `Click to begin (${totalSteps} phases)`;
+            return;
+        }
+        currentStep++;
+        svg.querySelectorAll(`[data-step="${currentStep}"]`).forEach(el => {
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0)';
+        });
+        hint.textContent = currentStep < totalSteps ? `Phase ${currentStep}/${totalSteps} - Click for more` : "✓ Architecture Complete - Click to reset";
+      }
+
+      document.body.addEventListener('click', (e) => {
+        if (e.target.closest('.copy-btn')) return;
+        next();
+      });
+    }
+
+    window.copyMermaid = function(btn) {
+      const source = document.querySelector('.mermaid').dataset.source || '';
+      navigator.clipboard.writeText(source).then(() => {
+        btn.textContent = '✓ Copied';
+        setTimeout(() => btn.textContent = 'Copy Diagram', 2000);
+      });
+    }
+  </script>
+</body>
+</html>

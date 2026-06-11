@@ -1,0 +1,7 @@
+node_modules/
+package-lock.json
+tests/screenshots/
+tests/report/
+playwright-report/
+.playwright-mcp/
+*.tgz

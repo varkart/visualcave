@@ -1,0 +1,44 @@
+{
+  "name": "visualcave",
+  "version": "1.0.0",
+  "description": "Agentic skill for creating interactive technical diagrams as standalone HTML files. Powered by Mermaid.js.",
+  "main": "capture.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "test:headed": "playwright test --headed"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/varkart/visualcave.git"
+  },
+  "homepage": "https://varkart.github.io/visualcave",
+  "bugs": {
+    "url": "https://github.com/varkart/visualcave/issues"
+  },
+  "author": "varkart",
+  "license": "MIT",
+  "keywords": [
+    "claude-code",
+    "skill",
+    "diagram",
+    "mermaid",
+    "infographic",
+    "technical-diagram"
+  ],
+  "dependencies": {
+    "@mermaid-js/mermaid-cli": "^11.15.0",
+    "gif-encoder-2": "^1.0.5",
+    "pngjs": "^7.0.0",
+    "puppeteer": "^25.1.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.45.0",
+    "serve": "^14.2.0"
+  },
+  "allowScripts": {
+    "fsevents@2.3.3": true,
+    "puppeteer@25.1.0": true,
+    "fsevents@2.3.2": true
+  }
+}

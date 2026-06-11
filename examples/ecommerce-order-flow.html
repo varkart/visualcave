@@ -1,0 +1,196 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Ecommerce Order Fulfillment Flow</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:#F0F2F5;font-family:Inter,sans-serif;min-height:100vh;display:flex;justify-content:center;padding:40px 20px}
+.page{background:#FFF;border-radius:16px;padding:32px;max-width:960px;width:100%;box-shadow:0 2px 12px rgba(0,0,0,.08);position:relative}
+.title-row{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+.bar{width:4px;height:52px;background:#FB8C00;border-radius:2px;flex-shrink:0}
+h1{font-size:38px;font-weight:900;color:#1A1A1A;line-height:1.1}
+.hl{display:inline-block;background:#FB8C00;color:#FFF;padding:1px 12px;border-radius:8px}
+.sub{font-size:13px;color:#9E9E9E;margin-bottom:24px;padding-left:16px}
+svg{width:100%;display:block}
+.cards{display:grid;grid-template-columns:1.1fr 1fr .9fr;gap:16px;margin-top:28px}
+.card{background:#FAFAFA;border:1px solid rgba(0,0,0,.08);border-radius:8px;padding:16px}
+.eyebrow{font-size:10px;font-weight:700;color:#9E9E9E;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px}
+.card h3{font-size:14px;font-weight:700;color:#1A1A1A;margin-bottom:8px}
+.card ul{font-size:12px;color:#424242;padding-left:16px;line-height:1.8}
+.copy-btn{position:absolute;top:16px;right:16px;font:600 11px Inter,sans-serif;color:#9E9E9E;background:#FFF;border:1px solid #E0E0E0;border-radius:20px;padding:5px 14px;cursor:pointer;transition:color .2s,border-color .2s}
+.copy-btn:hover{color:#424242;border-color:#BDBDBD}
+</style></head><body>
+<div class="page">
+<button class="copy-btn" onclick="copySVG(this)">Copy SVG</button>
+<div class="title-row"><div class="bar"></div><h1>How <span class="hl">Order Fulfillment</span> Works</h1></div>
+<p class="sub">End-to-end ecommerce pipeline — from customer checkout to delivery notification</p>
+
+<svg viewBox="0 0 960 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="t d">
+<title id="t">Ecommerce Order Fulfillment Flow</title>
+<desc id="d">Five-stage pipeline: Order, Shipment creation, Warehouse fulfillment, Ship confirmation, and User notification.</desc>
+<defs>
+  <marker id="ab" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#1E88E5"/></marker>
+  <marker id="ag" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#43A047"/></marker>
+  <marker id="ao" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#FB8C00"/></marker>
+  <marker id="ap" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#7B1FA2"/></marker>
+  <marker id="at" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#00ACC1"/></marker>
+  <marker id="ay" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#F9A825"/></marker>
+</defs>
+<rect width="960" height="480" fill="#FFF"/>
+
+<!-- ── PANELS ── -->
+<!-- P1: ORDER (yellow) x=12 w=174 cx=99 -->
+<rect x="12" y="68" width="174" height="380" rx="14" fill="#FFFDE7" stroke="#F9A825" stroke-width="1.5"/>
+<text x="28" y="90" font-family="Inter,sans-serif" font-size="10" font-weight="700" fill="#F57F17" letter-spacing=".08em">ORDER</text>
+
+<!-- P2: SHIPMENT (blue) x=202 w=174 cx=289 -->
+<rect x="202" y="68" width="174" height="380" rx="14" fill="#E3F2FD" stroke="#1E88E5" stroke-width="1.5"/>
+<text x="218" y="90" font-family="Inter,sans-serif" font-size="10" font-weight="700" fill="#0D47A1" letter-spacing=".08em">SHIPMENT</text>
+
+<!-- P3: WAREHOUSE (green) x=392 w=174 cx=479 -->
+<rect x="392" y="68" width="174" height="380" rx="14" fill="#E8F5E9" stroke="#43A047" stroke-width="1.5"/>
+<text x="408" y="90" font-family="Inter,sans-serif" font-size="10" font-weight="700" fill="#1B5E20" letter-spacing=".08em">WAREHOUSE</text>
+
+<!-- P4: SHIP CONFIRM (purple) x=582 w=174 cx=669 -->
+<rect x="582" y="68" width="174" height="380" rx="14" fill="#F3E5F5" stroke="#7B1FA2" stroke-width="1.5"/>
+<text x="598" y="90" font-family="Inter,sans-serif" font-size="10" font-weight="700" fill="#4A148C" letter-spacing=".08em">SHIP CONFIRM</text>
+
+<!-- P5: NOTIFICATION (teal) x=772 w=176 cx=860 -->
+<rect x="772" y="68" width="176" height="380" rx="14" fill="#E0F7FA" stroke="#00ACC1" stroke-width="1.5"/>
+<text x="788" y="90" font-family="Inter,sans-serif" font-size="10" font-weight="700" fill="#006064" letter-spacing=".08em">NOTIFICATION</text>
+
+<!-- ── WITHIN-PANEL VERTICAL ARROWS (between top node and bottom node) ── -->
+<line x1="99"  y1="211" x2="99"  y2="273" stroke="#F9A825" stroke-width="1.5" marker-end="url(#ay)"/>
+<line x1="289" y1="211" x2="289" y2="273" stroke="#1E88E5" stroke-width="1.5" marker-end="url(#ab)"/>
+<line x1="479" y1="211" x2="479" y2="273" stroke="#43A047" stroke-width="1.5" marker-end="url(#ag)"/>
+<line x1="669" y1="211" x2="669" y2="273" stroke="#7B1FA2" stroke-width="1.5" marker-end="url(#ap)"/>
+<line x1="860" y1="211" x2="860" y2="273" stroke="#00ACC1" stroke-width="1.5" marker-end="url(#at)"/>
+
+<!-- ── CROSS-STAGE CHEVRON FLOW INDICATORS (in gaps at cy=248) ── -->
+<!-- Gap P1→P2: x=186–202, center=194 -->
+<polygon points="188,243 200,248 188,253" fill="#FB8C00"/>
+<!-- Gap P2→P3: x=376–392, center=384 -->
+<polygon points="378,243 390,248 378,253" fill="#FB8C00"/>
+<!-- Gap P3→P4: x=566–582, center=574 -->
+<polygon points="568,243 580,248 568,253" fill="#FB8C00"/>
+<!-- Gap P4→P5: x=756–772, center=764 -->
+<polygon points="758,243 770,248 758,253" fill="#FB8C00"/>
+
+<!-- ── STEP CIRCLES ── -->
+<circle cx="99"  cy="115" r="11" fill="#F57F17"/>
+<text x="99"  y="119" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="#FFF" text-anchor="middle">1</text>
+
+<circle cx="289" cy="115" r="11" fill="#1E88E5"/>
+<text x="289" y="119" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="#FFF" text-anchor="middle">2</text>
+
+<circle cx="479" cy="115" r="11" fill="#43A047"/>
+<text x="479" y="119" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="#FFF" text-anchor="middle">3</text>
+
+<circle cx="669" cy="115" r="11" fill="#7B1FA2"/>
+<text x="669" y="119" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="#FFF" text-anchor="middle">4</text>
+
+<circle cx="860" cy="115" r="11" fill="#00ACC1"/>
+<text x="860" y="119" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="#FFF" text-anchor="middle">5</text>
+
+<!-- ── NODES: P1 ORDER (cx=99, x=29, w=140) ── -->
+<rect x="29" y="163" width="140" height="48" rx="8" fill="#FFF" stroke="#F9A825" stroke-width="1.5"/>
+<text x="99" y="184" font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#1A1A1A" text-anchor="middle">Place Order</text>
+<text x="99" y="200" font-family="Inter,sans-serif" font-size="9" fill="#757575" text-anchor="middle">Cart → Checkout</text>
+
+<rect x="29" y="276" width="140" height="48" rx="8" fill="#FFF" stroke="#F9A825" stroke-width="1.5"/>
+<text x="99" y="297" font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#1A1A1A" text-anchor="middle">Process Payment</text>
+<text x="99" y="313" font-family="Inter,sans-serif" font-size="9" fill="#757575" text-anchor="middle">Verify &amp; Authorize</text>
+
+<!-- ── NODES: P2 SHIPMENT (cx=289, x=219, w=140) ── -->
+<rect x="219" y="163" width="140" height="48" rx="8" fill="#FFF" stroke="#1E88E5" stroke-width="1.5"/>
+<text x="289" y="184" font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#1A1A1A" text-anchor="middle">Create Shipment</text>
+<text x="289" y="200" font-family="Inter,sans-serif" font-size="9" fill="#757575" text-anchor="middle">Order → Shipment ID</text>
+
+<rect x="219" y="276" width="140" height="48" rx="8" fill="#FFF" stroke="#1E88E5" stroke-width="1.5"/>
+<text x="289" y="297" font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#1A1A1A" text-anchor="middle">Assign Carrier</text>
+<text x="289" y="313" font-family="Inter,sans-serif" font-size="9" fill="#757575" text-anchor="middle">Route + Rate Select</text>
+
+<!-- ── NODES: P3 WAREHOUSE (cx=479, x=409, w=140) ── -->
+<rect x="409" y="163" width="140" height="48" rx="8" fill="#FFF" stroke="#43A047" stroke-width="1.5"/>
+<text x="479" y="184" font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#1A1A1A" text-anchor="middle">Pick &amp; Pack</text>
+<text x="479" y="200" font-family="Inter,sans-serif" font-size="9" fill="#757575" text-anchor="middle">Inventory Reserve</text>
+
+<rect x="409" y="276" width="140" height="48" rx="8" fill="#FFF" stroke="#43A047" stroke-width="1.5"/>
+<text x="479" y="297" font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#1A1A1A" text-anchor="middle">Quality Check</text>
+<text x="479" y="313" font-family="Inter,sans-serif" font-size="9" fill="#757575" text-anchor="middle">Scan &amp; Verify Items</text>
+
+<!-- ── NODES: P4 SHIP CONFIRM (cx=669, x=599, w=140) ── -->
+<rect x="599" y="163" width="140" height="48" rx="8" fill="#FFF" stroke="#7B1FA2" stroke-width="1.5"/>
+<text x="669" y="184" font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#1A1A1A" text-anchor="middle">Dispatch Order</text>
+<text x="669" y="200" font-family="Inter,sans-serif" font-size="9" fill="#757575" text-anchor="middle">Hand off to Carrier</text>
+
+<rect x="599" y="276" width="140" height="48" rx="8" fill="#FFF" stroke="#7B1FA2" stroke-width="1.5"/>
+<text x="669" y="297" font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#1A1A1A" text-anchor="middle">Tracking ID</text>
+<text x="669" y="313" font-family="Inter,sans-serif" font-size="9" fill="#757575" text-anchor="middle">Generate &amp; Log</text>
+
+<!-- ── NODES: P5 NOTIFICATION (cx=860, x=790, w=140) ── -->
+<rect x="790" y="163" width="140" height="48" rx="8" fill="#FFF" stroke="#00ACC1" stroke-width="1.5"/>
+<text x="860" y="184" font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#1A1A1A" text-anchor="middle">Email &amp; SMS Alert</text>
+<text x="860" y="200" font-family="Inter,sans-serif" font-size="9" fill="#757575" text-anchor="middle">Shipment Confirmed</text>
+
+<rect x="790" y="276" width="140" height="48" rx="8" fill="#FFF" stroke="#00ACC1" stroke-width="1.5"/>
+<text x="860" y="297" font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#1A1A1A" text-anchor="middle">Live Tracking</text>
+<text x="860" y="313" font-family="Inter,sans-serif" font-size="9" fill="#757575" text-anchor="middle">Dashboard Update</text>
+
+<!-- ── STATUS BADGES (bottom of each panel) ── -->
+<rect x="44" y="380" width="110" height="22" rx="11" fill="#F9A825" opacity=".15"/>
+<text x="99" y="395" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="#F57F17" text-anchor="middle">OMS Event</text>
+
+<rect x="234" y="380" width="110" height="22" rx="11" fill="#1E88E5" opacity=".15"/>
+<text x="289" y="395" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="#0D47A1" text-anchor="middle">Shipment Record</text>
+
+<rect x="424" y="380" width="110" height="22" rx="11" fill="#43A047" opacity=".15"/>
+<text x="479" y="395" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="#1B5E20" text-anchor="middle">WMS Task</text>
+
+<rect x="614" y="380" width="110" height="22" rx="11" fill="#7B1FA2" opacity=".15"/>
+<text x="669" y="395" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="#4A148C" text-anchor="middle">Carrier API</text>
+
+<rect x="805" y="380" width="110" height="22" rx="11" fill="#00ACC1" opacity=".15"/>
+<text x="860" y="395" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="#006064" text-anchor="middle">Notification Svc</text>
+
+<!-- ── LEGEND ── -->
+<rect x="12" y="418" width="200" height="22" rx="6" fill="#FAFAFA" stroke="#E0E0E0" stroke-width="1"/>
+<polygon points="32,429 40,424 40,434" fill="#FB8C00"/>
+<text x="48" y="433" font-family="Inter,sans-serif" font-size="9" fill="#424242">Stage transition</text>
+<line x1="118" y1="429" x2="136" y2="429" stroke="#757575" stroke-width="1.5" marker-end="url(#ay)"/>
+<text x="144" y="433" font-family="Inter,sans-serif" font-size="9" fill="#424242">Within stage</text>
+
+</svg>
+
+<div class="cards">
+  <div class="card">
+    <p class="eyebrow">Entry Point</p>
+    <h3>Order Placed</h3>
+    <ul>
+      <li>Customer checkout triggers OMS event</li>
+      <li>Payment gateway authorizes charge</li>
+      <li>Order ID assigned, inventory reserved</li>
+    </ul>
+  </div>
+  <div class="card">
+    <p class="eyebrow">Fulfillment</p>
+    <h3>Warehouse + Carrier</h3>
+    <ul>
+      <li>Shipment record created with carrier rate</li>
+      <li>WMS picks, packs, and quality-checks</li>
+      <li>Tracking ID generated on dispatch</li>
+    </ul>
+  </div>
+  <div class="card">
+    <p class="eyebrow">Delivery</p>
+    <h3>User Notified</h3>
+    <ul>
+      <li>Email + SMS sent on ship confirmation</li>
+      <li>Live tracking link in notification</li>
+      <li>Order dashboard updated in real time</li>
+    </ul>
+  </div>
+</div>
+</div>
+<script>function copySVG(b){const s=document.querySelector('svg');navigator.clipboard.writeText(s.outerHTML).then(()=>{b.textContent='✓ Copied';setTimeout(()=>b.textContent='Copy SVG',2000)})}</script>
+</body></html>
