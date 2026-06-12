@@ -33,6 +33,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.45.0",
+    "mermaid": "^10.9.6",
     "serve": "^14.2.0"
   },
   "allowScripts": {
