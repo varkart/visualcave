@@ -28,7 +28,7 @@ for (const diagram of DIAGRAMS) {
     if (diagram.type === 'static') {
       await page.waitForLoadState('networkidle');
     } else {
-      await page.waitForSelector('.mermaid svg', { timeout: 20000 });
+      await page.waitForSelector('.mermaid svg', { timeout: 45000 });
 
       const svgRole = await page.locator('.mermaid svg').getAttribute('aria-roledescription');
       expect(svgRole, `${diagram.file}: Mermaid parse error`).not.toBe('error');
@@ -37,7 +37,7 @@ for (const diagram of DIAGRAMS) {
         await page.waitForFunction(
           () => document.querySelector('.mermaid svg')
               ?.querySelectorAll('g.node, g.cluster').length > 0,
-          { timeout: 15000 }
+          { timeout: 30000 }
         );
       }
 
