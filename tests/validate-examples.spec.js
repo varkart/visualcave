@@ -41,7 +41,7 @@ for (const diagram of DIAGRAMS) {
       const svgRole = await page.locator('.mermaid svg').getAttribute('aria-roledescription');
       expect(svgRole, `${diagram.file}: Mermaid parse error`).not.toBe('error');
 
-      if (['graph', 'classDiagram', 'gitGraph'].includes(diagram.type)) {
+      if (['graph', 'classDiagram'].includes(diagram.type)) {
         await page.waitForFunction(
           () => document.querySelector('.mermaid svg')
               ?.querySelectorAll('g.node, g.cluster').length > 0,

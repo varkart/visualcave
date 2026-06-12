@@ -11,7 +11,7 @@ module.exports = defineConfig({
     actionTimeout: 45000,
   },
   webServer: {
-    command: 'npx serve -s . -p 3000 --no-clipboard',
+    command: 'npx serve . -p 3000 --no-clipboard',
     port: 3000,
     timeout: 30000,
     reuseExistingServer: !process.env.CI,
