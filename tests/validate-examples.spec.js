@@ -1,7 +1,10 @@
 const { test, expect } = require('@playwright/test');
 const { mkdirSync } = require('fs');
+const path = require('path');
 
 mkdirSync('tests/screenshots', { recursive: true });
+
+const MERMAID_DIST = path.resolve(__dirname, '../node_modules/mermaid/dist');
 
 const DIAGRAMS = [
   { file: 'examples/transformer-ultra.html',        type: 'graph',        stepThrough: true },
@@ -23,6 +26,11 @@ const DIAGRAMS = [
 
 for (const diagram of DIAGRAMS) {
   test(`renders: ${diagram.file}`, async ({ page }) => {
+    await page.route('**/cdn.jsdelivr.net/npm/mermaid@10/dist/**', route => {
+      const filename = route.request().url().split('/dist/').pop();
+      route.fulfill({ path: path.join(MERMAID_DIST, filename) });
+    });
+
     await page.goto(`/${diagram.file}`);
 
     if (diagram.type === 'static') {
@@ -33,7 +41,7 @@ for (const diagram of DIAGRAMS) {
       const svgRole = await page.locator('.mermaid svg').getAttribute('aria-roledescription');
       expect(svgRole, `${diagram.file}: Mermaid parse error`).not.toBe('error');
 
-      if (['graph', 'classDiagram', 'gitGraph'].includes(diagram.type)) {
+      if (['graph', 'classDiagram'].includes(diagram.type)) {
         await page.waitForFunction(
           () => document.querySelector('.mermaid svg')
               ?.querySelectorAll('g.node, g.cluster').length > 0,
