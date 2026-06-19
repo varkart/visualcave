@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:#F0F2F5; --card-bg:#FFFFFF; --text-main:#111827; --text-muted:#6B7280;
+      --border:#E5E7EB; --accent:#1E88E5; --shadow:0 4px 20px rgba(0,0,0,0.08); --node-stroke:#1A1A1A;
+    }
+    [data-theme="dark"] {
+      --bg:#0F1117; --card-bg:#1A1D27; --text-main:#F9FAFB; --text-muted:#9CA3AF;
+      --border:#2A2D3A; --accent:#3B82F6; --shadow:0 4px 24px rgba(0,0,0,0.4); --node-stroke:#3A3D50;
+    }
+    body { background:var(--bg); color:var(--text-main); display:flex; justify-content:center; padding:40px; font-family:'Inter',sans-serif; margin:0; transition:background 0.3s ease; }
+    .page { background:var(--card-bg); border-radius:24px; padding:48px; box-shadow:var(--shadow); width:100%; max-width:1200px; border:1px solid var(--border); transition:background 0.3s ease,border 0.3s ease; }
+    header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:40px; }
+    .title-group h1 { margin:0; font-size:36px; font-weight:900; letter-spacing:-0.02em; display:flex; align-items:center; gap:16px; }
+    .title-group h1::before { content:''; display:block; width:8px; height:40px; background:var(--accent); border-radius:4px; }
+    .title-group p { margin:8px 0 0 24px; color:var(--text-muted); font-size:16px; font-weight:500; }
+    .controls { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+    button { font:600 13px 'Inter',sans-serif; padding:10px 20px; border-radius:12px; cursor:pointer; transition:all 0.2s ease; display:flex; align-items:center; gap:8px; }
+    .btn-secondary { background:var(--card-bg); border:1px solid var(--border); color:var(--text-main); }
+    .btn-secondary:hover { background:var(--bg); border-color:var(--accent); }
+    select.style-select { font:600 13px 'Inter',sans-serif; padding:9px 12px; border-radius:12px; cursor:pointer; border:1px solid var(--border); background:var(--card-bg); color:var(--text-main); outline:none; transition:border-color 0.2s ease; }
+    select.style-select:hover { border-color:var(--accent); }
+    .mermaid svg { max-width:100%; height:auto; }
+    .node rect,.node circle,.node polygon,.node path { stroke-width:2.5px !important; stroke:var(--node-stroke) !important; filter:drop-shadow(4px 4px 0px rgba(0,0,0,0.1)); }
+    .node text { font-weight:500 !important; font-size:14px !important; fill:var(--text-main) !important; }
+    .edgePath .path { stroke-width:2.5px !important; stroke:var(--text-muted) !important; }
+    .cluster rect { stroke-width:2.5px !important; stroke:var(--node-stroke) !important; fill:var(--bg) !important; }
+    .cluster text { font-weight:600 !important; fill:var(--text-main) !important; }
+    @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:0.01ms !important; transition-duration:0.01ms !important; } }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="title-group">
+        <h1>Event-Driven Microservices</h1>
+        <p>Producers, Kafka topics, and consumers — decoupled at scale</p>
+      </div>
+      <div class="controls">
+        <select class="style-select" id="style-select" onchange="setDiagramStyle(this.value)">
+          <option value="default">Default</option>
+          <option value="minimal">Minimal</option>
+          <option value="pastel">Pastel</option>
+          <option value="print">Print</option>
+        </select>
+        <button class="btn-secondary" onclick="toggleTheme()" id="theme-toggle">🌙 Dark Mode</button>
+        <button class="btn-secondary" onclick="copyMermaid(this)">📋 Copy Code</button>
+      </div>
+    </header>
+    <div class="mermaid" id="diagram-source">
+      graph LR
+        classDef yellow fill:#FFFDE7,stroke:#1A1A1A,stroke-width:2px;
+        classDef blue   fill:#E3F2FD,stroke:#1A1A1A,stroke-width:2px;
+        classDef green  fill:#E8F5E9,stroke:#1A1A1A,stroke-width:2px;
+        classDef purple fill:#F3E5F5,stroke:#1A1A1A,stroke-width:2px;
+        classDef teal   fill:#E0F7FA,stroke:#1A1A1A,stroke-width:2px;
+        classDef orange fill:#FFF3E0,stroke:#1A1A1A,stroke-width:2px;
+        classDef note   fill:#FFF9C4,stroke:#FBC02D,stroke-dasharray:4;
+
+        subgraph Producers ["Event Producers"]
+          OrderSvc[Order Service]:::yellow
+          PaymentSvc[Payment Service]:::yellow
+          UserSvc[User Service]:::yellow
+        end
+
+        subgraph Bus ["Event Bus — Kafka"]
+          OrderTopic[orders]:::orange
+          PaymentTopic[payments]:::orange
+          UserTopic[users]:::orange
+        end
+
+        subgraph Consumers ["Event Consumers"]
+          NotifSvc[Notification Service]:::blue
+          InventorySvc[Inventory Service]:::blue
+          AnalyticsSvc[Analytics Service]:::blue
+          SearchSvc[Search Indexer]:::blue
+        end
+
+        subgraph Storage ["Storage"]
+          DB[(PostgreSQL)]:::green
+          Cache[(Redis)]:::teal
+          SearchIdx[(Elasticsearch)]:::green
+        end
+
+        OrderSvc --> OrderTopic
+        PaymentSvc --> PaymentTopic
+        UserSvc --> UserTopic
+
+        OrderTopic --> NotifSvc & InventorySvc & AnalyticsSvc
+        PaymentTopic --> NotifSvc & AnalyticsSvc
+        UserTopic --> NotifSvc & SearchSvc
+
+        NotifSvc --> Cache
+        InventorySvc --> DB
+        AnalyticsSvc --> DB
+        SearchSvc --> SearchIdx
+    </div>
+  </div>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    const _md = document.getElementById('diagram-source');
+    _md.dataset.source = _md.textContent.trim();
+    const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (isDark) document.documentElement.setAttribute('data-theme', 'dark');
+    const THEMES = {
+      default: { theme:'base',    vars:{ primaryColor:'#FFFDE7', primaryBorderColor:'#1A1A1A', primaryTextColor:'#1A1A1A', lineColor:'#424242', clusterBkg:'#F8F9FA', clusterBorder:'#1A1A1A' }, classDefs:{ yellow:'fill:#FFFDE7,stroke:#1A1A1A,stroke-width:2px', blue:'fill:#E3F2FD,stroke:#1A1A1A,stroke-width:2px', green:'fill:#E8F5E9,stroke:#1A1A1A,stroke-width:2px', purple:'fill:#F3E5F5,stroke:#1A1A1A,stroke-width:2px', teal:'fill:#E0F7FA,stroke:#1A1A1A,stroke-width:2px', orange:'fill:#FFF3E0,stroke:#1A1A1A,stroke-width:2px', note:'fill:#FFF9C4,stroke:#FBC02D,stroke-dasharray:4' } },
+      minimal:  { theme:'neutral', vars:{ primaryColor:'#F8FAFC', primaryBorderColor:'#CBD5E1', primaryTextColor:'#111827', lineColor:'#94A3B8', clusterBkg:'#F8FAFC', clusterBorder:'#E2E8F0' }, classDefs:{ yellow:'fill:#FFFFFF,stroke:#D1D5DB,stroke-width:1.5px', blue:'fill:#F8FAFC,stroke:#CBD5E1,stroke-width:1.5px', green:'fill:#F0FDF4,stroke:#86EFAC,stroke-width:1.5px', purple:'fill:#FAF5FF,stroke:#D8B4FE,stroke-width:1.5px', teal:'fill:#F0FDFA,stroke:#99F6E4,stroke-width:1.5px', orange:'fill:#FFF7ED,stroke:#FED7AA,stroke-width:1.5px', note:'fill:#FEFCE8,stroke:#FDE047,stroke-dasharray:4' } },
+      pastel:   { theme:'base',    vars:{ primaryColor:'#FEF3C7', primaryBorderColor:'#F59E0B', primaryTextColor:'#1A1A1A', lineColor:'#6B7280', clusterBkg:'#FFF7ED', clusterBorder:'#FED7AA' }, classDefs:{ yellow:'fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px', blue:'fill:#DBEAFE,stroke:#60A5FA,stroke-width:2px', green:'fill:#D1FAE5,stroke:#34D399,stroke-width:2px', purple:'fill:#EDE9FE,stroke:#A78BFA,stroke-width:2px', teal:'fill:#CFFAFE,stroke:#22D3EE,stroke-width:2px', orange:'fill:#FFE4E6,stroke:#FB7185,stroke-width:2px', note:'fill:#FEF9C3,stroke:#FBBF24,stroke-dasharray:4' } },
+      print:    { theme:'base',    vars:{ primaryColor:'#FFFFFF', primaryBorderColor:'#000000', primaryTextColor:'#000000', lineColor:'#333333', clusterBkg:'#F5F5F5', clusterBorder:'#000000' }, classDefs:{ yellow:'fill:#FFFFFF,stroke:#000000,stroke-width:2px', blue:'fill:#F5F5F5,stroke:#000000,stroke-width:2px', green:'fill:#EBEBEB,stroke:#000000,stroke-width:2px', purple:'fill:#E0E0E0,stroke:#000000,stroke-width:2px', teal:'fill:#D6D6D6,stroke:#000000,stroke-width:2px', orange:'fill:#CCCCCC,stroke:#000000,stroke-width:2px', note:'fill:#FFFFE0,stroke:#888,stroke-dasharray:4' } },
+    };
+    async function applyStyle(name) {
+      const t = THEMES[name] || THEMES.default;
+      const el = _md;
+      let src = el.dataset.source;
+      for (const [cn, def] of Object.entries(t.classDefs)) {
+        src = src.replace(new RegExp(`(classDef\\s+${cn}\\s+)[^;\\n]+`, 'g'), `$1${def}`);
+      }
+      el.textContent = src;
+      el.removeAttribute('data-processed');
+      mermaid.initialize({ startOnLoad:false, theme:t.theme, flowchart:{ htmlLabels:true, useMaxWidth:true, padding:100 }, themeVariables:{ fontFamily:'Inter, sans-serif', ...t.vars } });
+      await mermaid.run({ nodes:[el] });
+      try { localStorage.setItem('vc-style', name); } catch(e) {}
+    }
+    const _saved = (() => { try { return localStorage.getItem('vc-style') || 'default'; } catch(e) { return 'default'; } })();
+    const _sel = document.getElementById('style-select');
+    if (_sel && _saved !== 'default') _sel.value = _saved;
+    document.fonts.ready.then(() => applyStyle(_saved));
+    window.setDiagramStyle = applyStyle;
+    window.toggleTheme = () => {
+      const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      document.getElementById('theme-toggle').textContent = next === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode';
+    };
+    window.copyMermaid = function(btn) {
+      navigator.clipboard.writeText(document.getElementById('diagram-source').dataset.source || '').then(() => {
+        const orig = btn.textContent; btn.textContent = '✓ Copied'; setTimeout(() => btn.textContent = orig, 2000);
+      });
+    };
+  </script>
+</body>
+</html>
