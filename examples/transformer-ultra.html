@@ -162,6 +162,8 @@
 
     .highlight-edge path { stroke: var(--accent) !important; stroke-width: 4px !important; filter: drop-shadow(0 0 8px var(--accent)); }
 
+    select.style-select { font:600 13px 'Inter',sans-serif; padding:9px 12px; border-radius:12px; cursor:pointer; border:1px solid var(--border); background:var(--card-bg); color:var(--text-main); outline:none; transition:border-color 0.2s ease; }
+    select.style-select:hover { border-color:var(--accent); }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
     }
@@ -195,6 +197,12 @@
         <p>The "Attention Is All You Need" visual deep-dive.</p>
       </div>
       <div class="controls">
+                <select class="style-select" id="style-select" onchange="setDiagramStyle(this.value)">
+          <option value="default">Default</option>
+          <option value="minimal">Minimal</option>
+          <option value="pastel">Pastel</option>
+          <option value="print">Print</option>
+        </select>
         <button class="btn-secondary" onclick="toggleTheme()" id="theme-toggle">
           <span>🌙</span> Dark Mode
         </button>
@@ -275,26 +283,8 @@
     if (isDark) document.documentElement.setAttribute('data-theme', 'dark');
 
     // Wait for fonts to load before initializing Mermaid to ensure accurate sizing
-    document.fonts.ready.then(() => {
-        mermaid.initialize({
-          startOnLoad: true,
-          theme: 'base',
-          flowchart: { 
-            htmlLabels: true,
-            useMaxWidth: true,
-            padding: 100
-          },
-          themeVariables: {
-            fontFamily: 'Inter, sans-serif',
-            primaryColor: '#FFFDE7',
-            primaryBorderColor: '#1A1A1A',
-            primaryTextColor: '#1A1A1A',
-            lineColor: '#424242',
-            clusterBkg: '#F8F9FA',
-            clusterBorder: '#1A1A1A'
-          }
-        });
-    });
+    document.fonts.ready.then(() => applyStyle(_saved));
+
 
     // Theme Toggle
     window.toggleTheme = () => {

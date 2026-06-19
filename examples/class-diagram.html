@@ -28,6 +28,8 @@
     .node text { font-weight: 500 !important; font-size: 13px !important; fill: var(--text-main) !important; }
     .edgePath .path { stroke-width: 2px !important; stroke: var(--text-muted) !important; }
     .classLabel .label { font-family: 'Inter', sans-serif !important; }
+    select.style-select { font:600 13px 'Inter',sans-serif; padding:9px 12px; border-radius:12px; cursor:pointer; border:1px solid var(--border); background:var(--card-bg); color:var(--text-main); outline:none; transition:border-color 0.2s ease; }
+    select.style-select:hover { border-color:var(--accent); }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
   </style>
 </head>
@@ -39,6 +41,12 @@
         <p>Class diagram — entities, attributes, and relationships</p>
       </div>
       <div class="controls">
+                <select class="style-select" id="style-select" onchange="setDiagramStyle(this.value)">
+          <option value="default">Default</option>
+          <option value="minimal">Minimal</option>
+          <option value="pastel">Pastel</option>
+          <option value="print">Print</option>
+        </select>
         <button class="btn-secondary" onclick="toggleTheme()" id="theme-toggle">🌙 Dark Mode</button>
         <button class="btn-secondary" onclick="copyMermaid(this)">📋 Copy Code</button>
       </div>
@@ -135,19 +143,33 @@
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
     const _md = document.getElementById('diagram-source');
     _md.dataset.source = _md.textContent.trim();
+    const THEMES = {
+      default: { theme:'base',    vars:{ primaryColor:'#FFFDE7', primaryBorderColor:'#1A1A1A', primaryTextColor:'#1A1A1A', lineColor:'#424242', clusterBkg:'#F8F9FA', clusterBorder:'#1A1A1A' }, classDefs:{ yellow:'fill:#FFFDE7,stroke:#1A1A1A,stroke-width:2px', blue:'fill:#E3F2FD,stroke:#1A1A1A,stroke-width:2px', green:'fill:#E8F5E9,stroke:#1A1A1A,stroke-width:2px', purple:'fill:#F3E5F5,stroke:#1A1A1A,stroke-width:2px', teal:'fill:#E0F7FA,stroke:#1A1A1A,stroke-width:2px', orange:'fill:#FFF3E0,stroke:#1A1A1A,stroke-width:2px', note:'fill:#FFF9C4,stroke:#FBC02D,stroke-dasharray:4' } },
+      minimal:  { theme:'neutral', vars:{ primaryColor:'#F8FAFC', primaryBorderColor:'#CBD5E1', primaryTextColor:'#111827', lineColor:'#94A3B8', clusterBkg:'#F8FAFC', clusterBorder:'#E2E8F0' }, classDefs:{ yellow:'fill:#FFFFFF,stroke:#D1D5DB,stroke-width:1.5px', blue:'fill:#F8FAFC,stroke:#CBD5E1,stroke-width:1.5px', green:'fill:#F0FDF4,stroke:#86EFAC,stroke-width:1.5px', purple:'fill:#FAF5FF,stroke:#D8B4FE,stroke-width:1.5px', teal:'fill:#F0FDFA,stroke:#99F6E4,stroke-width:1.5px', orange:'fill:#FFF7ED,stroke:#FED7AA,stroke-width:1.5px', note:'fill:#FEFCE8,stroke:#FDE047,stroke-dasharray:4' } },
+      pastel:   { theme:'base',    vars:{ primaryColor:'#FEF3C7', primaryBorderColor:'#F59E0B', primaryTextColor:'#1A1A1A', lineColor:'#6B7280', clusterBkg:'#FFF7ED', clusterBorder:'#FED7AA' }, classDefs:{ yellow:'fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px', blue:'fill:#DBEAFE,stroke:#60A5FA,stroke-width:2px', green:'fill:#D1FAE5,stroke:#34D399,stroke-width:2px', purple:'fill:#EDE9FE,stroke:#A78BFA,stroke-width:2px', teal:'fill:#CFFAFE,stroke:#22D3EE,stroke-width:2px', orange:'fill:#FFE4E6,stroke:#FB7185,stroke-width:2px', note:'fill:#FEF9C3,stroke:#FBBF24,stroke-dasharray:4' } },
+      print:    { theme:'base',    vars:{ primaryColor:'#FFFFFF', primaryBorderColor:'#000000', primaryTextColor:'#000000', lineColor:'#333333', clusterBkg:'#F5F5F5', clusterBorder:'#000000' }, classDefs:{ yellow:'fill:#FFFFFF,stroke:#000000,stroke-width:2px', blue:'fill:#F5F5F5,stroke:#000000,stroke-width:2px', green:'fill:#EBEBEB,stroke:#000000,stroke-width:2px', purple:'fill:#E0E0E0,stroke:#000000,stroke-width:2px', teal:'fill:#D6D6D6,stroke:#000000,stroke-width:2px', orange:'fill:#CCCCCC,stroke:#000000,stroke-width:2px', note:'fill:#FFFFE0,stroke:#888,stroke-dasharray:4' } },
+    };
+    async function applyStyle(name) {
+      const t = THEMES[name] || THEMES.default;
+      const el = _md;
+      let src = el.dataset.source;
+      for (const [cn, def] of Object.entries(t.classDefs)) {
+        src = src.replace(new RegExp(`(classDef\\s+${cn}\\s+)[^;\\n]+`, 'g'), `$1${def}`);
+      }
+      el.textContent = src;
+      el.removeAttribute('data-processed');
+      mermaid.initialize({ startOnLoad:false, theme:t.theme, flowchart:{ htmlLabels:true, useMaxWidth:true, padding:100 }, themeVariables:{ fontFamily:'Inter, sans-serif', ...t.vars } });
+      await mermaid.run({ nodes:[el] });
+      try { localStorage.setItem('vc-style', name); } catch(e) {}
+    }
+    const _saved = (() => { try { return localStorage.getItem('vc-style') || 'default'; } catch(e) { return 'default'; } })();
+    const _sel = document.getElementById('style-select');
+    if (_sel && _saved !== 'default') _sel.value = _saved;
+    window.setDiagramStyle = applyStyle;
     const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     if (isDark) document.documentElement.setAttribute('data-theme', 'dark');
-    document.fonts.ready.then(() => {
-      mermaid.initialize({
-        startOnLoad: true, theme: 'base',
-        themeVariables: {
-          fontFamily: 'Inter, sans-serif',
-          primaryColor: '#E3F2FD', primaryBorderColor: '#1A1A1A', primaryTextColor: '#1A1A1A',
-          lineColor: '#424242', edgeLabelBackground: '#FFFFFF',
-          classText: '#1A1A1A',
-        }
-      });
-    });
+    document.fonts.ready.then(() => applyStyle(_saved));
+
     window.toggleTheme = () => {
       const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', next);
