@@ -22,6 +22,7 @@ const DIAGRAMS = [
   { file: 'examples/oauth-flow.html',            type: 'sequence',     stepThrough: false },
   { file: 'examples/transformer-deep-dive.html', type: 'graph',        stepThrough: true },
   { file: 'examples/ecommerce-order-flow.html',  type: 'static',       stepThrough: false },
+  { file: 'references/template.html',            type: 'graph',        stepThrough: false },
 ];
 
 for (const diagram of DIAGRAMS) {
@@ -64,6 +65,16 @@ for (const diagram of DIAGRAMS) {
       const theme = await page.locator('html').getAttribute('data-theme');
       expect(['dark', 'light']).toContain(theme);
       await toggle.click();
+    }
+
+    const styleSelect = page.locator('#style-select');
+    if (diagram.type !== 'static' && await styleSelect.count() > 0) {
+      await styleSelect.selectOption('minimal');
+      await page.waitForSelector('.mermaid svg', { timeout: 30000 });
+      const svgRoleAfter = await page.locator('.mermaid svg').getAttribute('aria-roledescription');
+      expect(svgRoleAfter, `${diagram.file}: style switch caused parse error`).not.toBe('error');
+      await styleSelect.selectOption('default');
+      await page.waitForSelector('.mermaid svg', { timeout: 30000 });
     }
 
     const screenshotName = diagram.file.replace(/\//g, '-').replace('.html', '.png');

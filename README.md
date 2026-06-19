@@ -59,6 +59,7 @@ Outputs a single self-contained `.html` file. Open it in any browser — no buil
 
 - **11 diagram types** — flowchart, sequence, class, ER, state machine, quadrant, timeline, mind map, git graph, pie, gantt
 - **Interactive step-through** — click to reveal phases one by one (ideal for architecture walkthroughs)
+- **Design theme selector** — Default, Minimal, Pastel, Print; switches classDef colors + Mermaid theme on the fly, persisted to `localStorage`
 - **Dark / light mode toggle** — smooth CSS transition, respects `prefers-color-scheme`
 - **Copy Mermaid source** — one-click copy of the clean diagram source
 - **Export** — PNG, SVG, PDF, animated GIF, OG social card via `capture.js`
