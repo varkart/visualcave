@@ -22,7 +22,11 @@ const DIAGRAMS = [
   { file: 'examples/oauth-flow.html',            type: 'sequence',     stepThrough: false },
   { file: 'examples/transformer-deep-dive.html', type: 'graph',        stepThrough: true },
   { file: 'examples/ecommerce-order-flow.html',  type: 'static',       stepThrough: false },
-  { file: 'examples/api-lifecycle.html',         type: 'graph',        stepThrough: false },
+  { file: 'examples/api-lifecycle.html',             type: 'graph', stepThrough: false },
+  { file: 'examples/rag-pipeline.html',              type: 'graph', stepThrough: false },
+  { file: 'examples/kubernetes-deployment.html',     type: 'graph', stepThrough: false },
+  { file: 'examples/event-driven-microservices.html',type: 'graph', stepThrough: false },
+  { file: 'examples/multi-region-failover.html',     type: 'graph', stepThrough: false },
   { file: 'references/template.html',            type: 'graph',        stepThrough: false },
 ];
 
