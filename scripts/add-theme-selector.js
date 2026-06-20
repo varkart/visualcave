@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 const EXAMPLES_DIR = path.join(__dirname, '../examples');
-const files = fs.readdirSync(EXAMPLES_DIR).filter(f => f.endsWith('.html'));
+const files = fs.readdirSync(EXAMPLES_DIR).filter((f) => f.endsWith('.html'));
 
 const CSS_INSERT = `    select.style-select { font:600 13px 'Inter',sans-serif; padding:9px 12px; border-radius:12px; cursor:pointer; border:1px solid var(--border); background:var(--card-bg); color:var(--text-main); outline:none; transition:border-color 0.2s ease; }
     select.style-select:hover { border-color:var(--accent); }`;
@@ -43,14 +43,19 @@ const THEMES_JS = `    const THEMES = {
 
 // Patterns for old init blocks (both styles that exist in examples)
 // Pattern 1: document.fonts.ready.then(() => { mermaid.initialize({ startOnLoad: true, ... }); });
-const OLD_FONTS_PATTERN = /document\.fonts\.ready\.then\(\(\) => \{\s*mermaid\.initialize\(\{[\s\S]*?startOnLoad: true[\s\S]*?\}\);\s*\}\);/;
+const OLD_FONTS_PATTERN =
+  /document\.fonts\.ready\.then\(\(\) => \{\s*mermaid\.initialize\(\{[\s\S]*?startOnLoad: true[\s\S]*?\}\);\s*\}\);/;
 // Pattern 2: bare mermaid.initialize({ startOnLoad: true, ... }); (no fonts.ready wrapper)
 const OLD_BARE_PATTERN = /\s*mermaid\.initialize\(\{\s*startOnLoad: true[\s\S]*?\}\);\s*\n/;
 
 const NEW_INIT = `document.fonts.ready.then(() => applyStyle(_saved));\n`;
 
 // Static files (no mermaid) — skip entirely
-const STATIC_FILES = new Set(['ecommerce-order-flow.html', 'architecture-api-gateway.html', 'pipeline-cicd.html']);
+const STATIC_FILES = new Set([
+  'ecommerce-order-flow.html',
+  'architecture-api-gateway.html',
+  'pipeline-cicd.html',
+]);
 
 let updated = 0;
 let skipped = 0;
@@ -62,15 +67,18 @@ for (const file of files) {
 
   if (html.includes('style-select')) {
     console.log(`SKIP (already done): ${file}`);
-    skipped++; continue;
+    skipped++;
+    continue;
   }
   if (STATIC_FILES.has(file)) {
     console.log(`SKIP (static): ${file}`);
-    skipped++; continue;
+    skipped++;
+    continue;
   }
   if (!html.includes('class="mermaid"') && !html.includes("class='mermaid'")) {
     console.log(`SKIP (no mermaid div): ${file}`);
-    skipped++; continue;
+    skipped++;
+    continue;
   }
 
   // Step 1: Replace OLD init block first (before injecting new code)
@@ -85,7 +93,8 @@ for (const file of files) {
 
   if (!initReplaced) {
     console.log(`WARN: no init pattern found in ${file} — skipping`);
-    errors++; continue;
+    errors++;
+    continue;
   }
 
   // Step 2: Add CSS before @media rule

@@ -8,9 +8,9 @@ updates:
     open-pull-requests-limit: 5
     groups:
       dev-deps:
-        patterns: ["@playwright*", "serve"]
+        patterns: ['@playwright*', 'serve']
       prod-deps:
-        patterns: ["puppeteer", "gif-encoder-2", "pngjs", "@mermaid-js*"]
+        patterns: ['puppeteer', 'gif-encoder-2', 'pngjs', '@mermaid-js*']
 
   - package-ecosystem: github-actions
     directory: /

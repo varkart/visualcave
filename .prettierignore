@@ -1,0 +1,8 @@
+node_modules/
+tests/report/
+tests/screenshots/
+test-results/
+.git/
+package-lock.json
+package.json
+**/*.html
