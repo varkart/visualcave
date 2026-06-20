@@ -21,50 +21,60 @@
 
 const puppeteer = require('puppeteer');
 const GIFEncoder = require('gif-encoder-2');
-const { PNG }    = require('pngjs');
-const fs         = require('fs');
-const path       = require('path');
+const { PNG } = require('pngjs');
+const fs = require('fs');
+const path = require('path');
 
 // ── Parse CLI args ────────────────────────────────────────────────────────────
 
 const args = process.argv.slice(2);
 
 if (!args.length || args[0] === '--help') {
-  console.log([
-    '',
-    ' Usage: node capture.js <input.html> [output] [options]',
-    '',
-    ' Formats:',
-    '   --format=gif   Animated GIF (default)',
-    '   --format=png   Single-frame PNG',
-    '   --format=svg   Extracted inline SVG',
-    '   --format=og    1200×630 OG/social card PNG',
-    '   --format=pdf   A4 PDF, print-ready',
-    '',
-    ' GIF options:',
-    '   --fps=N        Frames per second (default 12)',
-    '   --duration=N   Seconds to capture (default 5)',
-    '',
-    ' Layout:',
-    '   --width=N      Viewport width in px (default 960)',
-    '',
-  ].join('\n'));
+  console.log(
+    [
+      '',
+      ' Usage: node capture.js <input.html> [output] [options]',
+      '',
+      ' Formats:',
+      '   --format=gif   Animated GIF (default)',
+      '   --format=png   Single-frame PNG',
+      '   --format=svg   Extracted inline SVG',
+      '   --format=og    1200×630 OG/social card PNG',
+      '   --format=pdf   A4 PDF, print-ready',
+      '',
+      ' GIF options:',
+      '   --fps=N        Frames per second (default 12)',
+      '   --duration=N   Seconds to capture (default 5)',
+      '',
+      ' Layout:',
+      '   --width=N      Viewport width in px (default 960)',
+      '',
+    ].join('\n')
+  );
   process.exit(0);
 }
 
-const inputFile = args.find(a => a.endsWith('.html'));
-if (!inputFile) { console.error('Error: no .html input file provided'); process.exit(1); }
-if (!fs.existsSync(inputFile)) { console.error(`Error: file not found: ${inputFile}`); process.exit(1); }
+const inputFile = args.find((a) => a.endsWith('.html'));
+if (!inputFile) {
+  console.error('Error: no .html input file provided');
+  process.exit(1);
+}
+if (!fs.existsSync(inputFile)) {
+  console.error(`Error: file not found: ${inputFile}`);
+  process.exit(1);
+}
 
-const format   = (args.find(a => a.startsWith('--format='))?.split('=')[1] ?? 'gif').toLowerCase();
-const fps      = parseInt(args.find(a => a.startsWith('--fps='))?.split('=')[1]      ?? '12');
-const duration = parseFloat(args.find(a => a.startsWith('--duration='))?.split('=')[1] ?? '5');
-const width    = parseInt(args.find(a => a.startsWith('--width='))?.split('=')[1]    ?? (format === 'og' ? '1200' : '960'));
+const format = (args.find((a) => a.startsWith('--format='))?.split('=')[1] ?? 'gif').toLowerCase();
+const fps = parseInt(args.find((a) => a.startsWith('--fps='))?.split('=')[1] ?? '12');
+const duration = parseFloat(args.find((a) => a.startsWith('--duration='))?.split('=')[1] ?? '5');
+const width = parseInt(
+  args.find((a) => a.startsWith('--width='))?.split('=')[1] ?? (format === 'og' ? '1200' : '960')
+);
 
-const extMap   = { gif: '.gif', png: '.png', svg: '.svg', og: '-og.png', pdf: '.pdf' };
-const ext      = extMap[format] ?? '.gif';
-const outputFile = args.find(a => !a.startsWith('--') && !a.endsWith('.html'))
-               ?? inputFile.replace('.html', ext);
+const extMap = { gif: '.gif', png: '.png', svg: '.svg', og: '-og.png', pdf: '.pdf' };
+const ext = extMap[format] ?? '.gif';
+const outputFile =
+  args.find((a) => !a.startsWith('--') && !a.endsWith('.html')) ?? inputFile.replace('.html', ext);
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -88,7 +98,14 @@ const SYSTEM_CHROME = [
   '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
   '/usr/bin/google-chrome',
   '/usr/bin/chromium-browser',
-].find(p => { try { fs.accessSync(p); return true; } catch { return false; } });
+].find((p) => {
+  try {
+    fs.accessSync(p);
+    return true;
+  } catch {
+    return false;
+  }
+});
 
 async function launchPage(vpWidth, vpHeight) {
   const browser = await puppeteer.launch({
@@ -103,7 +120,7 @@ async function launchPage(vpWidth, vpHeight) {
 
   // Block external fonts to prevent load event hanging
   await page.setRequestInterception(true);
-  page.on('request', req => {
+  page.on('request', (req) => {
     if (req.resourceType() === 'font' && req.url().startsWith('http')) req.abort();
     else req.continue();
   });
@@ -126,31 +143,64 @@ async function loadDiagram(page, url, vpWidth) {
 
 (async () => {
   const absPath = path.resolve(inputFile);
-  const url     = `file://${absPath}`;
+  const url = `file://${absPath}`;
 
   console.log(`\n visualcave → ${format.toUpperCase()}`);
   console.log(` Input:  ${inputFile}`);
   console.log(` Output: ${outputFile}\n`);
 
   // ════════════════════════════════════════════════════════
-  // SVG — extract inline SVG from HTML, no browser needed
+  // SVG — extract SVG from HTML (static) or render (dynamic)
   // ════════════════════════════════════════════════════════
   if (format === 'svg') {
     const html = fs.readFileSync(inputFile, 'utf8');
+    let svgContent = '';
     const match = html.match(/<svg[\s\S]*?<\/svg>/i);
-    if (!match) { console.error('Error: no <svg> found in HTML'); process.exit(1); }
-    fs.writeFileSync(outputFile, match[0]);
-    console.log(` ✓ Saved ${outputFile} (${formatSize(Buffer.byteLength(match[0]))})\n`);
+    if (match) {
+      svgContent = match[0];
+    } else {
+      // Dynamic Mermaid diagram: render in browser and extract SVG DOM outerHTML
+      const { browser, page } = await launchPage(width, 900);
+      await loadDiagram(page, url, width);
+      svgContent = await page.evaluate(() => {
+        const svgEl = document.querySelector('.mermaid svg');
+        return svgEl ? svgEl.outerHTML : '';
+      });
+      await browser.close();
+    }
+
+    if (!svgContent) {
+      console.error('Error: no <svg> found in HTML or failed to render Mermaid');
+      process.exit(1);
+    }
+
+    // Optimize SVG size by stripping extra layout whitespaces
+    const originalSize = Buffer.byteLength(svgContent);
+    const optimizedSvg = svgContent
+      .replace(/>\s+</g, '><') // remove whitespace between tags
+      .replace(/\s+/g, ' ') // collapse multiple spaces/newlines
+      .trim();
+
+    fs.writeFileSync(outputFile, optimizedSvg);
+    const savedSize = Buffer.byteLength(optimizedSvg);
+    const savings = (((originalSize - savedSize) / originalSize) * 100).toFixed(1);
+    console.log(
+      ` ✓ Saved ${outputFile} (${formatSize(savedSize)}, optimized: -${savings}% size)\n`
+    );
     return;
   }
 
   // ════════════════════════════════════════════════════════
-  // PNG — single screenshot at full content height
+  // PNG — single screenshot of the diagram card element
   // ════════════════════════════════════════════════════════
   if (format === 'png') {
     const { browser, page } = await launchPage(width, 900);
     await loadDiagram(page, url, width);
-    const buf = await page.screenshot({ type: 'png', timeout: 60000 });
+    // Crop screenshot to page element to avoid excess margins
+    const cardEl = await page.$('.page');
+    const buf = await (cardEl
+      ? cardEl.screenshot({ type: 'png', timeout: 60000 })
+      : page.screenshot({ type: 'png', timeout: 60000 }));
     await browser.close();
     fs.writeFileSync(outputFile, buf);
     console.log(` ✓ Saved ${outputFile} (${formatSize(buf.length)})\n`);
@@ -199,7 +249,7 @@ async function loadDiagram(page, url, vpWidth) {
   // ════════════════════════════════════════════════════════
   // GIF — multi-frame animated capture
   // ════════════════════════════════════════════════════════
-  const frameCount    = Math.round(fps * duration);
+  const frameCount = Math.round(fps * duration);
   const frameInterval = Math.round(1000 / fps);
 
   console.log(` Settings: ${fps}fps × ${duration}s = ${frameCount} frames`);
@@ -212,10 +262,10 @@ async function loadDiagram(page, url, vpWidth) {
   console.log(` Canvas:   ${imgW}×${imgH}px\n`);
 
   const encoder = new GIFEncoder(imgW, imgH, 'neuquant', true);
-  const chunks  = [];
+  const chunks = [];
   const readStream = encoder.createReadStream();
-  readStream.on('data', chunk => chunks.push(chunk));
-  const streamDone = new Promise(resolve => readStream.on('end', resolve));
+  readStream.on('data', (chunk) => chunks.push(chunk));
+  const streamDone = new Promise((resolve) => readStream.on('end', resolve));
 
   encoder.start();
   encoder.setFrameRate(fps);
@@ -226,7 +276,7 @@ async function loadDiagram(page, url, vpWidth) {
   encoder.addFrame(firstData);
 
   for (let i = 1; i < frameCount; i++) {
-    await new Promise(r => setTimeout(r, frameInterval));
+    await new Promise((r) => setTimeout(r, frameInterval));
     const shot = await page.screenshot({ type: 'png', timeout: 60000 });
     const { data } = await pngBufToPixels(shot);
     encoder.addFrame(data);
@@ -240,8 +290,7 @@ async function loadDiagram(page, url, vpWidth) {
   const gifBuffer = Buffer.concat(chunks);
   fs.writeFileSync(outputFile, gifBuffer);
   console.log(`\n\n ✓ Saved ${outputFile} (${formatSize(gifBuffer.length)})\n`);
-
-})().catch(err => {
+})().catch((err) => {
   console.error('\n Error:', err.message);
   process.exit(1);
 });
