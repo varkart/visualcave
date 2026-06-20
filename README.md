@@ -18,11 +18,13 @@ Works with **Claude Code**, **Cursor**, **Codex CLI**, and **Gemini CLI**.
 ## Installation
 
 **Claude Code (global)**
+
 ```bash
 git clone https://github.com/varkart/visualcave ~/.claude/skills/visualcave
 ```
 
 **Claude Code (per-project)**
+
 ```bash
 git clone https://github.com/varkart/visualcave .claude/skills/visualcave
 ```
@@ -85,19 +87,19 @@ Outputs a single self-contained `.html` file. Open it in any browser — no buil
 
 ## Diagram Type Reference
 
-| Intent | Mermaid keyword |
-|---|---|
+| Intent                                        | Mermaid keyword         |
+| --------------------------------------------- | ----------------------- |
 | Flow, pipeline, architecture, system overview | `graph TD` / `graph LR` |
-| Sequence, API calls, actor interactions | `sequenceDiagram` |
-| Class / object / domain model (UML) | `classDiagram` |
-| State machine, lifecycle, status transitions | `stateDiagram-v2` |
-| Database schema, tables, entity relationships | `erDiagram` |
-| 2×2 priority / effort-impact matrix | `quadrantChart` |
-| History, milestones, roadmap dates | `timeline` |
-| Brainstorm, concept map, topic overview | `mindmap` |
-| Git branching, commits, merges | `gitGraph` |
-| Distribution, percentage breakdown | `pie` |
-| Project schedule, sprint plan | `gantt` |
+| Sequence, API calls, actor interactions       | `sequenceDiagram`       |
+| Class / object / domain model (UML)           | `classDiagram`          |
+| State machine, lifecycle, status transitions  | `stateDiagram-v2`       |
+| Database schema, tables, entity relationships | `erDiagram`             |
+| 2×2 priority / effort-impact matrix           | `quadrantChart`         |
+| History, milestones, roadmap dates            | `timeline`              |
+| Brainstorm, concept map, topic overview       | `mindmap`               |
+| Git branching, commits, merges                | `gitGraph`              |
+| Distribution, percentage breakdown            | `pie`                   |
+| Project schedule, sprint plan                 | `gantt`                 |
 
 ---
 
@@ -106,6 +108,7 @@ Outputs a single self-contained `.html` file. Open it in any browser — no buil
 All examples are in [`examples/`](examples/) and live at the [showcase site](https://varkart.github.io/visualcave).
 
 **Architecture & Flow**
+
 - [Transformer Architecture (step-through)](examples/transformer-deep-dive.html) — step-through reveal, dark mode
 - [OAuth 2.0 Flow](examples/oauth-flow.html) — sequence diagram
 - [API Gateway Architecture](examples/architecture-api-gateway.html)
@@ -118,21 +121,25 @@ All examples are in [`examples/`](examples/) and live at the [showcase site](htt
 - [API Lifecycle](examples/api-lifecycle.html)
 
 **Object & Data Models**
+
 - [E-Commerce Domain Model](examples/class-diagram.html) — `classDiagram`
 - [Blog Database Schema](examples/er-diagram.html) — `erDiagram`
 - [Order Lifecycle](examples/state-machine.html) — `stateDiagram-v2`
 
 **Planning & Analysis**
+
 - [Feature Priority Matrix](examples/quadrant-chart.html) — `quadrantChart`
 - [API Traffic Distribution](examples/pie-chart.html) — `pie`
 
 **Knowledge & History**
+
 - [Evolution of the Web](examples/timeline.html) — `timeline`
 - [Software Engineering Timeline](examples/software-engineering-timeline.html) — `timeline`
 - [System Design Topics](examples/mindmap.html) — `mindmap`
 - [GitFlow Strategy](examples/git-graph.html) — `gitGraph`
 
 **Transformer Architecture Variants**
+
 - [Transformer Animated](examples/transformer-animated.html)
 - [Transformer Architecture](examples/transformer-architecture.html)
 - [Transformer Pro](examples/transformer-pro.html)
@@ -144,15 +151,15 @@ All examples are in [`examples/`](examples/) and live at the [showcase site](htt
 
 Apply these `classDef` classes in `graph` and `classDiagram` diagrams:
 
-| Class | Use for |
-|---|---|
-| `:::yellow` | Users, browsers, entry points |
-| `:::blue` | Services, APIs, compute |
-| `:::green` | Databases, storage, success states |
-| `:::purple` | Auth, AI models, security |
-| `:::orange` | Queues, events, pipelines |
-| `:::teal` | Caching, CDN, external APIs |
-| `:::note` | Annotations, callouts |
+| Class       | Use for                            |
+| ----------- | ---------------------------------- |
+| `:::yellow` | Users, browsers, entry points      |
+| `:::blue`   | Services, APIs, compute            |
+| `:::green`  | Databases, storage, success states |
+| `:::purple` | Auth, AI models, security          |
+| `:::orange` | Queues, events, pipelines          |
+| `:::teal`   | Caching, CDN, external APIs        |
+| `:::note`   | Annotations, callouts              |
 
 ---
 

@@ -61,7 +61,7 @@ After generating the `.astro` file, the user imports it in their MDX:
 title: How RAG Works
 ---
 
-import RagDiagram from '../../components/diagrams/RagDiagram.astro'
+import RagDiagram from '../../components/diagrams/RagDiagram.astro';
 
 Here's the full flow:
 
@@ -86,12 +86,16 @@ If user's framework is React/Next.js, generate `.tsx` instead:
 export function RagDiagram() {
   return (
     <figure style={{ width: '100%', margin: '2rem 0', overflowX: 'auto' }}>
-      <svg viewBox="0 0 900 HEIGHT" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: 'auto' }}>
+      <svg
+        viewBox="0 0 900 HEIGHT"
+        xmlns="http://www.w3.org/2000/svg"
+        style={{ width: '100%', height: 'auto' }}
+      >
         {/* diagram content as JSX — convert SVG attributes to camelCase */}
         {/* stroke-width → strokeWidth, font-family → fontFamily, etc. */}
       </svg>
     </figure>
-  )
+  );
 }
 ```
 
@@ -99,21 +103,21 @@ export function RagDiagram() {
 
 When generating React/TSX, convert these SVG attributes:
 
-| SVG | JSX |
-|---|---|
-| `stroke-width` | `strokeWidth` |
-| `font-family` | `fontFamily` |
-| `font-size` | `fontSize` |
-| `font-weight` | `fontWeight` |
-| `text-anchor` | `textAnchor` |
-| `marker-end` | `markerEnd` |
-| `marker-start` | `markerStart` |
-| `stroke-dasharray` | `strokeDasharray` |
+| SVG                 | JSX                |
+| ------------------- | ------------------ |
+| `stroke-width`      | `strokeWidth`      |
+| `font-family`       | `fontFamily`       |
+| `font-size`         | `fontSize`         |
+| `font-weight`       | `fontWeight`       |
+| `text-anchor`       | `textAnchor`       |
+| `marker-end`        | `markerEnd`        |
+| `marker-start`      | `markerStart`      |
+| `stroke-dasharray`  | `strokeDasharray`  |
 | `stroke-dashoffset` | `strokeDashoffset` |
-| `letter-spacing` | `letterSpacing` |
-| `fill-opacity` | `fillOpacity` |
-| `clip-path` | `clipPath` |
-| `class` | `className` |
+| `letter-spacing`    | `letterSpacing`    |
+| `fill-opacity`      | `fillOpacity`      |
+| `clip-path`         | `clipPath`         |
+| `class`             | `className`        |
 
 ## Animated component
 
