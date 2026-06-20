@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LLM Training Pipeline</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #F0F2F5; --card-bg: #FFFFFF; --text-main: #111827; --text-muted: #6B7280;
+      --border: #E5E7EB; --accent: #1E88E5; --shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+    [data-theme="dark"] {
+      --bg: #0F1117; --card-bg: #1A1D27; --text-main: #F9FAFB; --text-muted: #9CA3AF;
+      --border: #2A2D3A; --accent: #3B82F6; --shadow: 0 4px 24px rgba(0,0,0,0.4);
+    }
+    body { background: var(--bg); color: var(--text-main); display: flex; justify-content: center; padding: 40px 20px; font-family: Inter, sans-serif; margin: 0; transition: background 0.3s ease; }
+    .page { background: var(--card-bg); border-radius: 24px; padding: 48px; box-shadow: var(--shadow); width: 100%; max-width: 760px; border: 1px solid var(--border); transition: background 0.3s, border 0.3s; }
+    header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 48px; flex-wrap: wrap; gap: 16px; }
+    .title-group h1 { margin: 0; font-size: 32px; font-weight: 900; letter-spacing: -0.02em; display: flex; align-items: center; gap: 14px; }
+    .title-group h1::before { content: ''; display: block; width: 8px; height: 36px; background: var(--accent); border-radius: 4px; flex-shrink: 0; }
+    .title-group p { margin: 8px 0 0 22px; color: var(--text-muted); font-size: 14px; font-weight: 500; }
+    .controls { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    button { font: 600 12px Inter, sans-serif; padding: 8px 16px; border-radius: 10px; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; gap: 6px; }
+    .btn-secondary { background: var(--card-bg); border: 1px solid var(--border); color: var(--text-main); }
+    .btn-secondary:hover { background: var(--bg); border-color: var(--accent); }
+
+    /* ── Label ── */
+    .diagram-label { font-size: 10px; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); display: flex; align-items: center; gap: 8px; margin-bottom: 36px; }
+    .diagram-label::before { content: ''; display: block; width: 1rem; height: 2px; background: var(--accent); }
+
+    /* ── Pipeline ── */
+    .vc-pipeline { display: flex; flex-direction: column; align-items: center; }
+    .vc-pl-wrap { position: relative; width: 100%; max-width: 560px; padding-left: 24px; }
+    .vc-pl-card { border: 1.5px solid; border-radius: 12px; padding: 16px 18px; position: relative; transition: box-shadow 0.15s, transform 0.15s; }
+    .vc-pl-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.1); transform: translateY(-1px); }
+    .vc-pl-card.artifact { border-style: dashed; background: transparent !important; }
+    .vc-pl-card.artifact:hover { transform: none; box-shadow: none; }
+    .vc-pl-num { position: absolute; left: -15px; top: 14px; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+    .vc-pl-phase { font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 6px; }
+    .vc-pl-title { font-size: 14px; font-weight: 800; margin-bottom: 4px; }
+    .vc-pl-tech { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted); margin-bottom: 8px; }
+    .vc-pl-desc { font-size: 12px; color: var(--text-muted); line-height: 1.6; }
+    .vc-pl-out { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; }
+    .vc-pl-arrow { text-align: center; font-size: 20px; color: var(--text-muted); line-height: 1; margin: 6px 0 6px 24px; }
+
+    /* color variants */
+    .vc-pl-card.yellow  { background: #FFFDE7; border-color: #D4A017; }
+    .vc-pl-card.yellow  .vc-pl-phase { color: #92400E; }
+    .vc-pl-card.yellow  .vc-pl-out   { color: #92400E; }
+    .vc-pl-num.yellow   { background: #F59E0B; }
+
+    .vc-pl-card.blue    { background: #EFF6FF; border-color: #93C5FD; }
+    .vc-pl-card.blue    .vc-pl-phase { color: #1E40AF; }
+    .vc-pl-card.blue    .vc-pl-out   { color: #1E40AF; }
+    .vc-pl-num.blue     { background: #3B82F6; }
+
+    .vc-pl-card.green   { background: #F0FDF4; border-color: #6EE7B7; }
+    .vc-pl-card.green   .vc-pl-phase { color: #065F46; }
+    .vc-pl-card.green   .vc-pl-out   { color: #065F46; }
+    .vc-pl-num.green    { background: #10B981; }
+
+    .vc-pl-card.orange  { background: #FFF7ED; border-color: #FDBA74; }
+    .vc-pl-card.orange  .vc-pl-phase { color: #9A3412; }
+    .vc-pl-card.orange  .vc-pl-out   { color: #9A3412; }
+    .vc-pl-num.orange   { background: #F97316; }
+
+    .vc-pl-card.purple  { background: #FAF5FF; border-color: #C4B5FD; }
+    .vc-pl-card.purple  .vc-pl-phase { color: #5B21B6; }
+    .vc-pl-card.purple  .vc-pl-out   { color: #5B21B6; }
+    .vc-pl-num.purple   { background: #8B5CF6; }
+
+    [data-theme="dark"] .vc-pl-card.yellow { background: #2A2500; border-color: #92400E; }
+    [data-theme="dark"] .vc-pl-card.blue   { background: #0F1E35; border-color: #1E40AF; }
+    [data-theme="dark"] .vc-pl-card.green  { background: #052E16; border-color: #065F46; }
+    [data-theme="dark"] .vc-pl-card.orange { background: #2C1400; border-color: #9A3412; }
+    [data-theme="dark"] .vc-pl-card.purple { background: #1E0A3C; border-color: #5B21B6; }
+
+    @media print { .controls { display: none !important; } body { padding: 0; background: #fff !important; } .page { box-shadow: none !important; border: none !important; max-width: 100% !important; border-radius: 0 !important; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="title-group">
+        <h1>LLM Training Pipeline</h1>
+        <p>Pretraining → fine-tuning → RLHF → production deployment</p>
+      </div>
+      <div class="controls">
+        <button class="btn-secondary" onclick="toggleTheme()" id="theme-toggle">🌙 Dark Mode</button>
+        <button class="btn-secondary" onclick="exportPDF()">⬇ PDF</button>
+      </div>
+    </header>
+
+    <div class="diagram-label">Custom CSS — phase cards + step badges · /visualcave LLM training pipeline, rich CSS, phase badges</div>
+
+    <div class="vc-pipeline" data-panel="llm-training-pipeline">
+
+      <!-- Input artifact -->
+      <div class="vc-pl-wrap">
+        <div class="vc-pl-card artifact yellow">
+          <div class="vc-pl-phase">Input Data</div>
+          <div class="vc-pl-title">Raw Training Corpus</div>
+          <div class="vc-pl-tech">web crawl · books · code · scientific papers · articles</div>
+          <div class="vc-pl-desc">Trillions of tokens scraped from the internet and licensed sources. No labels — raw text only. Quality filtering and deduplication applied before training.</div>
+        </div>
+      </div>
+      <div class="vc-pl-arrow">▼</div>
+
+      <!-- Phase 1 -->
+      <div class="vc-pl-wrap">
+        <div class="vc-pl-num blue">01</div>
+        <div class="vc-pl-card blue">
+          <div class="vc-pl-phase">Phase 1 — Pretraining</div>
+          <div class="vc-pl-title">Unsupervised Next-Token Prediction</div>
+          <div class="vc-pl-tech">self-supervised · cross-entropy loss · transformer decoder</div>
+          <div class="vc-pl-desc">Model predicts the next token given all previous tokens. No human labels. Runs on thousands of GPUs for weeks to months. Learns language, facts, and reasoning patterns from raw text alone.</div>
+          <div class="vc-pl-out">output → Foundation Model (knows language, not helpful yet)</div>
+        </div>
+      </div>
+      <div class="vc-pl-arrow">▼</div>
+
+      <!-- Phase 2 -->
+      <div class="vc-pl-wrap">
+        <div class="vc-pl-num orange">02</div>
+        <div class="vc-pl-card orange">
+          <div class="vc-pl-phase">Phase 2 — Supervised Fine-Tuning</div>
+          <div class="vc-pl-title">Instruction Tuning (SFT)</div>
+          <div class="vc-pl-tech">SFT · (instruction, ideal response) pairs · human annotators</div>
+          <div class="vc-pl-desc">Small, high-quality dataset of instruction–response pairs written or curated by humans. Teaches the model to follow directions, respond helpfully, and adopt the desired tone. Far fewer compute hours than pretraining.</div>
+          <div class="vc-pl-out">output → Instruction Model (follows directions, basic alignment)</div>
+        </div>
+      </div>
+      <div class="vc-pl-arrow">▼</div>
+
+      <!-- Phase 3 -->
+      <div class="vc-pl-wrap">
+        <div class="vc-pl-num purple">03</div>
+        <div class="vc-pl-card purple">
+          <div class="vc-pl-phase">Phase 3 — RLHF</div>
+          <div class="vc-pl-title">Reinforcement Learning from Human Feedback</div>
+          <div class="vc-pl-tech">reward model · PPO · preference ranking · constitutional AI</div>
+          <div class="vc-pl-desc">Humans rank pairs of model outputs by quality. A reward model learns those preferences. The LLM is then fine-tuned via RL to maximise reward — producing responses humans prefer over raw SFT output.</div>
+          <div class="vc-pl-out">output → Production LLM (ChatGPT, Claude, Gemini, Llama)</div>
+        </div>
+      </div>
+      <div class="vc-pl-arrow">▼</div>
+
+      <!-- Output artifact -->
+      <div class="vc-pl-wrap">
+        <div class="vc-pl-card artifact green">
+          <div class="vc-pl-phase">Deployment</div>
+          <div class="vc-pl-title">Production API + Safety Guardrails</div>
+          <div class="vc-pl-tech">inference serving · rate limits · system prompts · monitoring</div>
+          <div class="vc-pl-desc">Model served via API with system prompts, content filters, and usage policies. Continuous red-teaming and RLHF updates applied post-launch.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (isDark) document.documentElement.setAttribute('data-theme', 'dark');
+    window.toggleTheme = () => {
+      const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      document.getElementById('theme-toggle').textContent = next === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode';
+    };
+    window.exportPDF = () => window.print();
+  </script>
+</body>
+</html>
