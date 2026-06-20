@@ -2,6 +2,8 @@ node_modules/
 package-lock.json
 tests/screenshots/
 tests/report/
+test-results/
 playwright-report/
 .playwright-mcp/
 *.tgz
+.claude/settings.local.json
