@@ -45,6 +45,9 @@
         </select>
         <button class="btn-secondary" onclick="toggleTheme()" id="theme-toggle">🌙 Dark Mode</button>
         <button class="btn-secondary" onclick="copyMermaid(this)">📋 Copy Code</button>
+        <button class="btn-secondary" onclick="exportSVG()">⬇ SVG</button>
+        <button class="btn-secondary" onclick="exportPNG(this)">⬇ PNG</button>
+        <button class="btn-secondary" onclick="exportPDF()">⬇ PDF</button>
       </div>
     </header>
     <div class="mermaid" id="diagram-source">
@@ -150,6 +153,41 @@
         const orig = btn.textContent; btn.textContent = '✓ Copied'; setTimeout(() => btn.textContent = orig, 2000);
       });
     };
+    window.exportSVG = function() {
+      const svg = document.querySelector('.mermaid svg'); if (!svg) return;
+      const clone = svg.cloneNode(true);
+      clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+      const bg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+      bg.setAttribute('width', '100%'); bg.setAttribute('height', '100%'); bg.setAttribute('fill', 'white');
+      clone.insertBefore(bg, clone.firstChild);
+      const blob = new Blob([new XMLSerializer().serializeToString(clone)], { type: 'image/svg+xml;charset=utf-8' });
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'diagram.svg'; a.click();
+      setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    };
+    window.exportPNG = function(btn) {
+      const svg = document.querySelector('.mermaid svg'); if (!svg) return;
+      const bb = svg.getBoundingClientRect();
+      const w = svg.viewBox.baseVal.width || bb.width;
+      const h = svg.viewBox.baseVal.height || bb.height;
+      const scale = 2;
+      const clone = svg.cloneNode(true);
+      clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+      clone.setAttribute('width', w); clone.setAttribute('height', h);
+      const bg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+      bg.setAttribute('width', '100%'); bg.setAttribute('height', '100%'); bg.setAttribute('fill', 'white');
+      clone.insertBefore(bg, clone.firstChild);
+      const url = URL.createObjectURL(new Blob([new XMLSerializer().serializeToString(clone)], { type: 'image/svg+xml;charset=utf-8' }));
+      const img = new Image();
+      img.onload = () => {
+        const c = document.createElement('canvas'); c.width = w * scale; c.height = h * scale;
+        const ctx = c.getContext('2d'); ctx.scale(scale, scale); ctx.drawImage(img, 0, 0);
+        const a = document.createElement('a'); a.download = 'diagram.png'; a.href = c.toDataURL('image/png'); a.click();
+        URL.revokeObjectURL(url);
+        if (btn) { const o = btn.textContent; btn.textContent = '✓ PNG'; setTimeout(() => btn.textContent = o, 1500); }
+      };
+      img.src = url;
+    };
+    window.exportPDF = function() { window.print(); };
   </script>
 </body>
 </html>

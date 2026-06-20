@@ -26,7 +26,8 @@ const DIAGRAMS = [
   { file: 'examples/rag-pipeline.html',              type: 'graph', stepThrough: false },
   { file: 'examples/kubernetes-deployment.html',     type: 'graph', stepThrough: false },
   { file: 'examples/event-driven-microservices.html',type: 'graph', stepThrough: false },
-  { file: 'examples/multi-region-failover.html',     type: 'graph', stepThrough: false },
+  { file: 'examples/multi-region-failover.html',          type: 'graph',     stepThrough: false },
+  { file: 'examples/software-engineering-timeline.html', type: 'timeline',  stepThrough: false },
   { file: 'references/template.html',            type: 'graph',        stepThrough: false },
 ];
 
