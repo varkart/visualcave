@@ -28,6 +28,8 @@ const DIAGRAMS = [
   { file: 'examples/event-driven-microservices.html',type: 'graph', stepThrough: false },
   { file: 'examples/multi-region-failover.html',          type: 'graph',     stepThrough: false },
   { file: 'examples/software-engineering-timeline.html', type: 'timeline',  stepThrough: false },
+  { file: 'examples/ai-evolution-timeline.html',         type: 'static',    stepThrough: false },
+  { file: 'examples/llm-training-pipeline.html',         type: 'static',    stepThrough: false },
   { file: 'references/template.html',            type: 'graph',        stepThrough: false },
 ];
 
