@@ -62,7 +62,8 @@ Outputs a single self-contained `.html` file. Open it in any browser — no buil
 - **Design theme selector** — Default, Minimal, Pastel, Print; switches classDef colors + Mermaid theme on the fly, persisted to `localStorage`
 - **Dark / light mode toggle** — smooth CSS transition, respects `prefers-color-scheme`
 - **Copy Mermaid source** — one-click copy of the clean diagram source
-- **Export** — PNG, SVG, PDF, animated GIF, OG social card via `capture.js`
+- **In-page export** — SVG, PNG, and PDF buttons built into every diagram's controls bar; no server or Node.js required
+- **CLI export** — animated GIF, OG social card, and headless batch export via `capture.js`
 - **Zero dependencies at runtime** — Mermaid loaded from CDN, everything else inline
 
 ---
@@ -129,6 +130,18 @@ Apply these `classDef` classes in `graph` and `classDiagram` diagrams:
 ---
 
 ## Export
+
+### In-page buttons (no install required)
+
+Every diagram includes **SVG**, **PNG**, and **PDF** download buttons in the controls bar alongside Dark Mode and Copy Code. All client-side:
+
+- **SVG** — serializes the rendered inline SVG with a white background
+- **PNG** — renders at 2x canvas resolution for crisp screenshots
+- **PDF** — triggers `window.print()` with print CSS that hides the controls
+
+### CLI export (`capture.js`)
+
+For headless/batch use, animated GIFs, and OG social cards (requires Node.js 18+):
 
 ```bash
 node capture.js diagram.html                    # animated GIF

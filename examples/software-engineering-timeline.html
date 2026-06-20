@@ -14,7 +14,7 @@
       --border:#2A2D3A; --accent:#3B82F6; --shadow:0 4px 24px rgba(0,0,0,0.4); --node-stroke:#3A3D50;
     }
     body { background:var(--bg); color:var(--text-main); display:flex; justify-content:center; padding:40px; font-family:'Inter',sans-serif; margin:0; transition:background 0.3s ease; }
-    .page { background:var(--card-bg); border-radius:24px; padding:48px; box-shadow:var(--shadow); width:100%; max-width:1200px; border:1px solid var(--border); transition:background 0.3s ease,border 0.3s ease; }
+    .page { background:var(--card-bg); border-radius:24px; padding:48px; box-shadow:var(--shadow); width:100%; max-width:1100px; border:1px solid var(--border); transition:background 0.3s ease,border 0.3s ease; }
     header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:40px; }
     .title-group h1 { margin:0; font-size:36px; font-weight:900; letter-spacing:-0.02em; display:flex; align-items:center; gap:16px; }
     .title-group h1::before { content:''; display:block; width:8px; height:40px; background:var(--accent); border-radius:4px; }
@@ -26,21 +26,16 @@
     select.style-select { font:600 13px 'Inter',sans-serif; padding:9px 12px; border-radius:12px; cursor:pointer; border:1px solid var(--border); background:var(--card-bg); color:var(--text-main); outline:none; transition:border-color 0.2s ease; }
     select.style-select:hover { border-color:var(--accent); }
     .mermaid svg { max-width:100%; height:auto; }
-    .node rect,.node circle,.node polygon,.node path { stroke-width:2.5px !important; stroke:var(--node-stroke) !important; filter:drop-shadow(4px 4px 0px rgba(0,0,0,0.1)); }
-    .node text { font-weight:500 !important; font-size:14px !important; fill:var(--text-main) !important; }
-    .edgePath .path { stroke-width:2.5px !important; stroke:var(--text-muted) !important; }
-    .cluster rect { stroke-width:2.5px !important; stroke:var(--node-stroke) !important; fill:var(--bg) !important; }
-    .cluster text { font-weight:600 !important; fill:var(--text-main) !important; }
-    @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:0.01ms !important; transition-duration:0.01ms !important; } }
     @media print { .controls,header select { display:none !important; } body { padding:0; background:#fff !important; } .page { box-shadow:none !important; border:none !important; max-width:100% !important; border-radius:0 !important; } }
+    @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:0.01ms !important; transition-duration:0.01ms !important; } }
   </style>
 </head>
 <body>
   <div class="page">
     <header>
       <div class="title-group">
-        <h1>[Diagram Title]</h1>
-        <p>[Subtitle]</p>
+        <h1>Software Engineering</h1>
+        <p>Timeline — from machine code to AI-native development, 1945–2026</p>
       </div>
       <div class="controls">
         <select class="style-select" id="style-select" onchange="setDiagramStyle(this.value)">
@@ -57,15 +52,61 @@
       </div>
     </header>
     <div class="mermaid" id="diagram-source">
-      graph TD
-        classDef yellow fill:#FFFDE7,stroke:#1A1A1A,stroke-width:2px;
-        classDef blue   fill:#E3F2FD,stroke:#1A1A1A,stroke-width:2px;
-        classDef green  fill:#E8F5E9,stroke:#1A1A1A,stroke-width:2px;
-        classDef purple fill:#F3E5F5,stroke:#1A1A1A,stroke-width:2px;
-        classDef teal   fill:#E0F7FA,stroke:#1A1A1A,stroke-width:2px;
-        classDef orange fill:#FFF3E0,stroke:#1A1A1A,stroke-width:2px;
-        classDef note   fill:#FFF9C4,stroke:#FBC02D,stroke-dasharray:4;
-        A[Entry]:::yellow --> B[Process]:::blue
+      timeline
+        title Software Engineering — 80 Years of Evolution
+
+        section Machine Age
+          1945 : ENIAC — first general-purpose computer
+               : Programmers wire switches and patch cables
+          1957 : FORTRAN — first high-level language
+               : IBM compilers replace assembly
+          1968 : "Software Engineering" coined at NATO
+               : Dijkstra publishes structured programming
+
+        section Structured Era
+          1970 : Waterfall model defined by Royce
+               : Requirements → Design → Code → Test
+          1972 : C language and Unix released at Bell Labs
+               : Portability and abstraction take hold
+          1983 : GNU Project starts free software movement
+          1985 : C++ brings OOP to mainstream systems
+
+        section Open Source and Web
+          1991 : Linux kernel released by Torvalds
+               : Collaborative development goes global
+          1994 : World Wide Web opens to public
+               : Client-server software explodes
+          1995 : Java and JavaScript both invented
+               : Write once, run anywhere becomes real
+          1999 : Extreme Programming (XP) popularized
+
+        section Agile and Cloud
+          2001 : Agile Manifesto — 12 principles signed
+               : Iterative delivery over big-bang releases
+          2005 : Git invented by Linus Torvalds
+               : Distributed version control becomes default
+          2006 : AWS S3 and EC2 launch
+               : Servers become on-demand APIs
+          2008 : GitHub launches — social coding born
+
+        section DevOps and Platform
+          2010 : Continuous integration goes mainstream
+               : Jenkins and Travis CI widely adopted
+          2013 : Docker — containers standardize deployment
+          2014 : Kubernetes orchestrates containers at scale
+          2016 : DevOps culture adopted across enterprise
+               : Infrastructure as Code becomes standard
+
+        section AI-Native Era
+          2021 : GitHub Copilot — AI pair programmer
+               : LLMs generate production-quality code
+          2022 : ChatGPT shifts developer workflows
+               : Prompt engineering emerges as discipline
+          2023 : LLMs integrated into every major IDE
+               : Code review, docs, tests all AI-assisted
+          2024 : AI agents open pull requests autonomously
+          2026 : Autonomous coding agents in production
+               : Engineers shift to architecture and intent
     </div>
   </div>
   <script type="module">
@@ -75,21 +116,17 @@
     const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     if (isDark) document.documentElement.setAttribute('data-theme', 'dark');
     const THEMES = {
-      default: { theme:'base',    vars:{ primaryColor:'#FFFDE7', primaryBorderColor:'#1A1A1A', primaryTextColor:'#1A1A1A', lineColor:'#424242', clusterBkg:'#F8F9FA', clusterBorder:'#1A1A1A' }, classDefs:{ yellow:'fill:#FFFDE7,stroke:#1A1A1A,stroke-width:2px', blue:'fill:#E3F2FD,stroke:#1A1A1A,stroke-width:2px', green:'fill:#E8F5E9,stroke:#1A1A1A,stroke-width:2px', purple:'fill:#F3E5F5,stroke:#1A1A1A,stroke-width:2px', teal:'fill:#E0F7FA,stroke:#1A1A1A,stroke-width:2px', orange:'fill:#FFF3E0,stroke:#1A1A1A,stroke-width:2px', note:'fill:#FFF9C4,stroke:#FBC02D,stroke-dasharray:4' } },
-      minimal:  { theme:'neutral', vars:{ primaryColor:'#F8FAFC', primaryBorderColor:'#CBD5E1', primaryTextColor:'#111827', lineColor:'#94A3B8', clusterBkg:'#F8FAFC', clusterBorder:'#E2E8F0' }, classDefs:{ yellow:'fill:#FFFFFF,stroke:#D1D5DB,stroke-width:1.5px', blue:'fill:#F8FAFC,stroke:#CBD5E1,stroke-width:1.5px', green:'fill:#F0FDF4,stroke:#86EFAC,stroke-width:1.5px', purple:'fill:#FAF5FF,stroke:#D8B4FE,stroke-width:1.5px', teal:'fill:#F0FDFA,stroke:#99F6E4,stroke-width:1.5px', orange:'fill:#FFF7ED,stroke:#FED7AA,stroke-width:1.5px', note:'fill:#FEFCE8,stroke:#FDE047,stroke-dasharray:4' } },
-      pastel:   { theme:'base',    vars:{ primaryColor:'#FEF3C7', primaryBorderColor:'#F59E0B', primaryTextColor:'#1A1A1A', lineColor:'#6B7280', clusterBkg:'#FFF7ED', clusterBorder:'#FED7AA' }, classDefs:{ yellow:'fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px', blue:'fill:#DBEAFE,stroke:#60A5FA,stroke-width:2px', green:'fill:#D1FAE5,stroke:#34D399,stroke-width:2px', purple:'fill:#EDE9FE,stroke:#A78BFA,stroke-width:2px', teal:'fill:#CFFAFE,stroke:#22D3EE,stroke-width:2px', orange:'fill:#FFE4E6,stroke:#FB7185,stroke-width:2px', note:'fill:#FEF9C3,stroke:#FBBF24,stroke-dasharray:4' } },
-      print:    { theme:'base',    vars:{ primaryColor:'#FFFFFF', primaryBorderColor:'#000000', primaryTextColor:'#000000', lineColor:'#333333', clusterBkg:'#F5F5F5', clusterBorder:'#000000' }, classDefs:{ yellow:'fill:#FFFFFF,stroke:#000000,stroke-width:2px', blue:'fill:#F5F5F5,stroke:#000000,stroke-width:2px', green:'fill:#EBEBEB,stroke:#000000,stroke-width:2px', purple:'fill:#E0E0E0,stroke:#000000,stroke-width:2px', teal:'fill:#D6D6D6,stroke:#000000,stroke-width:2px', orange:'fill:#CCCCCC,stroke:#000000,stroke-width:2px', note:'fill:#FFFFE0,stroke:#888,stroke-dasharray:4' } },
+      default: { theme:'base',    vars:{ primaryColor:'#FFFDE7', primaryBorderColor:'#1A1A1A', primaryTextColor:'#1A1A1A', lineColor:'#424242', clusterBkg:'#F8F9FA', clusterBorder:'#1A1A1A' }, classDefs:{} },
+      minimal:  { theme:'neutral', vars:{ primaryColor:'#F8FAFC', primaryBorderColor:'#CBD5E1', primaryTextColor:'#111827', lineColor:'#94A3B8', clusterBkg:'#F8FAFC', clusterBorder:'#E2E8F0' }, classDefs:{} },
+      pastel:   { theme:'base',    vars:{ primaryColor:'#FEF3C7', primaryBorderColor:'#F59E0B', primaryTextColor:'#1A1A1A', lineColor:'#6B7280', clusterBkg:'#FFF7ED', clusterBorder:'#FED7AA' }, classDefs:{} },
+      print:    { theme:'base',    vars:{ primaryColor:'#FFFFFF', primaryBorderColor:'#000000', primaryTextColor:'#000000', lineColor:'#333333', clusterBkg:'#F5F5F5', clusterBorder:'#000000' }, classDefs:{} },
     };
     async function applyStyle(name) {
       const t = THEMES[name] || THEMES.default;
       const el = document.getElementById('diagram-source');
-      let src = el.dataset.source;
-      for (const [cn, def] of Object.entries(t.classDefs)) {
-        src = src.replace(new RegExp(`(classDef\\s+${cn}\\s+)[^;\\n]+`, 'g'), `$1${def}`);
-      }
-      el.textContent = src;
+      el.textContent = el.dataset.source;
       el.removeAttribute('data-processed');
-      mermaid.initialize({ startOnLoad:false, theme:t.theme, flowchart:{ htmlLabels:true, useMaxWidth:true, padding:100 }, themeVariables:{ fontFamily:'Inter, sans-serif', ...t.vars } });
+      mermaid.initialize({ startOnLoad:false, theme:t.theme, themeVariables:{ fontFamily:'Inter, sans-serif', ...t.vars } });
       await mermaid.run({ nodes:[el] });
       try { localStorage.setItem('vc-style', name); } catch(e) {}
     }
