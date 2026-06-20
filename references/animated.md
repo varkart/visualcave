@@ -18,7 +18,10 @@ Add CSS animations to make diagrams come alive. No JS required for the animated 
 
 ```css
 /* ─── SVG transform fix ─────────────────────────── */
-svg * { transform-box: fill-box; transform-origin: center; }
+svg * {
+  transform-box: fill-box;
+  transform-origin: center;
+}
 
 /* ─── 1. Arrow draw-on ──────────────────────────── */
 /* Add class="draw" + style="--len:NNN; --delay:Xs" to every <line> or <path> */
@@ -29,7 +32,11 @@ svg * { transform-box: fill-box; transform-origin: center; }
   animation: draw var(--dur, 0.5s) ease forwards;
   animation-delay: var(--delay, 0s);
 }
-@keyframes draw { to { stroke-dashoffset: 0; } }
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
 
 /* ─── 2. Node fade + lift ───────────────────────── */
 /* Add class="fade" + style="--delay:Xs" to each node <g> or <rect> pair */
@@ -38,7 +45,11 @@ svg * { transform-box: fill-box; transform-origin: center; }
   animation: fade var(--dur, 0.4s) ease forwards;
   animation-delay: var(--delay, 0s);
 }
-@keyframes fade { to { opacity: 1; } }
+@keyframes fade {
+  to {
+    opacity: 1;
+  }
+}
 
 .fade-up {
   opacity: 0;
@@ -46,7 +57,12 @@ svg * { transform-box: fill-box; transform-origin: center; }
   animation: fadeup var(--dur, 0.4s) ease forwards;
   animation-delay: var(--delay, 0s);
 }
-@keyframes fadeup { to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeup {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
 /* ─── 3. Panel slide in ─────────────────────────── */
 /* Wrap panel rect + label in <g class="slide-in" style="--delay:Xs"> */
@@ -56,7 +72,12 @@ svg * { transform-box: fill-box; transform-origin: center; }
   animation: slidein 0.5s ease forwards;
   animation-delay: var(--delay, 0s);
 }
-@keyframes slidein { to { opacity: 1; transform: translateX(0); } }
+@keyframes slidein {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
 
 /* ─── 4. Step circle pop ────────────────────────── */
 /* Add class="pop" + style="--delay:Xs" to step circle <g> */
@@ -65,7 +86,11 @@ svg * { transform-box: fill-box; transform-origin: center; }
   animation: pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
   animation-delay: var(--delay, 0s);
 }
-@keyframes pop { to { transform: scale(1); } }
+@keyframes pop {
+  to {
+    transform: scale(1);
+  }
+}
 
 /* ─── 5. Focal node pulse ───────────────────────── */
 /* Add class="pulse" to focal node rect after all other animations complete */
@@ -74,8 +99,13 @@ svg * { transform-box: fill-box; transform-origin: center; }
   animation-delay: var(--start, 3s);
 }
 @keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
 }
 
 /* ─── 6. Flow dot along arrow ───────────────────── */
@@ -87,11 +117,17 @@ svg * { transform-box: fill-box; transform-origin: center; }
   animation: flowdot var(--dur, 1.8s) linear infinite;
   animation-delay: var(--delay, 0s);
 }
-@keyframes flowdot { to { offset-distance: 100%; } }
+@keyframes flowdot {
+  to {
+    offset-distance: 100%;
+  }
+}
 
 /* ─── Reduced motion fallback ───────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-delay: 0ms !important;
   }
@@ -151,7 +187,7 @@ Add `data-step="N"` to each `<g>` in the SVG (starting at 1). Then include the s
 
 ```html
 <script>
-// Inline content of step-through.js (from visualcave/step-through.js)
+  // Inline content of step-through.js (from visualcave/step-through.js)
 </script>
 ```
 
@@ -167,7 +203,7 @@ Add `data-node="id"` to node `<g>` elements and `data-connects="id1,id2"` to arr
 
 ```html
 <script>
-// Inline content of hover.js (from visualcave/hover.js)
+  // Inline content of hover.js (from visualcave/hover.js)
 </script>
 ```
 
@@ -178,6 +214,7 @@ Read `../hover.js` and inline its content verbatim between the script tags.
 ## Animated template structure
 
 When generating animated diagrams:
+
 1. Add CSS block above to `<style>`
 2. Wrap every panel, node, arrow, step circle in `<g class="..." style="--delay:Xs">`
 3. Set `--len` on every `.draw` arrow (estimate from coordinates)

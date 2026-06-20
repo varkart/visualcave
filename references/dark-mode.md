@@ -45,14 +45,32 @@ Legend text:     #9E9E9E
 ## CSS changes (replace in `<style>`)
 
 ```css
-body { background: #0F1117; }
-.page { background: #1A1D27; box-shadow: 0 2px 12px rgba(0,0,0,.4); }
-h1 { color: #F5F5F5; }
-.sub { color: #757575; }
-.card { background: #1E2130; border-color: rgba(255,255,255,.06); }
-.card-eyebrow { color: #616161; }
-.card h3 { color: #E8E8E8; }
-.card ul { color: #9E9E9E; }
+body {
+  background: #0f1117;
+}
+.page {
+  background: #1a1d27;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+}
+h1 {
+  color: #f5f5f5;
+}
+.sub {
+  color: #757575;
+}
+.card {
+  background: #1e2130;
+  border-color: rgba(255, 255, 255, 0.06);
+}
+.card-eyebrow {
+  color: #616161;
+}
+.card h3 {
+  color: #e8e8e8;
+}
+.card ul {
+  color: #9e9e9e;
+}
 ```
 
 ## SVG background

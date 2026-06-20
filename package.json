@@ -4,9 +4,15 @@
   "description": "Agentic skill for creating interactive technical diagrams as standalone HTML files. Powered by Mermaid.js.",
   "main": "capture.js",
   "scripts": {
+    "start": "serve .",
+    "serve": "serve .",
     "test": "playwright test",
     "test:ui": "playwright test --ui",
-    "test:headed": "playwright test --headed"
+    "test:headed": "playwright test --headed",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "repository": {
     "type": "git",
@@ -33,7 +39,10 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.45.0",
+    "eslint": "^10.5.0",
+    "eslint-config-prettier": "^10.1.8",
     "mermaid": "^10.9.6",
+    "prettier": "^3.8.4",
     "serve": "^14.2.0"
   },
   "allowScripts": {

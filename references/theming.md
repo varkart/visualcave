@@ -5,6 +5,7 @@ Extract the user's brand colors and apply them to the panel palette before gener
 ## When to trigger
 
 User says any of:
+
 - "match my site", "use my colors", "brand it"
 - "themed", "on-brand"
 - Provides a URL alongside a diagram request
@@ -21,6 +22,7 @@ If user skips → use default palette, note they can theme later.
 **Step 2 — Fetch and extract:**
 
 Use WebFetch on their URL. Extract:
+
 - Primary brand color (buttons, links, CTAs)
 - Background color
 - Text color
@@ -39,9 +41,10 @@ Secondary/muted      → Sublabels, arrow labels
 ```
 
 For panel zone colors — generate tints of the brand primary:
-- Warm yellow zone  → brand primary at 10% opacity on warm white
-- Cool blue zone    → brand primary at 15% opacity on cool white  
-- Other zones       → adjacent hues on the color wheel, same lightness
+
+- Warm yellow zone → brand primary at 10% opacity on warm white
+- Cool blue zone → brand primary at 15% opacity on cool white
+- Other zones → adjacent hues on the color wheel, same lightness
 
 If site uses a dark background → auto-apply dark mode variant first, then brand colors.
 
@@ -72,13 +75,15 @@ If user confirms, save their brand tokens to `references/style-guide.md` so futu
 
 ```markdown
 # style-guide.md — User brand tokens
+
 ## Source: https://yourdomain.com
-accent:     #6366F1
+
+accent: #6366F1
 accent-tint: #EEF2FF
-page-bg:    #FFFFFF
-card-bg:    #FFFFFF
-text:       #111827
-font:       Inter (matches site)
+page-bg: #FFFFFF
+card-bg: #FFFFFF
+text: #111827
+font: Inter (matches site)
 ```
 
 On subsequent invocations, check if `style-guide.md` exists. If it does, load tokens automatically without asking again.
@@ -90,15 +95,20 @@ When brand tokens are active, add to `<style>`:
 ```css
 /* Brand overrides — replace default accent with brand primary */
 :root {
-  --brand:       #6366F1;
-  --brand-tint:  #EEF2FF;
-  --brand-dark:  #4338CA;
+  --brand: #6366f1;
+  --brand-tint: #eef2ff;
+  --brand-dark: #4338ca;
 }
-.title-bar  { background: var(--brand); }
-.hl         { background: var(--brand); }
+.title-bar {
+  background: var(--brand);
+}
+.hl {
+  background: var(--brand);
+}
 ```
 
 And in SVG, replace `#7B1FA2` (default purple accent) with `var(--brand)` on:
+
 - Step circles fill
 - Focal node stroke
 - Accent arrow markers
