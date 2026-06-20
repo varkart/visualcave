@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Evolution Timeline</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #F0F2F5; --card-bg: #FFFFFF; --text-main: #111827; --text-muted: #6B7280;
+      --border: #E5E7EB; --accent: #1E88E5; --shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+    [data-theme="dark"] {
+      --bg: #0F1117; --card-bg: #1A1D27; --text-main: #F9FAFB; --text-muted: #9CA3AF;
+      --border: #2A2D3A; --accent: #3B82F6; --shadow: 0 4px 24px rgba(0,0,0,0.4);
+    }
+    body { background: var(--bg); color: var(--text-main); display: flex; justify-content: center; padding: 40px 20px; font-family: Inter, sans-serif; margin: 0; transition: background 0.3s ease; }
+    .page { background: var(--card-bg); border-radius: 24px; padding: 48px; box-shadow: var(--shadow); width: 100%; max-width: 860px; border: 1px solid var(--border); transition: background 0.3s, border 0.3s; }
+    header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 48px; flex-wrap: wrap; gap: 16px; }
+    .title-group h1 { margin: 0; font-size: 32px; font-weight: 900; letter-spacing: -0.02em; display: flex; align-items: center; gap: 14px; }
+    .title-group h1::before { content: ''; display: block; width: 8px; height: 36px; background: var(--accent); border-radius: 4px; flex-shrink: 0; }
+    .title-group p { margin: 8px 0 0 22px; color: var(--text-muted); font-size: 14px; font-weight: 500; }
+    .controls { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    button { font: 600 12px Inter, sans-serif; padding: 8px 16px; border-radius: 10px; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; gap: 6px; }
+    .btn-secondary { background: var(--card-bg); border: 1px solid var(--border); color: var(--text-main); }
+    .btn-secondary:hover { background: var(--bg); border-color: var(--accent); }
+
+    /* ── Label ── */
+    .diagram-label { font-size: 10px; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); display: flex; align-items: center; gap: 8px; margin-bottom: 32px; }
+    .diagram-label::before { content: ''; display: block; width: 1rem; height: 2px; background: var(--accent); }
+
+    /* ── Timeline ── */
+    .vc-timeline { display: flex; flex-direction: column; }
+    .vc-tl-entry { display: grid; grid-template-columns: 56px 22px 1fr; column-gap: 14px; }
+    .vc-tl-year { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: var(--text-muted); text-align: right; padding-top: 6px; line-height: 1; }
+    .vc-tl-spine { display: flex; flex-direction: column; align-items: center; }
+    .vc-tl-dot { width: 14px; height: 14px; border-radius: 50%; border: 2.5px solid #1A1A1A; flex-shrink: 0; margin-top: 4px; transition: transform 0.15s; }
+    [data-theme="dark"] .vc-tl-dot { border-color: #9CA3AF; }
+    .vc-tl-dot.hi { box-shadow: 0 0 0 6px rgba(245,158,11,0.18); }
+    .vc-tl-line { width: 2px; background: var(--border); flex: 1; min-height: 18px; }
+    .vc-tl-card { border-radius: 11px; padding: 12px 16px; margin-bottom: 14px; border: 1.5px solid; transition: transform 0.15s, box-shadow 0.15s; cursor: default; }
+    .vc-tl-card:hover { transform: translateX(4px); box-shadow: 3px 6px 16px rgba(0,0,0,0.1); }
+    .vc-tl-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 3px; }
+    .vc-tl-card .sub { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted); margin-bottom: 6px; }
+    .vc-tl-card p { font-size: 12px; color: var(--text-muted); line-height: 1.6; margin: 0; }
+    .vc-tl-card .tag { display: inline-block; font-size: 10px; font-weight: 600; font-family: 'JetBrains Mono', monospace; padding: 2px 8px; border-radius: 100px; margin-top: 8px; }
+
+    /* color variants */
+    .vc-tl-card.yellow { background: #FFFDE7; border-color: #D4A017; } .vc-tl-dot.yellow { background: #F59E0B; }
+    .vc-tl-card.blue   { background: #EFF6FF; border-color: #93C5FD; } .vc-tl-dot.blue   { background: #3B82F6; }
+    .vc-tl-card.green  { background: #F0FDF4; border-color: #6EE7B7; } .vc-tl-dot.green  { background: #10B981; }
+    .vc-tl-card.purple { background: #FAF5FF; border-color: #C4B5FD; } .vc-tl-dot.purple { background: #8B5CF6; }
+    .vc-tl-card.teal   { background: #F0FDFE; border-color: #67E8F9; } .vc-tl-dot.teal   { background: #06B6D4; }
+    .vc-tl-card.orange { background: #FFF7ED; border-color: #FDBA74; } .vc-tl-dot.orange { background: #F97316; }
+    .vc-tl-card.yellow .tag { background: #FEF3C7; color: #92400E; }
+    .vc-tl-card.blue   .tag { background: #DBEAFE; color: #1E40AF; }
+    .vc-tl-card.green  .tag { background: #D1FAE5; color: #065F46; }
+    .vc-tl-card.purple .tag { background: #EDE9FE; color: #5B21B6; }
+    .vc-tl-card.teal   .tag { background: #CFFAFE; color: #155E75; }
+    .vc-tl-card.orange .tag { background: #FFE4E6; color: #9A3412; }
+
+    [data-theme="dark"] .vc-tl-card.yellow { background: #2A2500; border-color: #92400E; }
+    [data-theme="dark"] .vc-tl-card.blue   { background: #0F1E35; border-color: #1E40AF; }
+    [data-theme="dark"] .vc-tl-card.green  { background: #052E16; border-color: #065F46; }
+    [data-theme="dark"] .vc-tl-card.purple { background: #1E0A3C; border-color: #5B21B6; }
+    [data-theme="dark"] .vc-tl-card.teal   { background: #042F2E; border-color: #155E75; }
+    [data-theme="dark"] .vc-tl-card.orange { background: #2C1400; border-color: #9A3412; }
+
+    @media print { .controls { display: none !important; } body { padding: 0; background: #fff !important; } .page { box-shadow: none !important; border: none !important; max-width: 100% !important; border-radius: 0 !important; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="title-group">
+        <h1>AI Evolution</h1>
+        <p>2017 to present — the architectures that reshaped machine intelligence</p>
+      </div>
+      <div class="controls">
+        <button class="btn-secondary" onclick="toggleTheme()" id="theme-toggle">🌙 Dark Mode</button>
+        <button class="btn-secondary" onclick="exportPDF()">⬇ PDF</button>
+      </div>
+    </header>
+
+    <div class="diagram-label">Custom CSS — spine + dots + cards · /visualcave AI evolution timeline, rich CSS, color-coded by era</div>
+
+    <div class="vc-timeline" data-panel="ai-evolution-timeline">
+
+      <div class="vc-tl-entry">
+        <span class="vc-tl-year">2017</span>
+        <div class="vc-tl-spine"><div class="vc-tl-dot yellow hi"></div><div class="vc-tl-line"></div></div>
+        <div class="vc-tl-card yellow">
+          <h4>Transformer — Attention Is All You Need</h4>
+          <div class="sub">Google Brain · Vaswani et al.</div>
+          <p>Self-attention replaces recurrence entirely. Enables massively parallel training on long sequences. Every production LLM today — GPT, Claude, Gemini — descends from this architecture.</p>
+          <span class="tag">foundational</span>
+        </div>
+      </div>
+
+      <div class="vc-tl-entry">
+        <span class="vc-tl-year">2018</span>
+        <div class="vc-tl-spine"><div class="vc-tl-dot blue"></div><div class="vc-tl-line"></div></div>
+        <div class="vc-tl-card blue">
+          <h4>BERT — Bidirectional Encoder</h4>
+          <div class="sub">Google · Devlin et al.</div>
+          <p>Masked language modeling and next-sentence prediction. Bidirectional context captures richer semantics than left-to-right GPT. Transfer learning for NLP becomes standard practice.</p>
+          <span class="tag">encoder</span>
+        </div>
+      </div>
+
+      <div class="vc-tl-entry">
+        <span class="vc-tl-year">2020</span>
+        <div class="vc-tl-spine"><div class="vc-tl-dot green hi"></div><div class="vc-tl-line"></div></div>
+        <div class="vc-tl-card green">
+          <h4>GPT-3 — 175B Parameters</h4>
+          <div class="sub">OpenAI · Brown et al.</div>
+          <p>Scale reveals in-context learning as an emergent property. Few-shot prompting replaces fine-tuning for many tasks. API-first deployment establishes the LLM-as-service model.</p>
+          <span class="tag">scale</span>
+        </div>
+      </div>
+
+      <div class="vc-tl-entry">
+        <span class="vc-tl-year">2022</span>
+        <div class="vc-tl-spine"><div class="vc-tl-dot orange hi"></div><div class="vc-tl-line"></div></div>
+        <div class="vc-tl-card orange">
+          <h4>ChatGPT — RLHF at Scale</h4>
+          <div class="sub">OpenAI · InstructGPT lineage</div>
+          <p>Reinforcement Learning from Human Feedback teaches models to follow instructions and refuse harmful requests. Consumer adoption goes mainstream: 100M users in 60 days.</p>
+          <span class="tag">alignment</span>
+        </div>
+      </div>
+
+      <div class="vc-tl-entry">
+        <span class="vc-tl-year">2023</span>
+        <div class="vc-tl-spine"><div class="vc-tl-dot teal hi"></div><div class="vc-tl-line"></div></div>
+        <div class="vc-tl-card teal">
+          <h4>GPT-4 + Claude 2 — Multimodal Reasoning</h4>
+          <div class="sub">OpenAI · Anthropic</div>
+          <p>Vision inputs, 100K+ context windows, and bar-exam-level reasoning. Models begin passing professional licensing exams. Constitutional AI and process supervision improve safety.</p>
+          <span class="tag">multimodal</span>
+        </div>
+      </div>
+
+      <div class="vc-tl-entry">
+        <span class="vc-tl-year">2024</span>
+        <div class="vc-tl-spine"><div class="vc-tl-dot purple hi"></div><div class="vc-tl-line"></div></div>
+        <div class="vc-tl-card purple">
+          <h4>MCP — Model Context Protocol</h4>
+          <div class="sub">Anthropic · Open standard</div>
+          <p>Standardises tool and resource interfaces so agents can compose capabilities across vendors without custom glue code. Marks the shift from chatbots to autonomous agentic systems.</p>
+          <span class="tag">agentic</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (isDark) document.documentElement.setAttribute('data-theme', 'dark');
+    window.toggleTheme = () => {
+      const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      document.getElementById('theme-toggle').textContent = next === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode';
+    };
+    window.exportPDF = () => window.print();
+  </script>
+</body>
+</html>

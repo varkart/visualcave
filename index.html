@@ -100,6 +100,13 @@
       font-size: 11px; font-weight: 600; padding: 3px 10px;
       border-radius: 100px; letter-spacing: 0.03em;
     }
+    .card-prompt {
+      margin-top: 12px; padding: 7px 10px; background: var(--surface2);
+      border-radius: 7px; font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; color: var(--muted); line-height: 1.5;
+      border: 1px solid var(--border);
+    }
+    .card-prompt::before { content: '▸ '; font-weight: 700; color: var(--accent); }
 
     /* ── Type table ── */
     .type-table { width: 100%; border-collapse: collapse; font-size: 13px; }
@@ -146,7 +153,7 @@
     <div class="hero-meta">
       <a href="https://github.com/varkart/visualcave">GitHub</a>
       <span>·</span>
-      <span>19 examples</span>
+      <span>21 examples</span>
       <span>·</span>
       <span>11 diagram types</span>
     </div>
@@ -165,7 +172,8 @@
         <div class="card-body">
           <h3>Transformer Architecture</h3>
           <p>Complete encoder-decoder stack with step-through guide and cross-attention bridge.</p>
-          <div class="card-tags"><span class="tag">step-through</span><span class="tag">dark mode</span><span class="tag">graph TD</span></div>
+          <div class="card-tags"><span class="tag">step-through</span><span class="tag">dark mode</span><span class="tag">graph TD</span>
+          <div class="card-prompt">/visualcave transformer architecture step-through, encoder decoder, multi-head attention</div></div>
         </div>
       </a>
 
@@ -177,7 +185,8 @@
         <div class="card-body">
           <h3>OAuth 2.0 Authorization Code Flow</h3>
           <p>Full sequence across User, Client App, Auth Server, and Resource Server.</p>
-          <div class="card-tags"><span class="tag">sequence</span><span class="tag">security</span></div>
+          <div class="card-tags"><span class="tag">sequence</span><span class="tag">security</span>
+          <div class="card-prompt">/visualcave OAuth 2.0 authorization code flow, sequence diagram</div></div>
         </div>
       </a>
 
@@ -189,7 +198,8 @@
         <div class="card-body">
           <h3>Ecommerce Order Fulfillment</h3>
           <p>From checkout to delivery notification — order, warehouse, shipping stages.</p>
-          <div class="card-tags"><span class="tag">custom CSS</span><span class="tag">pipeline</span><span class="tag">ecommerce</span></div>
+          <div class="card-tags"><span class="tag">custom CSS</span><span class="tag">pipeline</span><span class="tag">ecommerce</span>
+          <div class="card-prompt">/visualcave ecommerce order fulfillment, custom CSS pipeline layout</div></div>
         </div>
       </a>
 
@@ -201,7 +211,8 @@
         <div class="card-body">
           <h3>API Gateway Architecture</h3>
           <p>Gateway routing, auth, rate limiting, and microservice fan-out in a single view.</p>
-          <div class="card-tags"><span class="tag">architecture</span><span class="tag">API</span></div>
+          <div class="card-tags"><span class="tag">architecture</span><span class="tag">API</span>
+          <div class="card-prompt">/visualcave API gateway architecture, microservices, auth, rate limiting</div></div>
         </div>
       </a>
 
@@ -213,7 +224,8 @@
         <div class="card-body">
           <h3>CI/CD Pipeline</h3>
           <p>End-to-end build, test, and deploy pipeline with environment promotion gates.</p>
-          <div class="card-tags"><span class="tag">pipeline</span><span class="tag">DevOps</span></div>
+          <div class="card-tags"><span class="tag">pipeline</span><span class="tag">DevOps</span>
+          <div class="card-prompt">/visualcave CI/CD pipeline, build test deploy, environment promotion gates</div></div>
         </div>
       </a>
 
@@ -225,7 +237,8 @@
         <div class="card-body">
           <h3>API Lifecycle</h3>
           <p>Design, build, test, deploy, and deprecation stages of a REST API end to end.</p>
-          <div class="card-tags"><span class="tag">graph TD</span><span class="tag">API</span></div>
+          <div class="card-tags"><span class="tag">graph TD</span><span class="tag">API</span>
+          <div class="card-prompt">/visualcave API lifecycle graph, design to deprecation</div></div>
         </div>
       </a>
 
@@ -237,7 +250,8 @@
         <div class="card-body">
           <h3>RAG Pipeline</h3>
           <p>Document ingestion, vector search, reranking, and LLM generation in one view.</p>
-          <div class="card-tags"><span class="tag">graph TD</span><span class="tag">AI</span><span class="tag">search</span></div>
+          <div class="card-tags"><span class="tag">graph TD</span><span class="tag">AI</span><span class="tag">search</span>
+          <div class="card-prompt">/visualcave RAG pipeline, vector DB, query embedding, retrieval augmented generation</div></div>
         </div>
       </a>
 
@@ -249,7 +263,8 @@
         <div class="card-body">
           <h3>Kubernetes Deployment</h3>
           <p>Git push to running pods — image registry, API server, scheduler, HPA, and ingress.</p>
-          <div class="card-tags"><span class="tag">graph TD</span><span class="tag">k8s</span><span class="tag">DevOps</span></div>
+          <div class="card-tags"><span class="tag">graph TD</span><span class="tag">k8s</span><span class="tag">DevOps</span>
+          <div class="card-prompt">/visualcave Kubernetes deployment, pods, HPA, ingress, control plane</div></div>
         </div>
       </a>
 
@@ -261,7 +276,8 @@
         <div class="card-body">
           <h3>Event-Driven Microservices</h3>
           <p>Producers, Kafka topics, and consumers — decoupled services at scale.</p>
-          <div class="card-tags"><span class="tag">graph LR</span><span class="tag">Kafka</span><span class="tag">microservices</span></div>
+          <div class="card-tags"><span class="tag">graph LR</span><span class="tag">Kafka</span><span class="tag">microservices</span>
+          <div class="card-prompt">/visualcave event-driven microservices, Kafka topics, producers consumers</div></div>
         </div>
       </a>
 
@@ -273,7 +289,8 @@
         <div class="card-body">
           <h3>Multi-Region Failover</h3>
           <p>Active-passive with health monitoring, DB replication, and automatic DNS rerouting.</p>
-          <div class="card-tags"><span class="tag">graph TD</span><span class="tag">reliability</span><span class="tag">infra</span></div>
+          <div class="card-tags"><span class="tag">graph TD</span><span class="tag">reliability</span><span class="tag">infra</span>
+          <div class="card-prompt">/visualcave multi-region failover, active-passive, health monitoring, DNS reroute</div></div>
         </div>
       </a>
 
@@ -290,7 +307,8 @@
         <div class="card-body">
           <h3>E-Commerce Domain Model</h3>
           <p>User, Order, Product, Payment, Category, Address — with methods and multiplicity.</p>
-          <div class="card-tags"><span class="tag">classDiagram</span><span class="tag">UML</span></div>
+          <div class="card-tags"><span class="tag">classDiagram</span><span class="tag">UML</span>
+          <div class="card-prompt">/visualcave class diagram, User Order Product Payment relationships</div></div>
         </div>
       </a>
 
@@ -302,7 +320,8 @@
         <div class="card-body">
           <h3>Blog Platform Schema</h3>
           <p>7-table schema with PK, FK, UK annotations and self-referential comments.</p>
-          <div class="card-tags"><span class="tag">erDiagram</span><span class="tag">database</span></div>
+          <div class="card-tags"><span class="tag">erDiagram</span><span class="tag">database</span>
+          <div class="card-prompt">/visualcave ER diagram, ecommerce database schema</div></div>
         </div>
       </a>
 
@@ -314,7 +333,8 @@
         <div class="card-body">
           <h3>Order Lifecycle State Machine</h3>
           <p>All order states from Pending to Refunded, color-coded by status category.</p>
-          <div class="card-tags"><span class="tag">stateDiagram-v2</span><span class="tag">lifecycle</span></div>
+          <div class="card-tags"><span class="tag">stateDiagram-v2</span><span class="tag">lifecycle</span>
+          <div class="card-prompt">/visualcave state machine, order lifecycle, pending shipped delivered cancelled</div></div>
         </div>
       </a>
 
@@ -331,7 +351,8 @@
         <div class="card-body">
           <h3>Feature Priority Matrix</h3>
           <p>Q3 roadmap features plotted by effort vs impact across four quadrants.</p>
-          <div class="card-tags"><span class="tag">quadrantChart</span><span class="tag">roadmap</span></div>
+          <div class="card-tags"><span class="tag">quadrantChart</span><span class="tag">roadmap</span>
+          <div class="card-prompt">/visualcave quadrant chart, effort vs impact feature prioritization</div></div>
         </div>
       </a>
 
@@ -343,7 +364,8 @@
         <div class="card-body">
           <h3>API Traffic Distribution</h3>
           <p>Request volume breakdown across 8 microservices over 30 days.</p>
-          <div class="card-tags"><span class="tag">pie</span><span class="tag">metrics</span></div>
+          <div class="card-tags"><span class="tag">pie</span><span class="tag">metrics</span>
+          <div class="card-prompt">/visualcave pie chart, cloud infrastructure cost breakdown</div></div>
         </div>
       </a>
 
@@ -360,7 +382,8 @@
         <div class="card-body">
           <h3>Evolution of the Web</h3>
           <p>Web 1.0 to the AI era — major milestones from 1991 to 2024.</p>
-          <div class="card-tags"><span class="tag">timeline</span><span class="tag">history</span></div>
+          <div class="card-tags"><span class="tag">timeline</span><span class="tag">history</span>
+          <div class="card-prompt">/visualcave timeline, evolution of the web, 1991 to 2024</div></div>
         </div>
       </a>
 
@@ -372,7 +395,8 @@
         <div class="card-body">
           <h3>Software Engineering — 80 Years</h3>
           <p>From punch cards to LLMs — major paradigm shifts across eight decades.</p>
-          <div class="card-tags"><span class="tag">timeline</span><span class="tag">history</span></div>
+          <div class="card-tags"><span class="tag">timeline</span><span class="tag">history</span>
+          <div class="card-prompt">/visualcave timeline, software engineering history 80 years</div></div>
         </div>
       </a>
 
@@ -384,7 +408,8 @@
         <div class="card-body">
           <h3>System Design Topics</h3>
           <p>Core concepts for senior engineering interviews — scalability, storage, caching, observability.</p>
-          <div class="card-tags"><span class="tag">mindmap</span><span class="tag">system design</span></div>
+          <div class="card-tags"><span class="tag">mindmap</span><span class="tag">system design</span>
+          <div class="card-prompt">/visualcave mind map, system design topics, scalability caching observability</div></div>
         </div>
       </a>
 
@@ -396,7 +421,39 @@
         <div class="card-body">
           <h3>GitFlow Branching Strategy</h3>
           <p>Feature branches, release cuts, hotfixes, and version tags from v1.0.0 to v2.0.0.</p>
-          <div class="card-tags"><span class="tag">gitGraph</span><span class="tag">workflow</span></div>
+          <div class="card-tags"><span class="tag">gitGraph</span><span class="tag">workflow</span>
+          <div class="card-prompt">/visualcave git graph, gitflow branching, feature release hotfix tags</div></div>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="section-label">Custom CSS — Rich Layouts</div>
+    <div class="grid">
+
+      <a class="card" href="examples/ai-evolution-timeline.html" target="_blank">
+        <div class="card-preview">
+          <iframe src="examples/ai-evolution-timeline.html" loading="lazy" title="AI Evolution Timeline preview"></iframe>
+          <div class="card-preview-label">custom CSS</div>
+        </div>
+        <div class="card-body">
+          <h3>AI Evolution — 2017 to Present</h3>
+          <p>Transformer to MCP — color-coded era cards, glowing milestone dots, hover lift. Shows what Mermaid timeline cannot.</p>
+          <div class="card-tags"><span class="tag">custom CSS</span><span class="tag">timeline</span><span class="tag">AI history</span></div>
+          <div class="card-prompt">/visualcave AI evolution timeline, rich CSS, color-coded by era, spine + dots + cards</div>
+        </div>
+      </a>
+
+      <a class="card" href="examples/llm-training-pipeline.html" target="_blank">
+        <div class="card-preview">
+          <iframe src="examples/llm-training-pipeline.html" loading="lazy" title="LLM Training Pipeline preview"></iframe>
+          <div class="card-preview-label">custom CSS</div>
+        </div>
+        <div class="card-body">
+          <h3>LLM Training Pipeline</h3>
+          <p>Pretraining → SFT → RLHF → deployment. Phase badges, numbered step circles, technique tags, output artifacts.</p>
+          <div class="card-tags"><span class="tag">custom CSS</span><span class="tag">pipeline</span><span class="tag">LLM</span></div>
+          <div class="card-prompt">/visualcave LLM training pipeline, rich CSS, phase badges, pretraining fine-tuning RLHF</div>
         </div>
       </a>
 

@@ -3,7 +3,9 @@
 ![Validate Diagrams](https://github.com/varkart/visualcave/actions/workflows/ci.yml/badge.svg)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-An agentic skill for creating professional technical diagrams as interactive standalone HTML files. Powered by **[Mermaid.js](https://mermaid.js.org)** — supports 11 diagram types including flowcharts, sequence diagrams, ER diagrams, class diagrams, git graphs, mind maps, and more. Dark mode, step-through reveal, and export (PNG/SVG/PDF) built in.
+An agentic skill for creating professional technical diagrams as interactive standalone HTML files. Powered by **[Mermaid.js](https://mermaid.js.org)** — supports 11 diagram types including flowcharts, sequence diagrams, ER diagrams, class diagrams, git graphs, mind maps, and more.
+
+Every output includes: dark/light mode toggle, four design themes (Default, Minimal, Pastel, Print), step-through reveal for walkthroughs, hover highlight, and in-page SVG/PNG/PDF export — no server or build step required.
 
 Works with **Claude Code**, **Cursor**, **Codex CLI**, and **Gemini CLI**.
 
@@ -55,16 +57,29 @@ Outputs a single self-contained `.html` file. Open it in any browser — no buil
 
 ---
 
+## Quick Start
+
+1. Install (Claude Code global): `git clone https://github.com/varkart/visualcave ~/.claude/skills/visualcave`
+2. In your Claude Code session, type `/visualcave` followed by what you want:
+   ```text
+   /visualcave — how OAuth 2.0 works
+   ```
+3. Claude generates a `.html` file. Open it in any browser.
+4. Use the controls bar in the diagram to switch themes, toggle dark mode, step through phases, or export as SVG/PNG/PDF.
+
+---
+
 ## Key Features
 
 - **11 diagram types** — flowchart, sequence, class, ER, state machine, quadrant, timeline, mind map, git graph, pie, gantt
-- **Interactive step-through** — click to reveal phases one by one (ideal for architecture walkthroughs)
-- **Design theme selector** — Default, Minimal, Pastel, Print; switches classDef colors + Mermaid theme on the fly, persisted to `localStorage`
-- **Dark / light mode toggle** — smooth CSS transition, respects `prefers-color-scheme`
-- **Copy Mermaid source** — one-click copy of the clean diagram source
-- **In-page export** — SVG, PNG, and PDF buttons built into every diagram's controls bar; no server or Node.js required
-- **CLI export** — animated GIF, OG social card, and headless batch export via `capture.js`
-- **Zero dependencies at runtime** — Mermaid loaded from CDN, everything else inline
+- **Interactive step-through** — click to reveal phases one by one; ideal for architecture walkthroughs and presentations
+- **Hover highlight** — mousing over a node dims unrelated nodes to focus attention
+- **Design theme selector** — four themes (Default, Minimal, Pastel, Print) switchable from the controls bar; each theme adjusts both Mermaid's color scheme and all `classDef` node colors simultaneously; selection persisted to `localStorage`
+- **Dark / light mode toggle** — smooth CSS transition, respects `prefers-color-scheme` on first load
+- **Copy Mermaid source** — one-click copy of the raw diagram source for reuse or editing
+- **In-page export** — SVG, PNG, and PDF download buttons in every diagram's controls bar; fully client-side, no server or Node.js required
+- **CLI export** — animated GIF, OG social card (1200×630), and headless batch export via `capture.js` (requires Node.js 18+)
+- **Zero runtime dependencies** — Mermaid loaded from CDN; all other logic is inlined in the HTML file
 
 ---
 
@@ -88,14 +103,19 @@ Outputs a single self-contained `.html` file. Open it in any browser — no buil
 
 ## Examples
 
-All 13 examples are in [`examples/`](examples/) and live at the [showcase site](https://varkart.github.io/visualcave).
+All examples are in [`examples/`](examples/) and live at the [showcase site](https://varkart.github.io/visualcave).
 
 **Architecture & Flow**
-- [Transformer Architecture](examples/transformer-deep-dive.html) — step-through, dark mode
+- [Transformer Architecture (step-through)](examples/transformer-deep-dive.html) — step-through reveal, dark mode
 - [OAuth 2.0 Flow](examples/oauth-flow.html) — sequence diagram
 - [API Gateway Architecture](examples/architecture-api-gateway.html)
 - [CI/CD Pipeline](examples/pipeline-cicd.html)
 - [E-commerce Order Flow](examples/ecommerce-order-flow.html)
+- [Event-Driven Microservices](examples/event-driven-microservices.html)
+- [Kubernetes Deployment](examples/kubernetes-deployment.html)
+- [Multi-Region Failover](examples/multi-region-failover.html)
+- [RAG Pipeline](examples/rag-pipeline.html)
+- [API Lifecycle](examples/api-lifecycle.html)
 
 **Object & Data Models**
 - [E-Commerce Domain Model](examples/class-diagram.html) — `classDiagram`
@@ -108,8 +128,15 @@ All 13 examples are in [`examples/`](examples/) and live at the [showcase site](
 
 **Knowledge & History**
 - [Evolution of the Web](examples/timeline.html) — `timeline`
+- [Software Engineering Timeline](examples/software-engineering-timeline.html) — `timeline`
 - [System Design Topics](examples/mindmap.html) — `mindmap`
 - [GitFlow Strategy](examples/git-graph.html) — `gitGraph`
+
+**Transformer Architecture Variants**
+- [Transformer Animated](examples/transformer-animated.html)
+- [Transformer Architecture](examples/transformer-architecture.html)
+- [Transformer Pro](examples/transformer-pro.html)
+- [Transformer Ultra](examples/transformer-ultra.html)
 
 ---
 
