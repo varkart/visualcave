@@ -7,6 +7,7 @@ Real prompts and the patterns they produce. Use these as a reference for what to
 ## Flowchart / Architecture
 
 **Prompt:**
+
 ```
 /visualcave — microservices architecture for an e-commerce platform
 showing API gateway, auth service, product catalog, order service, and
@@ -16,6 +17,7 @@ payment service with a message queue between order and payment
 **What you get:** `graph TD` with warm/cool panel alternation, subgraphs grouping related services, edge labels on arrows, classDef colors per layer.
 
 **Good pattern — subgraph zones:**
+
 ```
 subgraph "Edge"
   GW[API Gateway]:::blue
@@ -33,6 +35,7 @@ end
 ## Sequence Diagram
 
 **Prompt:**
+
 ```
 /visualcave — OAuth 2.0 Authorization Code flow with all actors:
 browser, client app, auth server, resource server. Number each step.
@@ -42,6 +45,7 @@ Show the authorization code exchange and token issuance.
 **What you get:** `sequenceDiagram` with numbered `Note` annotations, `activate`/`deactivate` blocks on the auth server, all 8 steps labeled.
 
 **Good pattern — numbered notes:**
+
 ```
 Note over Browser,Client: 1. User clicks Login
 Browser->>AuthServer: GET /authorize?response_type=code
@@ -54,6 +58,7 @@ Browser->>AuthServer: GET /authorize?response_type=code
 ## Step-Through / Interactive
 
 **Prompt:**
+
 ```
 /visualcave — Transformer architecture "Attention Is All You Need"
 with a step-through guide (4 phases: input encoding → encoder stack →
@@ -64,6 +69,7 @@ the attention formula. Dark mode supported.
 **What you get:** Full HTML with `setupSteps()` mapping nodes to phases, a floating status pill, `data-step` reveal, dark mode toggle.
 
 **Good pattern — phase mapping:**
+
 ```js
 const stepConfig = [
   { label: 'Phase 1: Input', nodes: ['Embed', 'PosEnc'] },
@@ -79,6 +85,7 @@ const stepConfig = [
 ## Class Diagram
 
 **Prompt:**
+
 ```
 /visualcave — UML class diagram for a blog platform: User, Post,
 Comment, Tag, Category. Show methods, field types, and multiplicity.
@@ -88,6 +95,7 @@ Color-code by layer (user-facing vs content vs metadata).
 **What you get:** `classDiagram` with `+type field` syntax, `+method() returnType`, relationship arrows with multiplicity labels, `style` overrides per class.
 
 **Good pattern — typed fields with visibility:**
+
 ```
 class Post {
   +int id
@@ -106,6 +114,7 @@ class Post {
 ## State Machine
 
 **Prompt:**
+
 ```
 /visualcave — order lifecycle state machine. States: Pending,
 Confirmed, Processing, Shipped, Delivered, Cancelled, Refunded.
@@ -116,6 +125,7 @@ success=green, terminal=red).
 **What you get:** `stateDiagram-v2` with `classDef` for each status category, labeled transitions, `[*]` start and end markers.
 
 **Good pattern — semantic color coding:**
+
 ```
 classDef active fill:#E3F2FD,stroke:#1E88E5
 classDef success fill:#E8F5E9,stroke:#43A047
@@ -130,6 +140,7 @@ class Delivered,Refunded success
 ## ER Diagram
 
 **Prompt:**
+
 ```
 /visualcave — database schema for a SaaS app: users, organizations,
 memberships, subscriptions, invoices. Show PK/FK/UK constraints and
@@ -139,6 +150,7 @@ cardinality on all relationships.
 **What you get:** `erDiagram` with `PK`, `FK`, `UK` annotation columns, crow's-foot cardinality notation (`||--o{`), relationship labels as quoted strings.
 
 **Good pattern — constraint annotations:**
+
 ```
 USER {
   int    id    PK
@@ -154,6 +166,7 @@ USER {
 ## Quadrant / Priority Matrix
 
 **Prompt:**
+
 ```
 /visualcave — feature priority matrix for Q3. X-axis: effort (low→high).
 Y-axis: impact (low→high). Plot: dark mode, SSO, GraphQL API, search

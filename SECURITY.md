@@ -2,9 +2,9 @@
 
 ## Supported Versions
 
-| Version | Supported |
-|---|---|
-| 1.x (current) | Yes |
+| Version       | Supported |
+| ------------- | --------- |
+| 1.x (current) | Yes       |
 
 ## Reporting a Vulnerability
 
@@ -13,6 +13,7 @@ Found a security issue? **Do not open a public GitHub issue.**
 Email: javapuzzle@outlook.com
 
 Include:
+
 - Description of the vulnerability
 - Steps to reproduce
 - Potential impact

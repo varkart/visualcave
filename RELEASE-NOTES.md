@@ -5,6 +5,7 @@
 Initial public release.
 
 **Diagram types supported:**
+
 - `graph TD` / `graph LR` — flowcharts, pipelines, architecture
 - `sequenceDiagram` — API flows, protocol walkthroughs
 - `classDiagram` — OOP / domain models
@@ -18,6 +19,7 @@ Initial public release.
 - `gantt` — project schedules
 
 **Features:**
+
 - Dark/light mode toggle with `prefers-color-scheme` detection
 - Step-through sequential reveal (`step-through.js`)
 - Hover highlight / dim (`hover.js`)
@@ -28,6 +30,7 @@ Initial public release.
 - GitHub Pages showcase site
 
 **Known constraints:**
+
 - CSS animation classes (`draw`, `fade`, `fade-up`) apply to hand-authored SVG only — not Mermaid output
 - Step-through requires post-render JS to set `data-step` attributes; cannot be set in Mermaid source
 - `capture.js` requires Node.js + puppeteer; Playwright tests require Chromium
