@@ -52,7 +52,9 @@ Do not alter the CSS, THEMES object, or script block unless a specific feature r
 
 **Hover highlight**: add `data-node` / `data-connects` attributes post-render, include `<script src="hover.js"></script>`.
 
-**Export**: `node capture.js file.html [--format=png|svg|pdf|og]`
+**Export (in-page)**: every diagram has SVG, PNG, and PDF download buttons in the controls bar — no server or Node.js needed. SVG serializes the inline SVG with white background; PNG renders at 2x; PDF uses `window.print()` with controls hidden.
+
+**Export (CLI)**: `node capture.js file.html [--format=png|svg|pdf|og]` — for animated GIF, OG images, and headless batch export.
 
 **Brand theming**: see `references/theming.md`.
 
