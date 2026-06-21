@@ -58,6 +58,13 @@
       classDiagram
         direction TB
 
+        classDef yellow fill:#FFFDE7;
+        classDef blue fill:#E3F2FD;
+        classDef green fill:#E8F5E9;
+        classDef purple fill:#F3E5F5;
+        classDef teal fill:#E0F7FA;
+        classDef orange fill:#FFF3E0;
+
         class User {
           +int id
           +string email
@@ -133,13 +140,13 @@
         OrderItem "0..*" --> "1" Product : references
         Product "0..*" --> "1" Category : belongs to
 
-        style User fill:#E3F2FD,stroke:#1A1A1A,stroke-width:2px
-        style Order fill:#FFF3E0,stroke:#1A1A1A,stroke-width:2px
-        style OrderItem fill:#E8F5E9,stroke:#1A1A1A,stroke-width:2px
-        style Product fill:#FFFDE7,stroke:#1A1A1A,stroke-width:2px
-        style Category fill:#F3E5F5,stroke:#1A1A1A,stroke-width:2px
-        style Address fill:#E0F7FA,stroke:#1A1A1A,stroke-width:2px
-        style Payment fill:#FCE4EC,stroke:#1A1A1A,stroke-width:2px
+        cssClass "User" blue
+        cssClass "Order" orange
+        cssClass "OrderItem" green
+        cssClass "Product" yellow
+        cssClass "Category" purple
+        cssClass "Address" teal
+        cssClass "Payment" purple
     </div>
   </div>
   <script type="module">
@@ -157,7 +164,8 @@
       const el = _md;
       let src = el.dataset.source;
       for (const [cn, def] of Object.entries(t.classDefs)) {
-        src = src.replace(new RegExp(`(classDef\\s+${cn}\\s+)[^;\\n]+`, 'g'), `$1${def}`);
+        const cleanedDef = def.replace(/stroke-width:[^,;]+/g, '').replace(/stroke:[^,;]+/g, '').replace(/stroke-dasharray:[^,;]+/g, '').replace(/,+/g, ',').replace(/^,|,$/g, '');
+        src = src.replace(new RegExp(`(classDef\\s+${cn}\\s+)[^;\\n]+`, 'g'), `$1${cleanedDef}`);
       }
       el.textContent = src;
       el.removeAttribute('data-processed');
