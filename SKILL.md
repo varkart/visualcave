@@ -62,6 +62,13 @@ Do not alter the CSS, THEMES object, or script block unless a specific feature r
 
 **Animated diagrams**: see `references/animated.md`.
 
+## Astro Component Mode (varkart.dev site)
+
+**Triggers**: "for the blog/site/article", "embed this", "Astro component", "MDX component"  
+Output a `.astro` file at `src/components/mdx/ComponentName.astro` (site: `github.com/varkart/personal-site`) instead of a standalone HTML file.  
+**For React/Next.js** ("React component", "TSX component"): output `.tsx` with inline SVG instead.  
+See `references/astro-component.md` for token tables, component template, badge palettes, dark-first CSS rule, Mermaid config, and React/TSX output.
+
 ## Quality Pass
 
 After writing the Mermaid source, review before outputting the file:
@@ -73,5 +80,3 @@ After writing the Mermaid source, review before outputting the file:
 - [ ] Color assignment is meaningful — same semantic color = same role category.
 - [ ] The critical path is visually obvious top-to-bottom (or left-to-right).
 - [ ] No redundant edges — if A→B→C and A→C both exist, the direct edge likely adds nothing.
-
-This diagram should look like it was crafted by someone who has drawn hundreds of architecture diagrams and knows exactly what to leave out. If anything on the checklist fails, fix it before writing the HTML.
