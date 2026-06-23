@@ -7,3 +7,4 @@ playwright-report/
 .playwright-mcp/
 *.tgz
 .claude/settings.local.json
+.local/

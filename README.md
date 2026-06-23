@@ -84,6 +84,7 @@ Outputs a single self-contained `.html` file. Open it in any browser — no buil
 - **Copy Mermaid source** — one-click copy of the raw diagram source for reuse or editing
 - **In-page export** — SVG, PNG, and PDF download buttons in every diagram's controls bar; fully client-side, no server or Node.js required
 - **CLI export** — animated GIF, OG social card (1200×630), and headless batch export via `capture.js` (requires Node.js 18+)
+- **Astro / React component output** — generate site-ready `.astro` or `.tsx` components for embedding diagrams into blog posts and articles, with full dark/light token alignment
 - **Zero runtime dependencies** — Mermaid loaded from CDN; all other logic is inlined in the HTML file
 
 ---
