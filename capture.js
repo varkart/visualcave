@@ -275,7 +275,18 @@ async function loadDiagram(page, url, vpWidth) {
   const { data: firstData } = await pngBufToPixels(firstShot);
   encoder.addFrame(firstData);
 
+  // Auto-advance step-through presentations if supported
+  const stepsTotal = await page.evaluate(() => {
+    return (window.stepConfig && window.stepConfig.length) || 0;
+  });
+  const stepInterval = stepsTotal > 0 ? Math.max(1, Math.floor(frameCount / (stepsTotal + 1))) : 0;
+
   for (let i = 1; i < frameCount; i++) {
+    if (stepInterval > 0 && i % stepInterval === 0) {
+      await page.evaluate(() => {
+        if (typeof window.advanceStep === 'function') window.advanceStep();
+      });
+    }
     await new Promise((r) => setTimeout(r, frameInterval));
     const shot = await page.screenshot({ type: 'png', timeout: 60000 });
     const { data } = await pngBufToPixels(shot);
