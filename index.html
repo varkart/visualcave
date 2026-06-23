@@ -146,10 +146,25 @@
       background: var(--surface2); border: 1px solid var(--border);
       border-radius: 8px; padding: 5px 12px;
       font-size: 12px; font-weight: 500; color: var(--text);
+      cursor: pointer; user-select: none;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
     }
+    .cap:hover { border-color: var(--accent); color: var(--accent); }
+    .cap.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .cap.active .cap-dot { background: rgba(255,255,255,0.6) !important; }
     .cap-dot {
       width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0;
+      transition: background 0.15s;
     }
+    .card { transition: opacity 0.22s ease, transform 0.22s ease; }
+    .card.cap-dim { opacity: 0.07; pointer-events: none; transform: scale(0.98); }
+    .section-label { transition: opacity 0.22s ease; }
+    .cap-empty {
+      display: none; max-width: 1200px; margin: 0 auto 40px;
+      background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 12px;
+      padding: 16px 24px; font-size: 13px; color: #1E40AF; line-height: 1.6;
+    }
+    .cap-empty.visible { display: block; }
 
     footer {
       text-align: center; padding: 32px; border-top: 1px solid var(--border);
@@ -185,16 +200,20 @@
   <div class="caps">
     <div class="caps-inner">
       <span class="caps-label">Capabilities</span>
-      <span class="cap"><span class="cap-dot" style="background:#3B82F6"></span>Mermaid — 11 diagram types</span>
-      <span class="cap"><span class="cap-dot" style="background:#22C55E"></span>CSS flow animation</span>
-      <span class="cap"><span class="cap-dot" style="background:#A855F7"></span>Canvas animation</span>
-      <span class="cap"><span class="cap-dot" style="background:#F59E0B"></span>Astro / React component output</span>
-      <span class="cap"><span class="cap-dot" style="background:#06B6D4"></span>Step-through reveal</span>
-      <span class="cap"><span class="cap-dot" style="background:#EF4444"></span>SVG / PNG / PDF export</span>
+      <span class="cap" data-filter="mermaid"><span class="cap-dot" style="background:#3B82F6"></span>Mermaid — 11 diagram types</span>
+      <span class="cap" data-filter="animated"><span class="cap-dot" style="background:#22C55E"></span>CSS flow animation</span>
+      <span class="cap" data-filter="canvas"><span class="cap-dot" style="background:#A855F7"></span>Canvas animation</span>
+      <span class="cap" data-filter="astro"><span class="cap-dot" style="background:#F59E0B"></span>Astro / React component output</span>
+      <span class="cap" data-filter="step-through"><span class="cap-dot" style="background:#06B6D4"></span>Step-through reveal</span>
+      <span class="cap" data-filter="export"><span class="cap-dot" style="background:#EF4444"></span>SVG / PNG / PDF export</span>
     </div>
   </div>
 
   <div class="content">
+
+    <div id="cap-empty" class="cap-empty">
+      <strong>Astro / React Component Output</strong> — this mode generates <code>.astro</code> or <code>.tsx</code> files for embedding diagrams into blog posts and articles with full dark/light token alignment. It does not produce standalone HTML previews. See <code>references/astro-component.md</code> for the component template and token tables.
+    </div>
 
     <div class="section-label">Architecture &amp; Flow</div>
     <div class="grid">
@@ -540,6 +559,73 @@
     Built with <a href="https://mermaid.js.org" target="_blank">Mermaid.js</a> ·
     <a href="https://github.com/varkart/visualcave" target="_blank">GitHub</a>
   </footer>
+
+  <script>
+    (function () {
+      const hasTag = (card, tag) =>
+        [...card.querySelectorAll('.tag')].some(t => t.textContent.trim() === tag);
+
+      const FILTERS = {
+        mermaid: card =>
+          !hasTag(card, 'animated') && !hasTag(card, 'canvas') && !hasTag(card, 'custom CSS'),
+        animated: card => hasTag(card, 'animated'),
+        canvas: card => hasTag(card, 'canvas'),
+        'step-through': card => hasTag(card, 'step-through'),
+        export: () => true,
+        astro: () => false,
+      };
+
+      const caps = document.querySelectorAll('.cap[data-filter]');
+      const cards = document.querySelectorAll('.card');
+      const emptyEl = document.getElementById('cap-empty');
+      const sections = document.querySelectorAll('.section-label');
+      let active = null;
+
+      function applyFilter(key) {
+        const fn = FILTERS[key];
+        const isAstro = key === 'astro';
+
+        cards.forEach(card => {
+          const match = !isAstro && fn(card);
+          card.classList.toggle('cap-dim', !match);
+        });
+
+        // Dim section labels whose entire grid is dimmed
+        sections.forEach(label => {
+          const grid = label.nextElementSibling;
+          if (!grid) return;
+          const allDimmed = [...grid.querySelectorAll('.card')].every(c =>
+            c.classList.contains('cap-dim')
+          );
+          label.style.opacity = allDimmed ? '0.2' : '';
+        });
+
+        if (emptyEl) emptyEl.classList.toggle('visible', isAstro);
+      }
+
+      function clearFilter() {
+        cards.forEach(c => c.classList.remove('cap-dim'));
+        sections.forEach(l => (l.style.opacity = ''));
+        if (emptyEl) emptyEl.classList.remove('visible');
+      }
+
+      caps.forEach(cap => {
+        cap.addEventListener('click', () => {
+          const key = cap.dataset.filter;
+          if (active === key) {
+            active = null;
+            caps.forEach(c => c.classList.remove('active'));
+            clearFilter();
+          } else {
+            active = key;
+            caps.forEach(c => c.classList.remove('active'));
+            cap.classList.add('active');
+            applyFilter(key);
+          }
+        });
+      });
+    })();
+  </script>
 
 </body>
 </html>
