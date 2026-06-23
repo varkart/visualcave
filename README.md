@@ -15,7 +15,7 @@ Every output automatically includes:
 
 **[View Showcase Site →](https://varkart.github.io/visualcave)**
 
-![VisualCave demo — step-through transformer architecture](assets/showcase.gif)
+![VisualCave demo](assets/visual-cave.gif)
 
 ---
 
