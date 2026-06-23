@@ -84,11 +84,31 @@ function startServer() {
       await new Promise((r) => setTimeout(r, 2000));
     }
 
-    const raw = await page.screenshot({ encoding: 'binary' });
-    const png = PNG.sync.read(Buffer.from(raw));
+    // Auto-advance step-through presentations if supported
+    const stepsTotal = await page.evaluate(() => {
+      return (window.stepConfig && window.stepConfig.length) || 0;
+    });
 
-    for (let f = 0; f < FRAMES; f++) {
-      encoder.addFrame(png.data);
+    if (stepsTotal > 0) {
+      const stepInterval = Math.max(1, Math.floor(FRAMES / (stepsTotal + 1)));
+      for (let f = 0; f < FRAMES; f++) {
+        if (f > 0 && f % stepInterval === 0) {
+          await page.evaluate(() => {
+            if (typeof window.advanceStep === 'function') window.advanceStep();
+          });
+          // Wait briefly for step reveal/transition
+          await new Promise((r) => setTimeout(r, 150));
+        }
+        const raw = await page.screenshot({ encoding: 'binary' });
+        const png = PNG.sync.read(Buffer.from(raw));
+        encoder.addFrame(png.data);
+      }
+    } else {
+      const raw = await page.screenshot({ encoding: 'binary' });
+      const png = PNG.sync.read(Buffer.from(raw));
+      for (let f = 0; f < FRAMES; f++) {
+        encoder.addFrame(png.data);
+      }
     }
   }
 

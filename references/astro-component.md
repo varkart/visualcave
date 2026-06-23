@@ -3,6 +3,7 @@
 This reference outlines rules for generating `.astro` component files for integration with `varkart.dev` (`github.com/varkart/personal-site`).
 
 ## Trigger phrases
+
 - "for the site", "for the blog", "for the article", "embed this", "Astro component", "MDX component"
 
 ## Output rules
@@ -24,49 +25,56 @@ Light = `[data-theme='light']` on `<html>`.
 
 ```css
 /* ✓ correct */
-.card { background: #1e2130; color: #e5e7eb; }
-[data-theme='light'] .card { background: #ffffff; color: #111827; }
+.card {
+  background: #1e2130;
+  color: #e5e7eb;
+}
+[data-theme='light'] .card {
+  background: #ffffff;
+  color: #111827;
+}
 ```
 
 ## Token reference
 
-| Token | Dark default | Light override |
-|---|---|---|
-| Page bg | `#0a0a0a` | `#fafafa` |
-| Surface/card bg | `#1e2130` | `#ffffff` |
-| Deeper surface | `#161925` | `#f8f9fa` |
-| Code/pre bg | `#1e2130` | `#eef0f3 !important`* |
-| Border | `#2a2d3a` | `#e5e7eb` |
-| Text primary | `#e5e7eb` | `#111827` |
-| Text body | `#d1d5db` | `#374151` |
-| Text muted | `#9ca3af` | `#6b7280` |
-| Accent | `oklch(73% 0.15 72)` | `oklch(46% 0.16 68)` |
+| Token           | Dark default         | Light override         |
+| --------------- | -------------------- | ---------------------- |
+| Page bg         | `#0a0a0a`            | `#fafafa`              |
+| Surface/card bg | `#1e2130`            | `#ffffff`              |
+| Deeper surface  | `#161925`            | `#f8f9fa`              |
+| Code/pre bg     | `#1e2130`            | `#eef0f3 !important`\* |
+| Border          | `#2a2d3a`            | `#e5e7eb`              |
+| Text primary    | `#e5e7eb`            | `#111827`              |
+| Text body       | `#d1d5db`            | `#374151`              |
+| Text muted      | `#9ca3af`            | `#6b7280`              |
+| Accent          | `oklch(73% 0.15 72)` | `oklch(46% 0.16 68)`   |
 
-*`!important` needed on `pre` backgrounds — global `.prose pre { background: var(--bg-code) !important }` overrides component styles.
+\*`!important` needed on `pre` backgrounds — global `.prose pre { background: var(--bg-code) !important }` overrides component styles.
 
 ## Role badge palette
 
-| Role | Dark bg | Dark text | Light bg | Light text |
-|---|---|---|---|---|
-| system | `#2e1065` | `#c4b5fd` | `#ede9fe` | `#7c3aed` |
-| user | `#1e3a5f` | `#93c5fd` | `#dbeafe` | `#2563eb` |
-| assistant | `#064e3b` | `#6ee7b7` | `#d1fae5` | `#059669` |
-| tool | `#083344` | `#67e8f9` | `#cffafe` | `#0891b2` |
+| Role      | Dark bg   | Dark text | Light bg  | Light text |
+| --------- | --------- | --------- | --------- | ---------- |
+| system    | `#2e1065` | `#c4b5fd` | `#ede9fe` | `#7c3aed`  |
+| user      | `#1e3a5f` | `#93c5fd` | `#dbeafe` | `#2563eb`  |
+| assistant | `#064e3b` | `#6ee7b7` | `#d1fae5` | `#059669`  |
+| tool      | `#083344` | `#67e8f9` | `#cffafe` | `#0891b2`  |
 
 ## Era/phase accent colors (for timelines, pipelines)
 
-| Name | Color | Use for |
-|---|---|---|
+| Name   | Color     | Use for                     |
+| ------ | --------- | --------------------------- |
 | yellow | `#f59e0b` | Entry points, era 1, inputs |
-| blue | `#3b82f6` | Services, APIs, era 2 |
-| green | `#10b981` | Success, storage, era 3 |
-| purple | `#8b5cf6` | AI, auth, era 4 |
-| teal | `#06b6d4` | Cache, external, era 5 |
-| orange | `#f97316` | Queues, events, pipelines |
+| blue   | `#3b82f6` | Services, APIs, era 2       |
+| green  | `#10b981` | Success, storage, era 3     |
+| purple | `#8b5cf6` | AI, auth, era 4             |
+| teal   | `#06b6d4` | Cache, external, era 5      |
+| orange | `#f97316` | Queues, events, pipelines   |
 
 ## Mermaid theme config for embedded diagrams
 
 `MermaidDiagram.astro` already handles dark/light switching automatically. When writing the mermaid source string:
+
 - Use plain labels — no `#` hex colors in node labels
 - Avoid special chars in labels: `/ ( ) { }` — strip or rephrase
 - Sequence diagram participant aliases keep labels short (≤ 3 words)
@@ -118,11 +126,11 @@ const { label } = Astro.props;
 
 ## What needs custom CSS vs Mermaid
 
-| Visual type | Use |
-|---|---|
-| Flow / sequence / timeline diagrams | Mermaid via `MermaidDiagram.astro` |
-| Static cards, grids, tables | CSS Astro component |
-| Annotated thread / conversation views | CSS Astro component |
+| Visual type                              | Use                                                                                     |
+| ---------------------------------------- | --------------------------------------------------------------------------------------- |
+| Flow / sequence / timeline diagrams      | Mermaid via `MermaidDiagram.astro`                                                      |
+| Static cards, grids, tables              | CSS Astro component                                                                     |
+| Annotated thread / conversation views    | CSS Astro component                                                                     |
 | Interactive (user input, buttons, state) | CSS + JS Astro component — VisualCave can scaffold the shell but JS logic is hand-coded |
 
 ---
@@ -145,7 +153,9 @@ export function DiagramName() {
       >
         {/* diagram content — convert SVG attributes to camelCase */}
       </svg>
-      <figcaption style={{ fontSize: '0.75rem', color: '#9E9E9E', textAlign: 'center', marginTop: '0.5rem' }}>
+      <figcaption
+        style={{ fontSize: '0.75rem', color: '#9E9E9E', textAlign: 'center', marginTop: '0.5rem' }}
+      >
         Caption
       </figcaption>
     </figure>
@@ -155,17 +165,17 @@ export function DiagramName() {
 
 ### SVG → JSX attribute conversion
 
-| SVG | JSX |
-|---|---|
-| `stroke-width` | `strokeWidth` |
-| `font-family` | `fontFamily` |
-| `font-size` | `fontSize` |
-| `text-anchor` | `textAnchor` |
-| `marker-end` | `markerEnd` |
+| SVG                | JSX               |
+| ------------------ | ----------------- |
+| `stroke-width`     | `strokeWidth`     |
+| `font-family`      | `fontFamily`      |
+| `font-size`        | `fontSize`        |
+| `text-anchor`      | `textAnchor`      |
+| `marker-end`       | `markerEnd`       |
 | `stroke-dasharray` | `strokeDasharray` |
-| `fill-opacity` | `fillOpacity` |
-| `clip-path` | `clipPath` |
-| `class` | `className` |
+| `fill-opacity`     | `fillOpacity`     |
+| `clip-path`        | `clipPath`        |
+| `class`            | `className`       |
 
 ### MDX import (works for both Astro and React)
 
