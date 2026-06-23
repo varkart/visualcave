@@ -12,7 +12,6 @@ const http = require('http');
 
 const ROOT = path.join(__dirname, '..');
 const OUT = path.join(ROOT, 'assets', 'capabilities.gif');
-const PORT = 3098;
 const W = 1200;
 const H = 680;
 const FPS = 10;
@@ -54,7 +53,10 @@ function startServer() {
     res.writeHead(200, { 'Content-Type': mime[ext] || 'application/octet-stream' });
     fs.createReadStream(fp).pipe(res);
   });
-  return new Promise((resolve) => srv.listen(PORT, () => resolve(srv)));
+  // Pass 0 so the OS picks a free port — avoids Chrome's unsafe-port blocklist
+  return new Promise((resolve) =>
+    srv.listen(0, () => resolve({ srv, port: srv.address().port }))
+  );
 }
 
 // ── PNG frame → raw RGBA buffer ──────────────────────────────────────────────
@@ -66,7 +68,8 @@ function pngToRgba(buf) {
 // ── Main ──────────────────────────────────────────────────────────────────────
 (async () => {
   console.log('Starting server...');
-  const srv = await startServer();
+  const { srv, port } = await startServer();
+  console.log(`  listening on http://localhost:${port}`);
 
   console.log('Launching browser...');
   const browser = await puppeteer.launch({
@@ -77,7 +80,7 @@ function pngToRgba(buf) {
   await page.setViewport({ width: W, height: H, deviceScaleFactor: 1 });
 
   console.log('Loading page...');
-  await page.goto(`http://localhost:${PORT}/index.html`, { waitUntil: 'networkidle2' });
+  await page.goto(`http://localhost:${port}/index.html`, { waitUntil: 'networkidle2' });
 
   // Scroll slightly so caps strip + first row of cards are fully visible
   await page.evaluate(() => window.scrollTo(0, 80));
@@ -94,8 +97,8 @@ function pngToRgba(buf) {
 
   async function captureFrames(count) {
     for (let i = 0; i < count; i++) {
-      const buf = await page.screenshot({ type: 'png' });
-      const { data } = pngToRgba(buf);
+      const raw = await page.screenshot({ type: 'png' });
+      const { data } = pngToRgba(Buffer.from(raw)); // Uint8Array → Buffer for pngjs
       encoder.addFrame(data);
     }
   }
@@ -129,7 +132,7 @@ function pngToRgba(buf) {
 
   await new Promise((resolve) => writeStream.on('finish', resolve));
   await browser.close();
-  srv.close();
+  srv.close(() => {});
 
   const size = (fs.statSync(OUT).size / 1024).toFixed(0);
   console.log(`\nDone → ${OUT}  (${size} KB)`);
