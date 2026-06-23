@@ -128,6 +128,29 @@
       border-radius: 16px; overflow: hidden; margin-bottom: 56px;
     }
 
+    /* ── Capabilities strip ── */
+    .caps {
+      background: var(--surface); border-bottom: 1px solid var(--border);
+      padding: 20px 40px;
+    }
+    .caps-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; gap: 12px; flex-wrap: wrap; align-items: center;
+    }
+    .caps-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--muted); margin-right: 4px; white-space: nowrap;
+    }
+    .cap {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 8px; padding: 5px 12px;
+      font-size: 12px; font-weight: 500; color: var(--text);
+    }
+    .cap-dot {
+      width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0;
+    }
+
     footer {
       text-align: center; padding: 32px; border-top: 1px solid var(--border);
       font-size: 13px; color: var(--muted);
@@ -141,9 +164,9 @@
     <div class="hero-badge">Agent Skill</div>
     <h1><span>/visualcave</span><br>Technical Diagrams</h1>
     <p>
-      Generate interactive, publication-quality technical diagrams as standalone HTML files.
-      From simple single-diagram Mermaid to rich custom-CSS layouts with step-through reveal.
-      Dark mode, theme selector, SVG/PNG/PDF export built in.
+      Generate interactive, publication-quality technical diagrams as standalone HTML files —
+      or embed as Astro / React components. Mermaid-based or full custom canvas. Dark mode,
+      theme selector, step-through reveal, and SVG/PNG/PDF export built in.
     </p>
     <div class="hero-invoke">
       <span class="cmd">/visualcave</span>
@@ -153,9 +176,21 @@
     <div class="hero-meta">
       <a href="https://github.com/varkart/visualcave">GitHub</a>
       <span>·</span>
-      <span>21 examples</span>
+      <span>22 examples</span>
       <span>·</span>
       <span>11 diagram types</span>
+    </div>
+  </div>
+
+  <div class="caps">
+    <div class="caps-inner">
+      <span class="caps-label">Capabilities</span>
+      <span class="cap"><span class="cap-dot" style="background:#3B82F6"></span>Mermaid — 11 diagram types</span>
+      <span class="cap"><span class="cap-dot" style="background:#22C55E"></span>CSS flow animation</span>
+      <span class="cap"><span class="cap-dot" style="background:#A855F7"></span>Canvas animation</span>
+      <span class="cap"><span class="cap-dot" style="background:#F59E0B"></span>Astro / React component output</span>
+      <span class="cap"><span class="cap-dot" style="background:#06B6D4"></span>Step-through reveal</span>
+      <span class="cap"><span class="cap-dot" style="background:#EF4444"></span>SVG / PNG / PDF export</span>
     </div>
   </div>
 
