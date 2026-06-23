@@ -3,11 +3,13 @@
 Target Mermaid's rendered SVG classes after `mermaid.run()` completes. Use `<script type="module">` with ESM import.
 
 **Key selectors:**
+
 - Edges: `.edgePath path`, `path.flowchart-link`
 - Nodes: `.node rect`, `.node circle`, `.node polygon`
 - Clusters: `.cluster rect`
 
 **Flowing edge animation:**
+
 ```css
 .mermaid svg .edgePath path,
 .mermaid svg path.flowchart-link {
@@ -16,12 +18,17 @@ Target Mermaid's rendered SVG classes after `mermaid.run()` completes. Use `<scr
   animation: edge-flow 1.8s linear infinite;
 }
 @keyframes edge-flow {
-  from { stroke-dashoffset: 0; }
-  to   { stroke-dashoffset: -51; }
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -51;
+  }
 }
 ```
 
 **Node glow + staggered reveal — must be triggered by JS after render** (CSS alone fires too early):
+
 ```javascript
 import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
 mermaid.initialize({ startOnLoad: false, theme: 'default' });
@@ -33,6 +40,7 @@ el.querySelectorAll('.node').forEach((n, i) => {
   if (i === 0) n.classList.add('is-entry');
 });
 ```
+
 ```css
 .mermaid svg .node.revealed {
   animation: node-reveal 0.55s ease forwards;
@@ -40,15 +48,26 @@ el.querySelectorAll('.node').forEach((n, i) => {
   opacity: 0;
 }
 @keyframes node-reveal {
-  from { opacity: 0; transform: translateY(7px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(7px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 .mermaid svg .node.is-entry rect {
   animation: breathe 3s ease-in-out infinite;
 }
 @keyframes breathe {
-  0%, 100% { filter: drop-shadow(0 0 0px rgba(251,191,36,0)); }
-  50%       { filter: drop-shadow(0 0 14px rgba(251,191,36,0.8)); }
+  0%,
+  100% {
+    filter: drop-shadow(0 0 0px rgba(251, 191, 36, 0));
+  }
+  50% {
+    filter: drop-shadow(0 0 14px rgba(251, 191, 36, 0.8));
+  }
 }
 ```
 
