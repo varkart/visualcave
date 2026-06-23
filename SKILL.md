@@ -65,6 +65,7 @@ Do not alter the CSS, THEMES object, or script block unless a specific feature r
 **Animation Mode** — when user requests "animated", "living diagram", "canvas", "particles", "flowing edges", or "living visual": before generating, ask:
 
 > Which animation approach?
+>
 > 1. **CSS flow** — flowing edges + node glow on any Mermaid diagram. Zero extra deps.
 > 2. **Canvas** — full custom animation (particles, physics, signal propagation). No Mermaid. Showpiece only.
 

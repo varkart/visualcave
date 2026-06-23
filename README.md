@@ -8,9 +8,10 @@ VisualCave is an agentic custom skill and plugin that enables AI assistants (**C
 Powered by **[Mermaid.js](https://mermaid.js.org)**, it supports 11 diagram types including flowcharts, sequence diagrams, ER diagrams, class diagrams, git graphs, mind maps, and more.
 
 Every output automatically includes:
-*   **Presentation Tools:** Step-through reveal for guided slideshow walkthroughs and dynamic hover-highlighting.
-*   **Design Customization:** Smooth dark/light mode toggle and four distinct theme presets (Default, Minimal, Pastel, Print).
-*   **One-Click Client Export:** Direct SVG, PNG, and PDF downloads right from the browser controls bar — with absolutely no server or local build step required.
+
+- **Presentation Tools:** Step-through reveal for guided slideshow walkthroughs and dynamic hover-highlighting.
+- **Design Customization:** Smooth dark/light mode toggle and four distinct theme presets (Default, Minimal, Pastel, Print).
+- **One-Click Client Export:** Direct SVG, PNG, and PDF downloads right from the browser controls bar — with absolutely no server or local build step required.
 
 **[View Showcase Site →](https://varkart.github.io/visualcave)**
 
