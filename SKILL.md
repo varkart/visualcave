@@ -62,6 +62,15 @@ Do not alter the CSS, THEMES object, or script block unless a specific feature r
 
 **Animated diagrams**: see `references/animated.md`.
 
+**Animation Mode** — when user requests "animated", "living diagram", "canvas", "particles", "flowing edges", or "living visual": before generating, ask:
+
+> Which animation approach?
+> 1. **CSS flow** — flowing edges + node glow on any Mermaid diagram. Zero extra deps.
+> 2. **Canvas** — full custom animation (particles, physics, signal propagation). No Mermaid. Showpiece only.
+
+CSS flow: see `references/animated.md` § Mermaid CSS Flow.
+Canvas: see `references/canvas-animation.md`.
+
 ## Astro Component Mode (varkart.dev site)
 
 **Triggers**: "for the blog/site/article", "embed this", "Astro component", "MDX component"  
