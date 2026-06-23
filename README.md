@@ -1,15 +1,18 @@
-# visualcave
+# VisualCave — Interactive Diagram Generator for AI Agents
 
 ![Validate Diagrams](https://github.com/varkart/visualcave/actions/workflows/ci.yml/badge.svg)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-An agentic skill for creating professional technical diagrams as interactive standalone HTML files. Powered by **[Mermaid.js](https://mermaid.js.org)** — supports 11 diagram types including flowcharts, sequence diagrams, ER diagrams, class diagrams, git graphs, mind maps, and more.
+VisualCave is an agentic custom skill and plugin that enables AI assistants (**Claude Code**, **Cursor**, **Codex CLI**, and **Gemini CLI**) to design and render gorgeous, fully-interactive technical diagrams as standalone HTML files or embeddable Astro/MDX components.
 
-Every output includes: dark/light mode toggle, four design themes (Default, Minimal, Pastel, Print), step-through reveal for walkthroughs, hover highlight, and in-page SVG/PNG/PDF export — no server or build step required.
+Powered by **[Mermaid.js](https://mermaid.js.org)**, it supports 11 diagram types including flowcharts, sequence diagrams, ER diagrams, class diagrams, git graphs, mind maps, and more.
 
-Works with **Claude Code**, **Cursor**, **Codex CLI**, and **Gemini CLI**.
+Every output automatically includes:
+*   **Presentation Tools:** Step-through reveal for guided slideshow walkthroughs and dynamic hover-highlighting.
+*   **Design Customization:** Smooth dark/light mode toggle and four distinct theme presets (Default, Minimal, Pastel, Print).
+*   **One-Click Client Export:** Direct SVG, PNG, and PDF downloads right from the browser controls bar — with absolutely no server or local build step required.
 
-**[View showcase →](https://varkart.github.io/visualcave)**
+**[View Showcase Site →](https://varkart.github.io/visualcave)**
 
 ![VisualCave demo — step-through transformer architecture](assets/showcase.gif)
 
@@ -81,6 +84,7 @@ Outputs a single self-contained `.html` file. Open it in any browser — no buil
 - **Copy Mermaid source** — one-click copy of the raw diagram source for reuse or editing
 - **In-page export** — SVG, PNG, and PDF download buttons in every diagram's controls bar; fully client-side, no server or Node.js required
 - **CLI export** — animated GIF, OG social card (1200×630), and headless batch export via `capture.js` (requires Node.js 18+)
+- **Astro / React component output** — generate site-ready `.astro` or `.tsx` components for embedding diagrams into blog posts and articles, with full dark/light token alignment
 - **Zero runtime dependencies** — Mermaid loaded from CDN; all other logic is inlined in the HTML file
 
 ---
