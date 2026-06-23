@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Agentic Horizon</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0A0A0F;
+      --surface: #111118;
+      --surface2: #16161F;
+      --border: #1E1E2E;
+      --text: #E8E8F0;
+      --muted: #6B7280;
+      --accent: #818CF8;
+    }
+
+    [data-theme="light"] {
+      --bg: #F4F4F8;
+      --surface: #FFFFFF;
+      --surface2: #F0F0F5;
+      --border: #E0E0EC;
+      --text: #111118;
+      --muted: #6B7280;
+      --accent: #4F46E5;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      padding: 48px 32px;
+      line-height: 1.6;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .page { max-width: 1400px; margin: 0 auto; }
+
+    /* === HEADER === */
+    header {
+      margin-bottom: 56px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 36px;
+    }
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    h1 {
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      background: linear-gradient(135deg, #F59E0B 0%, #E8E8F0 45%, #818CF8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.1;
+    }
+    .subtitle {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 400;
+      margin-top: 10px;
+      max-width: 560px;
+      line-height: 1.7;
+    }
+    .controls { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; padding-top: 4px; }
+    button {
+      font: 600 12px 'Inter', sans-serif;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    button:hover { border-color: var(--accent); }
+
+    /* === LAYOUT === */
+    .layout { display: flex; gap: 40px; align-items: flex-start; }
+    .sections { flex: 1; min-width: 0; }
+
+    /* === HUMAN ARC SIDEBAR === */
+    .human-arc {
+      width: 172px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 32px;
+    }
+    .arc-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+    .arc-timeline { position: relative; padding-left: 26px; }
+    .arc-timeline::before {
+      content: '';
+      position: absolute;
+      left: 7px; top: 8px; bottom: 8px;
+      width: 2px;
+      background: linear-gradient(to bottom, #F59E0B, #34D399, #60A5FA, #A78BFA, #F8FAFC);
+      opacity: 0.6;
+    }
+    .arc-era {
+      position: relative;
+      margin-bottom: 28px;
+      transition: all 0.4s ease;
+    }
+    .arc-era::before {
+      content: '';
+      position: absolute;
+      left: -22px; top: 5px;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      border: 2px solid currentColor;
+      background: var(--bg);
+      transition: background 0.3s ease;
+    }
+    .arc-era.active::before { background: currentColor; }
+    .era-icon { font-size: 15px; line-height: 1; margin-bottom: 3px; }
+    .era-title { font-size: 12px; font-weight: 700; line-height: 1.3; }
+    .era-desc { font-size: 10px; color: var(--muted); margin-top: 2px; line-height: 1.5; }
+    .era-0 { color: #F59E0B; }
+    .era-1 { color: #34D399; }
+    .era-2 { color: #60A5FA; }
+    .era-3 { color: #A78BFA; }
+    .era-4 { color: #E8E8F0; }
+
+    /* === PHASE DIVIDERS === */
+    .phase-divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 64px 0 32px;
+    }
+    .phase-divider:first-child { margin-top: 0; }
+    .phase-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .phase-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .section-title {
+      font-size: clamp(22px, 3vw, 30px);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+    .section-sub {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 28px;
+      max-width: 640px;
+      line-height: 1.7;
+    }
+
+    /* === DIAGRAM CONTAINERS === */
+    .diagram-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      margin-bottom: 20px;
+      overflow-x: auto;
+    }
+    .diagram-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+    .mermaid svg { max-width: 100% !important; height: auto !important; display: block; margin: 0 auto; }
+
+    /* === SECTION 2 FORK TAGS === */
+    .fork-tags { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+    .fork-tag {
+      font-size: 10px; font-weight: 700;
+      padding: 4px 10px; border-radius: 20px;
+      letter-spacing: 0.06em; text-transform: uppercase;
+    }
+    .fork-a { background: rgba(52,211,153,.1); color: #34D399; border: 1px solid rgba(52,211,153,.3); }
+    .fork-b { background: rgba(239,68,68,.1);  color: #F87171; border: 1px solid rgba(239,68,68,.3); }
+    .fork-c { background: rgba(167,139,250,.1); color: #A78BFA; border: 1px solid rgba(167,139,250,.3); }
+
+    /* === SECTION 3 — WORKFORCE === */
+    .workforce-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+    @media (max-width: 700px) { .workforce-grid { grid-template-columns: 1fr; } }
+
+    .wf-column {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+    }
+    .wf-title {
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 18px;
+    }
+    .wf-bars { display: flex; flex-direction: column; gap: 7px; }
+    .wf-row { display: flex; align-items: center; gap: 8px; }
+    .wf-name { font-size: 10px; color: var(--muted); width: 120px; flex-shrink: 0; text-align: right; line-height: 1.3; }
+    .wf-bar-track {
+      flex: 1; height: 16px;
+      background: var(--surface2);
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+    }
+    .wf-bar-fill { height: 100%; border-radius: 4px; }
+    .wf-bar-displaced {
+      position: absolute; top: 0; right: 0; height: 100%;
+      border-radius: 0 4px 4px 0;
+      background: repeating-linear-gradient(
+        45deg,
+        rgba(127,29,29,.7), rgba(127,29,29,.7) 3px,
+        rgba(239,68,68,.15) 3px, rgba(239,68,68,.15) 6px
+      );
+    }
+    .wf-pct { font-size: 10px; font-weight: 600; color: var(--muted); width: 32px; text-align: right; flex-shrink: 0; }
+    .wf-new-roles { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); }
+    .wf-new-label {
+      font-size: 9px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em;
+      color: #22D3EE; margin-bottom: 8px;
+    }
+    .wf-new-role {
+      font-size: 10px; color: #22D3EE;
+      padding: 2px 0;
+      display: flex; align-items: center; gap: 5px;
+    }
+    .wf-new-role::before { content: '↗'; font-size: 9px; }
+    .wf-note {
+      background: rgba(251,191,36,.07);
+      border: 1px solid rgba(251,191,36,.2);
+      border-radius: 12px;
+      padding: 16px 20px;
+      font-size: 13px; color: #FCD34D;
+      line-height: 1.7;
+    }
+
+    /* === SECTION 4 — BRIDGE === */
+    .bridge-grid {
+      display: grid;
+      grid-template-columns: 1fr 44px 1fr;
+      gap: 0;
+      align-items: start;
+    }
+    @media (max-width: 700px) {
+      .bridge-grid { grid-template-columns: 1fr; }
+      .bridge-divider { display: none; }
+    }
+    .bridge-path {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      overflow-x: auto;
+    }
+    .bridge-path-label {
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .bridge-divider {
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 16px 0; gap: 8px; min-height: 300px;
+    }
+    .divider-line { width: 1px; flex: 1; background: var(--border); min-height: 40px; }
+    .divider-text {
+      writing-mode: vertical-lr;
+      text-orientation: mixed;
+      font-size: 9px; font-weight: 600;
+      color: var(--muted); letter-spacing: 0.05em;
+      text-align: center; max-height: 200px;
+    }
+
+    /* === CLOSING CARD === */
+    .closing-card {
+      max-width: 680px;
+      margin: 72px auto 40px;
+      background: #14141F;
+      border: 1px solid #2A2A3E;
+      border-radius: 12px;
+      padding: 44px;
+    }
+    [data-theme="light"] .closing-card {
+      background: #F8F8FC;
+      border-color: #E0E0EC;
+    }
+    .closing-title {
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 24px;
+    }
+    .closing-body { font-size: 14px; line-height: 1.85; color: #C4C4D0; }
+    [data-theme="light"] .closing-body { color: #4B4B60; }
+    .closing-body p + p { margin-top: 14px; }
+    .closing-divider { height: 1px; background: var(--border); margin: 28px 0 18px; }
+    .closing-footnote { font-size: 11px; color: #4B5563; font-style: italic; }
+
+    /* === PAGE CAPTION === */
+    .page-caption {
+      text-align: center; font-size: 11px; color: #374151;
+      margin-top: 72px; padding-top: 28px;
+      border-top: 1px solid var(--border);
+      font-style: italic; letter-spacing: 0.02em;
+    }
+
+    /* === PULSE ANIMATION === */
+    @keyframes pulse-glow {
+      0%, 100% { filter: drop-shadow(0 0 6px rgba(232,232,240,.25)); }
+      50%       { filter: drop-shadow(0 0 22px rgba(232,232,240,.75)); }
+    }
+    .pulse-node { animation: pulse-glow 2.8s ease-in-out infinite; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+
+    @media print {
+      .controls { display: none !important; }
+      body { background: #fff !important; color: #000 !important; padding: 0; }
+      .page { max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <div class="header-top">
+      <div>
+        <h1>The Agentic Horizon</h1>
+        <p class="subtitle">A consequence map — the philosophical and economic evolution from human-run software to a fully agentic civilization. What follows from what, if the logic holds.</p>
+      </div>
+      <div class="controls">
+        <button onclick="toggleTheme()" id="theme-toggle">☀ Light Mode</button>
+        <button onclick="window.print()">⬇ PDF</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="layout">
+    <main class="sections">
+
+      <!-- ══════════════════════════════════════════════
+           SECTION 1 — THE HUMAN STACK
+      ══════════════════════════════════════════════ -->
+      <div class="phase-divider" style="margin-top:0" data-era="0">
+        <span class="phase-label">Phase 0 → 2 &nbsp;·&nbsp; The Stack</span>
+      </div>
+      <h2 class="section-title" style="color:#F59E0B">The Human Stack</h2>
+      <p class="section-sub">Every step in the software lifecycle carried by human expertise — one engineer or an army, the model is the same. Then agents arrive at the edges.</p>
+
+      <div class="diagram-wrap">
+        <div class="diagram-label">The Human Loop — Pre-2020</div>
+        <div class="mermaid" id="diagram-1a">
+          graph LR
+            classDef amber  fill:#2D1C06,stroke:#F59E0B,stroke-width:2px,color:#FDE68A
+            classDef amber2 fill:#1E1204,stroke:#D97706,stroke-width:1.5px,color:#FCD34D
+
+            R[Requirements]:::amber --> RD[Repo Discovery]:::amber2
+            RD --> LP[Language Mastery]:::amber2
+            LP --> AR[Architecture]:::amber2
+            AR --> B[Build]:::amber2
+            B --> CI[CI / CD]:::amber2
+            CI --> QA[QA Testing]:::amber2
+            QA --> PM[PM Sign-off]:::amber2
+            PM --> SEC[Security]:::amber2
+            SEC --> DEP[Deploy]:::amber2
+            DEP --> MON[Monitor]:::amber2
+            MON --> BUG[Bugs &amp; Crashes]:::amber2
+            BUG -.->|loop| R
+        </div>
+      </div>
+
+      <div class="diagram-wrap">
+        <div class="diagram-label">The Augmented Loop — Agent Mesh</div>
+        <div class="mermaid" id="diagram-1b">
+          graph LR
+            classDef human  fill:#2D1C06,stroke:#F59E0B,stroke-width:2px,color:#FDE68A
+            classDef human2 fill:#1E1204,stroke:#D97706,stroke-width:1.5px,color:#FCD34D
+            classDef agent  fill:#0D1829,stroke:#3B82F6,stroke-width:1.5px,color:#93C5FD,stroke-dasharray:5
+
+            R[Requirements]:::human --> RD[Repo Discovery]:::human2
+            RD --> LP[Language]:::human2
+            LP --> AR[Architecture]:::human2
+            AR --> B[Build]:::human2
+            B --> CI[CI / CD]:::human2
+            CI --> QA[QA Testing]:::human2
+            QA --> PM[PM Sign-off]:::human2
+            PM --> SEC[Security]:::human2
+            SEC --> DEP[Deploy]:::human2
+            DEP --> MON[Monitor]:::human2
+            MON --> BUG[Bugs]:::human2
+            BUG -.->|loop| R
+
+            RA[Repo Agent]:::agent -.->|assists| RD
+            LA[Lang Agent]:::agent  -.->|assists| LP
+            TA[Test Agent]:::agent  -.->|assists| QA
+            DA[Deploy Agent]:::agent -.->|assists| DEP
+            MA[Monitor Agent]:::agent -.->|assists| MON
+            BA[Bug Agent]:::agent   -.->|assists| BUG
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════
+           SECTION 2 — ECONOMIC RUPTURE
+      ══════════════════════════════════════════════ -->
+      <div class="phase-divider" data-era="1">
+        <span class="phase-label">Phase 4 &nbsp;·&nbsp; The Fork</span>
+      </div>
+      <h2 class="section-title" style="color:#60A5FA">Economic Rupture</h2>
+      <p class="section-sub">Agents manage the entire stack. Requirements become the last human input. Three paths diverge — with very different probabilities, shaped by game theory and historical pattern.</p>
+
+      <div class="diagram-wrap">
+        <div class="fork-tags">
+          <span class="fork-tag fork-a">A · Cooperation ~20%</span>
+          <span class="fork-tag fork-b">B · Defection ~50%</span>
+          <span class="fork-tag fork-c">C · Nash ~30%</span>
+        </div>
+        <div class="mermaid" id="diagram-2">
+          graph TD
+            classDef center fill:#1E1B08,stroke:#FBBF24,stroke-width:2.5px,color:#FDE68A
+            classDef green  fill:#0A1F0F,stroke:#34D399,stroke-width:2px,color:#6EE7B7
+            classDef red    fill:#1F0A0A,stroke:#F87171,stroke-width:2px,color:#FCA5A5
+            classDef redx   fill:#2D0808,stroke:#DC2626,stroke-width:2px,color:#FECACA
+            classDef purple fill:#140A1F,stroke:#A78BFA,stroke-width:2px,color:#C4B5FD
+
+            ASE["&#9889; Autonomous Software Era"]:::center
+
+            ASE --> FA["A — Controlled Transition<br/>~20% probability"]:::green
+            ASE --> FB["B — Violent Rupture<br/>~50% probability"]:::red
+            ASE --> FC["C — Bifurcation<br/>~30% probability"]:::purple
+
+            FA --> FA1[Digital Dividend]:::green
+            FA1 --> FA2[Managed Reskilling]:::green
+            FA2 --> FA3[AI Auditors &amp; Ethics Roles]:::green
+            FA3 --> FA4[New Labor Compact]:::green
+            FA4 --> FA5[Stability — fragile]:::green
+
+            FB --> FB1[Displacement Outpaces Retraining]:::red
+            FB1 --> FB2[Mass Structural Unemployment]:::red
+            FB2 --> FB3[Wealth Concentration]:::red
+            FB3 --> FB4[LLM Providers as Quasi-States]:::redx
+            FB4 --> FB5[Reactive Laws — too late]:::redx
+
+            FC --> FC1["Integrated Economy<br/>(AI-augmented)"]:::purple
+            FC --> FC2["Artisanal Economy<br/>(human-premium)"]:::purple
+            FC1 & FC2 --> FC3[Middle Class Collapses]:::purple
+            FC3 --> FC4[Both Extremes Persist]:::purple
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════
+           SECTION 3 — WORKFORCE TRANSFORMATION
+      ══════════════════════════════════════════════ -->
+      <div class="phase-divider" data-era="2">
+        <span class="phase-label">Phase 2 → 4+ &nbsp;·&nbsp; Labor</span>
+      </div>
+      <h2 class="section-title" style="color:#34D399">Workforce Transformation</h2>
+      <p class="section-sub">Displacement is not uniform. It follows capability curves — knowledge work first, then physical. New roles emerge, but on a slower clock. The gap between those two rates is where civilizational stress lives.</p>
+
+      <div class="workforce-grid">
+        <div class="wf-column">
+          <div class="wf-title">Before &mdash; ~160M workers</div>
+          <div class="wf-bars">
+            <div class="wf-row">
+              <span class="wf-name">Software / Tech</span>
+              <div class="wf-bar-track"><div class="wf-bar-fill" style="width:2.5%;background:#3B82F6"></div></div>
+              <span class="wf-pct">2.5%</span>
+            </div>
+            <div class="wf-row">
+              <span class="wf-name">Finance</span>
+              <div class="wf-bar-track"><div class="wf-bar-fill" style="width:5%;background:#14B8A6"></div></div>
+              <span class="wf-pct">5%</span>
+            </div>
+            <div class="wf-row">
+              <span class="wf-name">Healthcare Pro.</span>
+              <div class="wf-bar-track"><div class="wf-bar-fill" style="width:7.5%;background:#34D399"></div></div>
+              <span class="wf-pct">7.5%</span>
+            </div>
+            <div class="wf-row">
+              <span class="wf-name">Legal</span>
+              <div class="wf-bar-track"><div class="wf-bar-fill" style="width:1%;background:#A78BFA"></div></div>
+              <span class="wf-pct">1%</span>
+            </div>
+            <div class="wf-row">
+              <span class="wf-name">Mgmt / Admin</span>
+              <div class="wf-bar-track"><div class="wf-bar-fill" style="width:9.5%;background:#FBBF24"></div></div>
+              <span class="wf-pct">9.5%</span>
+            </div>
+            <div class="wf-row">
+              <span class="wf-name">Retail</span>
+              <div class="wf-bar-track"><div class="wf-bar-fill" style="width:9%;background:#F97316"></div></div>
+              <span class="wf-pct">9%</span>
+            </div>
+            <div class="wf-row">
+              <span class="wf-name">Food Service</span>
+              <div class="wf-bar-track"><div class="wf-bar-fill" style="width:9%;background:#FB923C"></div></div>
+              <span class="wf-pct">9%</span>
+            </div>
+            <div class="wf-row">
+              <span class="wf-name">Construction</span>
+              <div class="wf-bar-track"><div class="wf-bar-fill" style="width:6%;background:#B45309"></div></div>
+              <span class="wf-pct">6%</span>
+            </div>
+            <div class="wf-row">
+              <span class="wf-name">Manufacturing</span>
+              <div class="wf-bar-track"><div class="wf-bar-fill" style="width:7.5%;background:#EF4444"></div></div>
+              <span class="wf-pct">7.5%</span>
+            </div>
+            <div class="wf-row">
+              <span class="wf-name">Transport</span>
+              <div class="wf-bar-track"><div class="wf-bar-fill" style="width:5%;background:#EC4899"></div></div>
+              <span class="wf-pct">5%</span>
+            </div>
+            <div class="wf-row">
+              <span class="wf-name">Healthcare Support</span>
+              <div class="wf-bar-track"><div class="wf-bar-fill" style="width:5%;background:#86EFAC"></div></div>
+              <span class="wf-pct">5%</span>
+            </div>
+            <div class="wf-row">
+              <span class="wf-name">Other Services</span>
+              <div class="wf-bar-track"><div class="wf-bar-fill" style="width:20%;background:#6B7280"></div></div>
+              <span class="wf-pct">20%</span>
+            </div>
+            <div class="wf-row">
+              <span class="wf-name">Education / Gov</span>
+              <div class="wf-bar-track"><div class="wf-bar-fill" style="width:13%;background:#4B5563"></div></div>
+              <span class="wf-pct">13%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="wf-column">
+          <div class="wf-title">After &mdash; staggered 10&ndash;30 years</div>
+          <div class="wf-bars">
+            <div class="wf-row">
+              <span class="wf-name">Software / Tech</span>
+              <div class="wf-bar-track">
+                <div class="wf-bar-fill" style="width:2.5%;background:#3B82F6"></div>
+                <div class="wf-bar-displaced" style="width:70%"></div>
+              </div>
+              <span class="wf-pct" style="color:#F87171">&minus;70%</span>
+            </div>
+            <div class="wf-row">
+              <span class="wf-name">Finance</span>
+              <div class="wf-bar-track">
+                <div class="wf-bar-fill" style="width:5%;background:#14B8A6"></div>
+                <div class="wf-bar-displaced" style="width:55%"></div>
+              </div>
+              <span class="wf-pct" style="color:#F87171">&minus;55%</span>
+            </div>
+            <div class="wf-row">
+              <span class="wf-name">Healthcare Pro.</span>
+              <div class="wf-bar-track">
+                <div class="wf-bar-fill" style="width:7.5%;background:#34D399"></div>
+                <div class="wf-bar-displaced" style="width:35%"></div>
+              </div>
+              <span class="wf-pct" style="color:#FBBF24">&minus;35%</span>
+            </div>
+            <div class="wf-row">
+              <span class="wf-name">Legal</span>
+              <div class="wf-bar-track">
+                <div class="wf-bar-fill" style="width:1%;background:#A78BFA"></div>
+                <div class="wf-bar-displaced" style="width:60%"></div>
+              </div>
+              <span class="wf-pct" style="color:#F87171">&minus;60%</span>
+            </div>
+            <div class="wf-row">
+              <span class="wf-name">Mgmt / Admin</span>
+              <div class="wf-bar-track">
+                <div class="wf-bar-fill" style="width:9.5%;background:#FBBF24"></div>
+                <div class="wf-bar-displaced" style="width:50%"></div>
+              </div>
+              <span class="wf-pct" style="color:#FBBF24">&minus;50%</span>
+            </div>
+            <div class="wf-row">
+              <span class="wf-name">Retail</span>
+              <div class="wf-bar-track">
+                <div class="wf-bar-fill" style="width:9%;background:#F97316"></div>
+                <div class="wf-bar-displaced" style="width:40%"></div>
+              </div>
+              <span class="wf-pct" style="color:#FBBF24">&minus;40%</span>
+            </div>
+            <div class="wf-row">
+              <span class="wf-name">Food Service</span>
+              <div class="wf-bar-track">
+                <div class="wf-bar-fill" style="width:9%;background:#FB923C"></div>
+                <div class="wf-bar-displaced" style="width:30%"></div>
+              </div>
+              <span class="wf-pct" style="color:#FBBF24">&minus;30%</span>
+            </div>
+            <div class="wf-row">
+              <span class="wf-name">Construction</span>
+              <div class="wf-bar-track">
+                <div class="wf-bar-fill" style="width:6%;background:#B45309"></div>
+                <div class="wf-bar-displaced" style="width:65%"></div>
+              </div>
+              <span class="wf-pct" style="color:#F87171">&minus;65%</span>
+            </div>
+            <div class="wf-row">
+              <span class="wf-name">Manufacturing</span>
+              <div class="wf-bar-track">
+                <div class="wf-bar-fill" style="width:7.5%;background:#EF4444"></div>
+                <div class="wf-bar-displaced" style="width:75%"></div>
+              </div>
+              <span class="wf-pct" style="color:#F87171">&minus;75%</span>
+            </div>
+            <div class="wf-row">
+              <span class="wf-name">Transport</span>
+              <div class="wf-bar-track">
+                <div class="wf-bar-fill" style="width:5%;background:#EC4899"></div>
+                <div class="wf-bar-displaced" style="width:80%"></div>
+              </div>
+              <span class="wf-pct" style="color:#F87171">&minus;80%</span>
+            </div>
+            <div class="wf-row">
+              <span class="wf-name">Healthcare Support</span>
+              <div class="wf-bar-track">
+                <div class="wf-bar-fill" style="width:5%;background:#86EFAC"></div>
+                <div class="wf-bar-displaced" style="width:50%"></div>
+              </div>
+              <span class="wf-pct" style="color:#FBBF24">&minus;50%</span>
+            </div>
+            <div class="wf-row">
+              <span class="wf-name">Other Services</span>
+              <div class="wf-bar-track">
+                <div class="wf-bar-fill" style="width:20%;background:#6B7280"></div>
+                <div class="wf-bar-displaced" style="width:25%"></div>
+              </div>
+              <span class="wf-pct" style="color:#FBBF24">&minus;25%</span>
+            </div>
+            <div class="wf-row">
+              <span class="wf-name">Education / Gov</span>
+              <div class="wf-bar-track">
+                <div class="wf-bar-fill" style="width:13%;background:#4B5563"></div>
+                <div class="wf-bar-displaced" style="width:20%"></div>
+              </div>
+              <span class="wf-pct" style="color:#6B7280">&minus;20%</span>
+            </div>
+          </div>
+          <div class="wf-new-roles">
+            <div class="wf-new-label">New roles emerging</div>
+            <div class="wf-new-role">AI Systems Auditor</div>
+            <div class="wf-new-role">Ethics &amp; Values Arbiter</div>
+            <div class="wf-new-role">Experience Designer</div>
+            <div class="wf-new-role">Robot Fleet Supervisor</div>
+            <div class="wf-new-role">Authenticity Certifier</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="wf-note">
+        Critical Gap: The Industrial Revolution redistributed labor over 50 years. AI may compress this to 10&ndash;15. The delta between job-loss velocity and new-role creation rate is where civilizational stress lives.
+      </div>
+
+      <!-- ══════════════════════════════════════════════
+           SECTION 4 — PHYSICAL-DIGITAL BRIDGE
+      ══════════════════════════════════════════════ -->
+      <div class="phase-divider" data-era="2">
+        <span class="phase-label">Phase 4+ &nbsp;·&nbsp; Physical World</span>
+      </div>
+      <h2 class="section-title" style="color:#A78BFA">Physical-Digital Bridge</h2>
+      <p class="section-sub">Software automation reaches the physical world. Robotic surgery at a fraction of the cost. AI preventative care. Construction crews of one. The bridge has two plausible shapes.</p>
+
+      <div class="bridge-grid">
+        <div class="bridge-path">
+          <div class="bridge-path-label" style="color:#22D3EE">Path A &mdash; Gradual Hybrid</div>
+          <div class="mermaid" id="diagram-4a">
+            graph TD
+              classDef c1 fill:#071624,stroke:#22D3EE,stroke-width:2px,color:#67E8F9
+              classDef c2 fill:#082030,stroke:#38BDF8,stroke-width:2px,color:#7DD3FC
+              classDef c3 fill:#092840,stroke:#60A5FA,stroke-width:2px,color:#93C5FD
+              classDef c4 fill:#0A304E,stroke:#818CF8,stroke-width:2px,color:#A5B4FC
+              classDef c5 fill:#0B385A,stroke:#A78BFA,stroke-width:1.5px,color:#C4B5FD,stroke-dasharray:6
+
+              A1["Robot Assists Human"]:::c1
+              A1 --> A2["Human Supervises Robot"]:::c2
+              A2 --> A3["Robot Supervises Robot"]:::c3
+              A3 --> A4["Human as Circuit Breaker"]:::c4
+              A4 -.->|eventual| A5["Full Autonomy"]:::c5
+          </div>
+        </div>
+
+        <div class="bridge-divider">
+          <div class="divider-line"></div>
+          <div class="divider-text">Which path depends on regulatory speed vs economic pressure</div>
+          <div class="divider-line"></div>
+        </div>
+
+        <div class="bridge-path">
+          <div class="bridge-path-label" style="color:#F87171">Path B &mdash; Rapid Displacement</div>
+          <div class="mermaid" id="diagram-4b">
+            graph TD
+              classDef h1 fill:#1F0D06,stroke:#FB923C,stroke-width:2px,color:#FED7AA
+              classDef h2 fill:#280A0A,stroke:#EF4444,stroke-width:2px,color:#FCA5A5
+              classDef h3 fill:#320A0A,stroke:#DC2626,stroke-width:2px,color:#FCA5A5
+              classDef h4 fill:#3C0A0A,stroke:#B91C1C,stroke-width:2.5px,color:#FECACA
+              classDef h5 fill:#460A0A,stroke:#991B1B,stroke-width:2.5px,color:#FECACA
+
+              B1["Economic Math Forces It<br/>1/10 the cost"]:::h1
+              B1 --> B2["Immediate Mass Adoption"]:::h2
+              B2 --> B3["Stranded Generation"]:::h3
+              B3 --> B4["No Adjustment Buffer"]:::h4
+              B4 --> B5["Collapse or Adapt"]:::h5
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════
+           SECTION 5 — THE FAR HORIZON
+      ══════════════════════════════════════════════ -->
+      <div class="phase-divider" data-era="3">
+        <span class="phase-label">Far Horizon &nbsp;·&nbsp; The Question</span>
+      </div>
+      <h2 class="section-title" style="background:linear-gradient(90deg,#818CF8,#A78BFA,#C4B5FD);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">The Far Horizon</h2>
+      <p class="section-sub">When AI generates requirements — deciding what to build based on need, efficiency, and societal signals — the last human moat closes. What remains?</p>
+
+      <div class="diagram-wrap">
+        <div class="mermaid" id="diagram-5">
+          graph TD
+            classDef uv     fill:#0C0920,stroke:#818CF8,stroke-width:2.5px,color:#A5B4FC
+            classDef amber  fill:#1C1006,stroke:#D97706,stroke-width:1.5px,color:#FDE68A
+            classDef gate   fill:#0E0A1C,stroke:#A78BFA,stroke-width:2px,color:#C4B5FD
+            classDef cons   fill:#12122A,stroke:#E8E8F0,stroke-width:2.5px,color:#FFFFFF
+            classDef bright fill:#1A1106,stroke:#F59E0B,stroke-width:2px,color:#FCD34D
+            classDef dark   fill:#1C0606,stroke:#991B1B,stroke-width:2px,color:#FCA5A5
+            classDef final  fill:#181830,stroke:#E8E8F0,stroke-width:3px,color:#FFFFFF
+
+            AI["AI Generates Requirements<br/>need &middot; efficiency &middot; societal signals"]:::uv
+            AI --> MOAT["Human Requirements Moat Closes"]:::amber
+
+            subgraph GATE["The Gatekeeper Layer — Seven Human Roles"]
+              G1[Ethics Arbiter]:::gate
+              G2[Taste Curator]:::gate
+              G3[Conflict Resolver]:::gate
+              G4["Anomaly Detector<br/>Goodhart's Law"]:::gate
+              G5[Trust Anchor]:::gate
+              G6[Meaning Generator]:::gate
+              G7[Adversarial Tester]:::gate
+            end
+
+            MOAT --> G1 & G2 & G3 & G4 & G5 & G6 & G7
+            G1 & G2 & G3 & G4 & G5 & G6 & G7 --> CONS["Consciousness as Scarce Resource"]:::cons
+
+            CONS --> BRIGHT["Bright Path<br/>Post-Scarcity &middot; Art &middot; Meaning &middot; Exploration"]:::bright
+            CONS --> DARK["Dark Path<br/>Symbolic Authority &middot; No Real Power"]:::dark
+            BRIGHT & DARK --> FINAL["?<br/>The only unreplicable thing:<br/>subjective experience of being human"]:::final
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════
+           CLOSING CARD
+      ══════════════════════════════════════════════ -->
+      <div class="closing-card">
+        <div class="closing-title">A Note on Certainty</div>
+        <div class="closing-body">
+          <p>None of this is guaranteed. Agents today require significant human hand-holding — they hallucinate, lose context, fail on edge cases, and need careful scaffolding to do anything non-trivial reliably.</p>
+          <p>What stands between the present and everything on this map is not AGI. It is not a sentient machine. It is something more mundane and more achievable: smarter agent ecosystem design — better context management, better multi-agent coordination, better cost-to-reliability ratios. Expensive in tokens and inference today. Cheaper tomorrow. The curve is not linear.</p>
+          <p>That threshold could be a decade away. It could be closer than anyone expects.</p>
+          <p>A single research paper — eight pages, published quietly — restructured how language itself is processed by machines. The displacement and enhancement that followed came faster than most timelines predicted.</p>
+          <p>History does not announce its inflection points in advance.</p>
+        </div>
+        <div class="closing-divider"></div>
+        <div class="closing-footnote">The map is not the territory. But some territories follow their maps.</div>
+      </div>
+
+      <p class="page-caption">This is not a prediction. It is a consequence map — what follows from what, if the logic holds.</p>
+
+    </main>
+
+    <!-- ══════════════════════════════════════════════
+         HUMAN ARC SIDEBAR
+    ══════════════════════════════════════════════ -->
+    <aside class="human-arc">
+      <div class="arc-label">Human Arc</div>
+      <div class="arc-timeline">
+        <div class="arc-era era-0 active" data-index="0">
+          <div class="era-icon">&#128296;</div>
+          <div class="era-title">Builder</div>
+          <div class="era-desc">Makes the system. Skill = value.</div>
+        </div>
+        <div class="arc-era era-1" data-index="1">
+          <div class="era-icon">&#127918;</div>
+          <div class="era-title">Orchestrator</div>
+          <div class="era-desc">Manages agents building the system.</div>
+        </div>
+        <div class="arc-era era-2" data-index="2">
+          <div class="era-icon">&#128203;</div>
+          <div class="era-title">Req. Holder</div>
+          <div class="era-desc">Knows what to build. Last moat.</div>
+        </div>
+        <div class="arc-era era-3" data-index="3">
+          <div class="era-icon">&#9878;</div>
+          <div class="era-title">Gatekeeper</div>
+          <div class="era-desc">Guards what should be built.</div>
+        </div>
+        <div class="arc-era era-4" data-index="4">
+          <div class="era-icon">&#10022;</div>
+          <div class="era-title">Experiencer</div>
+          <div class="era-desc">The only thing left to be.</div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+
+  const DIAGRAM_IDS = ['diagram-1a', 'diagram-1b', 'diagram-2', 'diagram-4a', 'diagram-4b', 'diagram-5'];
+
+  DIAGRAM_IDS.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.dataset.source = el.textContent.trim();
+  });
+
+  async function renderAll() {
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: 'dark',
+      themeVariables: {
+        fontFamily: 'Inter, sans-serif',
+        darkMode: true,
+        background: 'transparent',
+        primaryColor: '#1E293B',
+        primaryBorderColor: '#475569',
+        primaryTextColor: '#E8E8F0',
+        lineColor: '#4B5563',
+        clusterBkg: '#0D0D18',
+        clusterBorder: '#2A2A3E',
+        titleColor: '#9CA3AF',
+        edgeLabelBackground: '#111118',
+        nodeBorder: '#475569',
+      },
+      flowchart: { htmlLabels: true, useMaxWidth: true, curve: 'basis', padding: 24 },
+    });
+
+    for (const id of DIAGRAM_IDS) {
+      const el = document.getElementById(id);
+      if (!el) continue;
+      el.textContent = el.dataset.source;
+      el.removeAttribute('data-processed');
+      try {
+        await mermaid.run({ nodes: [el] });
+      } catch (err) {
+        console.error('Mermaid error on', id, err);
+        el.innerHTML = `<div style="padding:16px;border:1px dashed #EF4444;border-radius:8px;color:#EF4444;font-size:12px;font-family:monospace;white-space:pre-wrap">${err.message || err}</div>`;
+      }
+    }
+
+    // Pulse the final node in diagram-5
+    setTimeout(() => {
+      document.querySelectorAll('#diagram-5 foreignObject').forEach(fo => {
+        if (fo.textContent && fo.textContent.includes('unreplicable')) {
+          const g = fo.closest('g.node');
+          if (g) g.classList.add('pulse-node');
+        }
+      });
+    }, 800);
+  }
+
+  document.fonts.ready.then(renderAll);
+
+  // Human Arc scroll tracking
+  const dividers = Array.from(document.querySelectorAll('.phase-divider[data-era]'));
+  const eras = Array.from(document.querySelectorAll('.arc-era'));
+  const eraMap = [0, 1, 2, 2, 3, 4]; // section index → era index
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const sIdx = dividers.indexOf(entry.target);
+        const eIdx = eraMap[sIdx] ?? sIdx;
+        eras.forEach((e, i) => {
+          const dist = Math.abs(i - eIdx);
+          e.style.opacity = dist === 0 ? '1' : dist === 1 ? '0.55' : '0.25';
+          e.style.transform = i === eIdx ? 'translateX(4px)' : 'none';
+          e.classList.toggle('active', i === eIdx);
+        });
+      }
+    });
+  }, { threshold: 0.6, rootMargin: '-10% 0px -40% 0px' });
+
+  dividers.forEach(d => obs.observe(d));
+
+  window.toggleTheme = () => {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    document.getElementById('theme-toggle').textContent = isDark ? '🌙 Dark Mode' : '☀ Light Mode';
+  };
+</script>
+</body>
+</html>
