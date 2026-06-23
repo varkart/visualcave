@@ -1,3 +1,61 @@
+## Mermaid CSS Flow
+
+Target Mermaid's rendered SVG classes after `mermaid.run()` completes. Use `<script type="module">` with ESM import.
+
+**Key selectors:**
+- Edges: `.edgePath path`, `path.flowchart-link`
+- Nodes: `.node rect`, `.node circle`, `.node polygon`
+- Clusters: `.cluster rect`
+
+**Flowing edge animation:**
+```css
+.mermaid svg .edgePath path,
+.mermaid svg path.flowchart-link {
+  stroke-dasharray: 10 7 !important;
+  stroke-dashoffset: 0;
+  animation: edge-flow 1.8s linear infinite;
+}
+@keyframes edge-flow {
+  from { stroke-dashoffset: 0; }
+  to   { stroke-dashoffset: -51; }
+}
+```
+
+**Node glow + staggered reveal — must be triggered by JS after render** (CSS alone fires too early):
+```javascript
+import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+mermaid.initialize({ startOnLoad: false, theme: 'default' });
+await mermaid.run({ nodes: [el] });
+
+el.querySelectorAll('.node').forEach((n, i) => {
+  n.style.setProperty('--reveal-delay', `${i * 0.12}s`);
+  n.classList.add('revealed');
+  if (i === 0) n.classList.add('is-entry');
+});
+```
+```css
+.mermaid svg .node.revealed {
+  animation: node-reveal 0.55s ease forwards;
+  animation-delay: var(--reveal-delay, 0s);
+  opacity: 0;
+}
+@keyframes node-reveal {
+  from { opacity: 0; transform: translateY(7px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.mermaid svg .node.is-entry rect {
+  animation: breathe 3s ease-in-out infinite;
+}
+@keyframes breathe {
+  0%, 100% { filter: drop-shadow(0 0 0px rgba(251,191,36,0)); }
+  50%       { filter: drop-shadow(0 0 14px rgba(251,191,36,0.8)); }
+}
+```
+
+Always include `@media (prefers-reduced-motion: reduce)` fallback (already in file below).
+
+---
+
 # Animated Variant
 
 > **Scope note:** The CSS animation classes below (`draw`, `fade`, `fade-up`, `slide-in`, `pop`, `pulse`, `flow-dot`) are for **manual SVG diagrams only** — they require hand-authored `<g>` elements with class and `--delay` attributes. They do **not** work on Mermaid-generated output.
