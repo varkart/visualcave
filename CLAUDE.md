@@ -2,7 +2,7 @@
 
 ## Before You Open a PR
 
-1. **Test your change renders.** Run `npm test` — all 15 Playwright tests must pass. Each test opens an HTML file in a real browser and asserts the Mermaid SVG renders without error.
+1. **Test your change renders.** Run `npm test` — all Playwright tests must pass. Each test opens an HTML file in a real browser and asserts the Mermaid SVG renders without error.
 
 2. **Keep SKILL.md under 700 words.** Every word loads on every invocation. Move reference material to `references/`.
 
@@ -40,7 +40,7 @@ references/               ← loaded on demand
   dark-mode.md            ← dark mode token reference
   theming.md              ← custom brand theming guide
   animated.md             ← SVG animation classes (non-Mermaid only)
-  mdx-component.md        ← MDX/React component wrapper
+  astro-component.md      ← varkart.dev Astro tokens, component template, React/TSX output
 examples/                 ← live rendered output files
 capture.js                ← PNG/SVG/PDF/GIF/OG export (Node + puppeteer)
 step-through.js           ← sequential reveal UI
