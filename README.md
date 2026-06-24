@@ -68,18 +68,17 @@ git clone https://github.com/varkart/visualcave ~/.gemini/extensions/visualcave
 gemini extensions install https://github.com/varkart/visualcave
 ```
 
-**Google Antigravity CLI (`agy`) — plugin (local)**
+**Google Antigravity CLI (`agy`) — skill (git)**
 
 ```bash
-git clone https://github.com/varkart/visualcave ~/.agy/skills/visualcave
-agy plugin install ~/.agy/skills/visualcave
+git clone https://github.com/varkart/visualcave ~/.gemini/antigravity-cli/skills/visualcave
 ```
 
-**Google Antigravity CLI (`agy`) — plugin (marketplace)**
+**Google Antigravity CLI (`agy`) — plugin (git)**
 
 ```bash
-agy plugin marketplace add varkart/visualcave
-agy plugin install visualcave
+git clone https://github.com/varkart/visualcave ~/.gemini/antigravity-cli/plugins/visualcave
+agy plugin install ~/.gemini/antigravity-cli/plugins/visualcave
 ```
 
 **Kiro — skill (git)**
