@@ -1,0 +1,12 @@
+{
+  "name": "visualcave",
+  "version": "1.0.0",
+  "description": "Design and render interactive technical diagrams as standalone HTML files or embeddable Astro/MDX components. Supports 11 Mermaid diagram types with dark mode, step-through reveal, hover highlighting, and one-click SVG/PNG/PDF export.",
+  "author": {
+    "name": "varkart",
+    "url": "https://github.com/varkart"
+  },
+  "license": "MIT",
+  "homepage": "https://varkart.github.io/visualcave",
+  "repository": "https://github.com/varkart/visualcave"
+}
