@@ -33,13 +33,33 @@ git clone https://github.com/varkart/visualcave ~/.claude/skills/visualcave
 git clone https://github.com/varkart/visualcave .claude/skills/visualcave
 ```
 
-**Cursor** — copy `.cursor/rules/visualcave.mdc` into your project's `.cursor/rules/` directory.
+**Cursor**
 
-**Codex CLI** — install via `.codex-plugin/plugin.json` or clone and reference the skill directory.
+```bash
+git clone https://github.com/varkart/visualcave ~/.cursor/skills-cursor/visualcave
+```
 
-**Gemini CLI** — clone the repo; Gemini CLI will pick up `gemini-extension.json` automatically and load `SKILL.md` as context.
+For project-only rules, copy `.cursor/rules/visualcave.mdc` into your project's `.cursor/rules/` directory instead.
 
-**Kiro** — copy `.kiro/rules/visualcave.md` into your project's `.kiro/rules/` directory. (See [issue #7](https://github.com/varkart/visualcave/issues/7) — in progress)
+**Codex CLI**
+
+```bash
+git clone https://github.com/varkart/visualcave ~/.codex/skills/visualcave
+```
+
+**Gemini CLI**
+
+```bash
+git clone https://github.com/varkart/visualcave ~/.gemini/extensions/visualcave
+```
+
+**Kiro**
+
+```bash
+git clone https://github.com/varkart/visualcave ~/.kiro/skills/visualcave
+```
+
+Or add as a Power in Kiro settings using the GitHub URL `https://github.com/varkart/visualcave`.
 
 No restart required after installation.
 
