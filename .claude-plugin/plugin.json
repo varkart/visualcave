@@ -1,23 +1,24 @@
 {
   "name": "visualcave",
-  "description": "Generate interactive technical diagrams as standalone HTML files. Powered by Mermaid.js. Supports flowcharts, sequence diagrams, ER diagrams, class diagrams, state machines, timelines, mind maps, git graphs, pie charts, and quadrant charts. Dark mode, step-through reveal, and export built in.",
+  "description": "Design and render interactive technical diagrams as standalone HTML files or embeddable Astro/MDX components. Supports 11 Mermaid diagram types with dark mode, step-through reveal, hover highlighting, and one-click SVG/PNG/PDF export.",
   "version": "1.0.0",
+  "author": {
+    "name": "varkart",
+    "url": "https://github.com/varkart"
+  },
+  "homepage": "https://varkart.github.io/visualcave",
+  "repository": "https://github.com/varkart/visualcave",
+  "license": "MIT",
   "keywords": [
     "diagram",
     "mermaid",
-    "infographic",
     "flowchart",
     "architecture",
-    "technical-diagram",
-    "visualization"
+    "visualization",
+    "interactive",
+    "dark-mode",
+    "svg",
+    "export"
   ],
-  "skills": ["./"],
-  "interface": {
-    "defaultPrompt": [
-      "/visualcave — how OAuth 2.0 works",
-      "/visualcave — transformer architecture with step-through guide",
-      "/visualcave — order lifecycle state machine",
-      "/visualcave — microservices architecture overview"
-    ]
-  }
+  "skills": ["."]
 }

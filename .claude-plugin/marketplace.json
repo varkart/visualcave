@@ -1,21 +1,32 @@
 {
   "name": "visualcave",
-  "title": "VisualCave — Technical Diagrams",
-  "description": "Generate interactive, publication-quality technical diagrams as standalone HTML files. Powered by Mermaid.js — supports 11 diagram types including flowcharts, sequence diagrams, ER diagrams, class diagrams, git graphs, mind maps, and more.\n\nFeatures: dark/light mode toggle, step-through reveal for walkthroughs, hover highlight, and export to PNG/SVG/PDF/GIF via capture.js.",
-  "version": "1.0.0",
-  "category": "visualization",
-  "keywords": [
-    "diagram",
-    "mermaid",
-    "infographic",
-    "flowchart",
-    "architecture",
-    "ER diagram",
-    "sequence diagram",
-    "visualization"
-  ],
-  "author": "varkart",
-  "repository": "https://github.com/varkart/visualcave",
-  "homepage": "https://varkart.github.io/visualcave",
-  "license": "MIT"
+  "id": "visualcave",
+  "owner": {
+    "name": "varkart"
+  },
+  "metadata": {
+    "description": "Interactive diagram generator — flowcharts, sequence, ER, class, state machines, mind maps",
+    "version": "1.0.0",
+    "category": "Developer Tools"
+  },
+  "plugins": [
+    {
+      "name": "visualcave",
+      "source": "./",
+      "description": "Design and render interactive technical diagrams as standalone HTML files. Powered by Mermaid.js with dark mode, four theme presets, step-through reveal, hover highlighting, and one-click SVG/PNG/PDF export. Zero runtime dependencies.",
+      "version": "1.0.0",
+      "author": {
+        "name": "varkart"
+      },
+      "keywords": [
+        "diagram",
+        "mermaid",
+        "flowchart",
+        "architecture",
+        "visualization",
+        "interactive"
+      ],
+      "category": "Developer Tools"
+    }
+  ]
 }

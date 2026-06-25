@@ -1,0 +1,4 @@
+interface:
+  display_name: "VisualCave"
+  short_description: "Interactive diagram generator — flowcharts, sequence, ER, class, state machines, mind maps"
+  default_prompt: "Use $visualcave to design and render an interactive technical diagram as a standalone HTML file with dark mode, step-through reveal, and one-click export."

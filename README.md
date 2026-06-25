@@ -33,13 +33,63 @@ git clone https://github.com/varkart/visualcave ~/.claude/skills/visualcave
 git clone https://github.com/varkart/visualcave .claude/skills/visualcave
 ```
 
-**Cursor** — copy `.cursor/rules/visualcave.mdc` into your project's `.cursor/rules/` directory.
+**Cursor — global skill**
 
-**Codex CLI** — install via `.codex-plugin/plugin.json` or clone and reference the skill directory.
+```bash
+git clone https://github.com/varkart/visualcave ~/.cursor/skills-cursor/visualcave
+```
 
-**Gemini CLI** — clone the repo; Gemini CLI will pick up `gemini-extension.json` automatically and load `SKILL.md` as context.
+**Cursor — project rules only**
 
-**Kiro** — copy `.kiro/rules/visualcave.md` into your project's `.kiro/rules/` directory. (See [issue #7](https://github.com/varkart/visualcave/issues/7) — in progress)
+Copy `.cursor/rules/visualcave.mdc` into your project's `.cursor/rules/` directory.
+
+**Codex CLI — skill (git)**
+
+```bash
+git clone https://github.com/varkart/visualcave ~/.codex/skills/visualcave
+```
+
+**Codex CLI — plugin (marketplace)**
+
+```bash
+codex plugin marketplace add varkart/visualcave
+codex plugin add visualcave
+```
+
+**Gemini CLI — extension (git)**
+
+```bash
+git clone https://github.com/varkart/visualcave ~/.gemini/extensions/visualcave
+```
+
+**Gemini CLI — extension (install command)**
+
+```bash
+gemini extensions install https://github.com/varkart/visualcave
+```
+
+**Google Antigravity CLI (`agy`) — skill (git)**
+
+```bash
+git clone https://github.com/varkart/visualcave ~/.gemini/antigravity-cli/skills/visualcave
+```
+
+**Google Antigravity CLI (`agy`) — plugin (git)**
+
+```bash
+git clone https://github.com/varkart/visualcave ~/.gemini/antigravity-cli/plugins/visualcave
+agy plugin install ~/.gemini/antigravity-cli/plugins/visualcave
+```
+
+**Kiro — skill (git)**
+
+```bash
+git clone https://github.com/varkart/visualcave ~/.kiro/skills/visualcave
+```
+
+**Kiro — Power**
+
+Add as a Power in Kiro settings using the GitHub URL `https://github.com/varkart/visualcave`. For project-level steering, copy `.kiro/steering/visualcave.md` into your project's `.kiro/steering/` directory.
 
 No restart required after installation.
 
