@@ -86,7 +86,15 @@ function startServer() {
 
     // Auto-advance step-through presentations if supported
     const stepsTotal = await page.evaluate(() => {
-      return (window.stepConfig && window.stepConfig.length) || 0;
+      if (window.stepConfig && window.stepConfig.length) return window.stepConfig.length;
+      const stepAttrs = new Set(
+        Array.from(document.querySelectorAll('[data-step]'))
+          .map(el => el.getAttribute('data-step'))
+          .filter(val => val && !isNaN(val))
+      );
+      if (stepAttrs.size > 0) return stepAttrs.size;
+      if (typeof window.advanceStep === 'function') return 4;
+      return 0;
     });
 
     if (stepsTotal > 0) {
@@ -97,7 +105,7 @@ function startServer() {
             if (typeof window.advanceStep === 'function') window.advanceStep();
           });
           // Wait briefly for step reveal/transition
-          await new Promise((r) => setTimeout(r, 150));
+          await new Promise((r) => setTimeout(r, 450));
         }
         const raw = await page.screenshot({ encoding: 'binary' });
         const png = PNG.sync.read(Buffer.from(raw));
