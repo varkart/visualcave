@@ -54,9 +54,7 @@ function startServer() {
     fs.createReadStream(fp).pipe(res);
   });
   // Pass 0 so the OS picks a free port — avoids Chrome's unsafe-port blocklist
-  return new Promise((resolve) =>
-    srv.listen(0, () => resolve({ srv, port: srv.address().port }))
-  );
+  return new Promise((resolve) => srv.listen(0, () => resolve({ srv, port: srv.address().port })));
 }
 
 // ── PNG frame → raw RGBA buffer ──────────────────────────────────────────────
