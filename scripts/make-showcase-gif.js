@@ -89,8 +89,8 @@ function startServer() {
       if (window.stepConfig && window.stepConfig.length) return window.stepConfig.length;
       const stepAttrs = new Set(
         Array.from(document.querySelectorAll('[data-step]'))
-          .map(el => el.getAttribute('data-step'))
-          .filter(val => val && !isNaN(val))
+          .map((el) => el.getAttribute('data-step'))
+          .filter((val) => val && !isNaN(val))
       );
       if (stepAttrs.size > 0) return stepAttrs.size;
       if (typeof window.advanceStep === 'function') return 4;
