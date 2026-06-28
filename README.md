@@ -39,7 +39,7 @@ git clone https://github.com/varkart/visualcave .claude/skills/visualcave
 
 **Gemini CLI** — clone the repo; Gemini CLI will pick up `gemini-extension.json` automatically and load `SKILL.md` as context.
 
-**Kiro** — copy `.kiro/rules/visualcave.md` into your project's `.kiro/rules/` directory. (See [issue #7](https://github.com/varkart/visualcave/issues/7) — in progress)
+**Kiro** — copy `.kiro/skills/visualcave.md` into your project's `.kiro/skills/` directory. (See [issue #7](https://github.com/varkart/visualcave/issues/7) — in progress)
 
 No restart required after installation.
 
