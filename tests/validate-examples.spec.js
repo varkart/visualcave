@@ -47,7 +47,10 @@ for (const diagram of DIAGRAMS) {
     } else {
       await page.waitForSelector('.mermaid svg', { timeout: 45000 });
 
-      const svgRole = await page.locator('.mermaid svg').getAttribute('aria-roledescription');
+      const svgRole = await page
+        .locator('.mermaid svg')
+        .first()
+        .getAttribute('aria-roledescription');
       expect(svgRole, `${diagram.file}: Mermaid parse error`).not.toBe('error');
 
       if (['graph', 'classDiagram'].includes(diagram.type)) {
@@ -80,7 +83,10 @@ for (const diagram of DIAGRAMS) {
     if (diagram.type !== 'static' && (await styleSelect.count()) > 0) {
       await styleSelect.selectOption('minimal');
       await page.waitForSelector('.mermaid svg', { timeout: 30000 });
-      const svgRoleAfter = await page.locator('.mermaid svg').getAttribute('aria-roledescription');
+      const svgRoleAfter = await page
+        .locator('.mermaid svg')
+        .first()
+        .getAttribute('aria-roledescription');
       expect(svgRoleAfter, `${diagram.file}: style switch caused parse error`).not.toBe('error');
       await styleSelect.selectOption('default');
       await page.waitForSelector('.mermaid svg', { timeout: 30000 });
