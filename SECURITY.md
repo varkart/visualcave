@@ -10,7 +10,7 @@
 
 Found a security issue? **Do not open a public GitHub issue.**
 
-Email: https://github.com/varkart/visualcave/issues/new
+Open a confidential issue: https://github.com/varkart/visualcave/issues/new
 
 Include:
 

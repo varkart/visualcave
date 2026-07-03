@@ -1,25 +1,47 @@
 {
   "name": "visualcave",
-  "description": "Generate interactive technical diagrams as standalone HTML files. Powered by Mermaid.js. Supports flowcharts, sequence diagrams, ER diagrams, class diagrams, state machines, timelines, mind maps, git graphs, pie charts, and quadrant charts. Dark mode, step-through reveal, and export built in.",
   "version": "1.0.0",
+  "description": "Design and render interactive technical diagrams as standalone HTML files or embeddable Astro/MDX components. Supports 11 Mermaid diagram types with dark mode, step-through reveal, hover highlighting, and one-click SVG/PNG/PDF export.",
+  "author": {
+    "name": "varkart",
+    "url": "https://github.com/varkart"
+  },
+  "homepage": "https://varkart.github.io/visualcave",
+  "repository": "https://github.com/varkart/visualcave",
+  "license": "MIT",
   "keywords": [
     "diagram",
     "mermaid",
-    "infographic",
     "flowchart",
     "architecture",
-    "technical-diagram",
-    "visualization"
+    "visualization",
+    "svg",
+    "infographic",
+    "sequence-diagram",
+    "er-diagram",
+    "class-diagram",
+    "state-machine",
+    "interactive",
+    "dark-mode",
+    "export"
   ],
-  "skills": ["./"],
+  "skills": "./",
   "interface": {
-    "capabilities": ["diagram-generation", "visualization", "technical-illustration"],
-    "brandColor": "#1E88E5",
+    "displayName": "VisualCave",
+    "shortDescription": "Interactive diagram generator for AI agents",
+    "longDescription": "Use VisualCave to design and render interactive technical diagrams as standalone HTML files. Supports flowcharts, sequence diagrams, ER diagrams, class diagrams, state machines, timelines, mind maps, git graphs, pie charts, and quadrant charts — all with dark mode, four theme presets, step-through reveal, hover highlighting, and one-click SVG/PNG/PDF export. Zero runtime dependencies.",
+    "developerName": "varkart",
+    "category": "Developer Tools",
+    "capabilities": ["Interactive", "Write"],
+    "websiteURL": "https://varkart.github.io/visualcave",
+    "privacyPolicyURL": "https://github.com/varkart/visualcave/blob/main/SECURITY.md",
+    "termsOfServiceURL": "https://github.com/varkart/visualcave/blob/main/LICENSE",
     "defaultPrompt": [
       "Create a diagram showing how OAuth 2.0 works",
       "Draw a transformer architecture with step-through guide",
-      "Make an order lifecycle state machine",
-      "Visualize a microservices architecture"
-    ]
+      "Visualize a RAG pipeline from ingestion to grounded response",
+      "Make an order lifecycle state machine with all edge cases"
+    ],
+    "brandColor": "#1E88E5"
   }
 }

@@ -1,0 +1,30 @@
+{
+  "name": "visualcave",
+  "interface": {
+    "displayName": "VisualCave"
+  },
+  "metadata": {
+    "description": "Interactive diagram generator — flowcharts, sequence, ER, class, state machines, mind maps",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "visualcave",
+      "source": {
+        "source": "local",
+        "path": "."
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "NONE"
+      },
+      "category": "Developer Tools",
+      "interface": {
+        "displayName": "VisualCave",
+        "shortDescription": "Interactive diagram generator — flowcharts, sequence, ER, class, state machines, mind maps",
+        "developerName": "varkart",
+        "websiteURL": "https://varkart.github.io/visualcave"
+      }
+    }
+  ]
+}
