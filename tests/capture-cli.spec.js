@@ -11,6 +11,26 @@ const { PNG } = require('pngjs');
 const ROOT = path.join(__dirname, '..');
 const OUT = path.join(__dirname, 'screenshots', 'capture-cli-pie.png');
 
+test('capture.js PNG is not clipped at 2400px for tall pages', async () => {
+  test.setTimeout(120000);
+  const tallHtml = path.join(__dirname, 'screenshots', 'capture-tall.html');
+  const tallOut = path.join(__dirname, 'screenshots', 'capture-tall.png');
+  fs.writeFileSync(
+    tallHtml,
+    '<!DOCTYPE html><html><body style="margin:0">' +
+      '<div class="page" style="height:3200px;background:linear-gradient(#fff,#ccc)">tall</div>' +
+      '</body></html>'
+  );
+  fs.rmSync(tallOut, { force: true });
+  execFileSync(process.execPath, ['capture.js', tallHtml, tallOut, '--format=png'], {
+    cwd: ROOT,
+    stdio: 'pipe',
+    timeout: 90000,
+  });
+  const png = PNG.sync.read(fs.readFileSync(tallOut));
+  expect(png.height, 'tall page should not be clipped to 2400px').toBeGreaterThan(2400);
+});
+
 test('capture.js exports a valid PNG', async () => {
   test.setTimeout(120000);
   fs.rmSync(OUT, { force: true });
