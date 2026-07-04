@@ -87,11 +87,9 @@
     async function applyStyle(name) {
       const t = THEMES[name] || THEMES.default;
       const el = document.getElementById('diagram-source');
-      el.textContent = el.dataset.source;
-      el.removeAttribute('data-processed');
-      mermaid.initialize({ startOnLoad:false, theme:t.theme, gantt:{ useMaxWidth:true, barHeight:28, barGap:8, topPadding:56, fontSize:13 }, themeVariables:{ fontFamily:'Inter, sans-serif', ...t.vars } });
+            mermaid.initialize({ startOnLoad:false, theme:t.theme, gantt:{ useMaxWidth:true, barHeight:28, barGap:8, topPadding:56, fontSize:13 }, themeVariables:{ fontFamily:'Inter, sans-serif', ...t.vars } });
       try {
-        await mermaid.run({ nodes:[el] });
+        el.innerHTML = (await mermaid.render('vc-' + Date.now(), el.dataset.source)).svg;
       } catch (err) {
         console.error('Mermaid render error:', err);
         el.style.opacity = '1';

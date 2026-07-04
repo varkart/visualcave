@@ -866,10 +866,8 @@
     for (const id of DIAGRAM_IDS) {
       const el = document.getElementById(id);
       if (!el) continue;
-      el.textContent = el.dataset.source;
-      el.removeAttribute('data-processed');
-      try {
-        await mermaid.run({ nodes: [el] });
+            try {
+        el.innerHTML = (await mermaid.render('vc-' + Date.now(), el.dataset.source)).svg;
       } catch (err) {
         console.error('Mermaid error on', id, err);
         el.innerHTML = `<div style="padding:16px;border:1px dashed #EF4444;border-radius:8px;color:#EF4444;font-size:12px;font-family:monospace;white-space:pre-wrap">${err.message || err}</div>`;

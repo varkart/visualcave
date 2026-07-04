@@ -167,11 +167,9 @@
         const cleanedDef = def.replace(/stroke-width:[^,;]+/g, '').replace(/stroke:[^,;]+/g, '').replace(/stroke-dasharray:[^,;]+/g, '').replace(/,+/g, ',').replace(/^,|,$/g, '');
         src = src.replace(new RegExp(`(classDef\\s+${cn}\\s+)[^;\\n]+`, 'g'), `$1${cleanedDef}`);
       }
-      el.textContent = src;
-      el.removeAttribute('data-processed');
-      mermaid.initialize({ startOnLoad:false, theme:t.theme, flowchart:{ htmlLabels:true, useMaxWidth:true, padding:100 }, themeVariables:{ fontFamily:'Inter, sans-serif', ...t.vars } });
+            mermaid.initialize({ startOnLoad:false, theme:t.theme, flowchart:{ htmlLabels:true, useMaxWidth:true, padding:100 }, themeVariables:{ fontFamily:'Inter, sans-serif', ...t.vars } });
       try {
-        await mermaid.run({ nodes:[el] });
+        el.innerHTML = (await mermaid.render('vc-' + Date.now(), src)).svg;
       } catch (err) {
         console.error('Mermaid render error:', err);
         el.style.opacity = '1';
