@@ -190,7 +190,7 @@ All examples are in [`examples/`](examples/) and live at the [showcase site](htt
 **Knowledge & History**
 
 - [Evolution of the Web](examples/timeline.html) — `timeline`
-- [Software Engineering Timeline](examples/software-engineering-timeline.html) — `timeline`
+- [AI Evolution Timeline](examples/ai-evolution-timeline.html) — custom CSS timeline
 - [System Design Topics](examples/mindmap.html) — `mindmap`
 - [GitFlow Strategy](examples/git-graph.html) — `gitGraph`
 
