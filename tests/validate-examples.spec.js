@@ -30,6 +30,7 @@ const DIAGRAMS = [
   { file: 'examples/agentic-horizon.html', type: 'graph', stepThrough: false },
   { file: 'examples/ai-evolution-timeline.html', type: 'static', stepThrough: false },
   { file: 'examples/llm-training-pipeline.html', type: 'static', stepThrough: false },
+  { file: 'examples/gantt-chart.html', type: 'gantt', stepThrough: false },
   { file: 'references/template.html', type: 'graph', stepThrough: false },
 ];
 
