@@ -1,6 +1,6 @@
 ---
 name: visualcave
-description: Use when the user asks to create a diagram, chart, infographic, flowchart, architecture illustration, or any technical visualization. Covers flowcharts, sequence diagrams, ER diagrams, class diagrams, state machines, timelines, mind maps, git graphs, pie charts, and quadrant charts.
+description: Use when the user asks to create a diagram, chart, infographic, flowchart, architecture illustration, or any technical visualization. Covers flowchart, sequence, ER, class, state machine, timeline, mind map, git graph, pie, quadrant, gantt, XY bar/line chart, sankey, kanban, C4 context, and cloud architecture diagrams.
 license: MIT
 ---
 
@@ -62,15 +62,7 @@ Do not alter the CSS, THEMES object, or script block unless a specific feature r
 
 **Animated diagrams**: see `references/animated.md`.
 
-**Animation Mode** — when user requests "animated", "living diagram", "canvas", "particles", "flowing edges", or "living visual": before generating, ask:
-
-> Which animation approach?
->
-> 1. **CSS flow** — flowing edges + node glow on any Mermaid diagram. Zero extra deps.
-> 2. **Canvas** — full custom animation (particles, physics, signal propagation). No Mermaid. Showpiece only.
-
-CSS flow: see `references/animated.md` § Mermaid CSS Flow.
-Canvas: see `references/canvas-animation.md`.
+**Animation Mode** — on "animated", "living diagram", "canvas", "particles", "flowing edges": ask whether the user wants **CSS flow** (flowing edges + node glow on any Mermaid diagram, zero deps — `references/animated.md`) or **Canvas** (custom particles/physics showpiece, no Mermaid — `references/canvas-animation.md`).
 
 ## Astro Component Mode (varkart.dev site)
 
