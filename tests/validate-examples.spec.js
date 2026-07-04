@@ -32,6 +32,7 @@ const DIAGRAMS = [
   { file: 'examples/llm-training-pipeline.html', type: 'static', stepThrough: false },
   { file: 'examples/gantt-chart.html', type: 'gantt', stepThrough: false },
   { file: 'examples/xy-chart.html', type: 'xychart', stepThrough: false },
+  { file: 'examples/sankey-diagram.html', type: 'sankey', stepThrough: false },
   { file: 'references/template.html', type: 'graph', stepThrough: false },
 ];
 

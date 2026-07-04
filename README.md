@@ -188,6 +188,7 @@ All examples are in [`examples/`](examples/) and live at the [showcase site](htt
 - [API Traffic Distribution](examples/pie-chart.html) — `pie`
 - [Release Sprint Plan](examples/gantt-chart.html) — `gantt`
 - [Monthly Active Users](examples/xy-chart.html) — `xychart-beta`
+- [Data Center Energy Flow](examples/sankey-diagram.html) — `sankey-beta`
 
 **Knowledge & History**
 
