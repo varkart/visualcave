@@ -113,6 +113,23 @@ for (const diagram of DIAGRAMS) {
       svgId = await page.locator('.mermaid svg').first().getAttribute('id');
       await styleSelect.selectOption('default');
       await waitForRerender(svgId);
+
+      // Sketch (handDrawn) theme currently ships in the template only
+      const hasSketch = (await styleSelect.locator('option[value="sketch"]').count()) > 0;
+      if (hasSketch) {
+        svgId = await page.locator('.mermaid svg').first().getAttribute('id');
+        await styleSelect.selectOption('sketch');
+        await waitForRerender(svgId);
+        const sketchRole = await page
+          .locator('.mermaid svg')
+          .first()
+          .getAttribute('aria-roledescription');
+        expect(sketchRole, `${diagram.file}: sketch theme caused parse error`).not.toBe('error');
+        expect(await page.locator('html').getAttribute('data-look')).toBe('sketch');
+        svgId = await page.locator('.mermaid svg').first().getAttribute('id');
+        await styleSelect.selectOption('default');
+        await waitForRerender(svgId);
+      }
     }
 
     const screenshotName = diagram.file.replace(/\//g, '-').replace('.html', '.png');

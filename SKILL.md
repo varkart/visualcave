@@ -48,7 +48,7 @@ Do not alter the CSS, THEMES object, or script block unless a specific feature r
 
 ## Interactive Features
 
-**Theme selector** — built into the template. Four themes: `default`, `minimal`, `pastel`, `print`. Persisted via `localStorage` key `vc-style`. No changes needed.
+**Theme selector** — built into the template. Five themes: `default`, `minimal`, `pastel`, `print`, `sketch` (hand-drawn). Persisted via `localStorage` key `vc-style`. No changes needed.
 
 **Step-through** (sequential reveal): copy `setupSteps()` pattern from `examples/transformer-ultra.html`.
 
