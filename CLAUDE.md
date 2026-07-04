@@ -4,7 +4,7 @@
 
 1. **Test your change renders.** Run `npm test` — all Playwright tests must pass. Each test opens an HTML file in a real browser and asserts the Mermaid SVG renders without error.
 
-2. **Keep SKILL.md under 700 words.** Every word loads on every invocation. Move reference material to `references/`.
+2. **Keep SKILL.md under 700 words.** Every word loads on every invocation. Move reference material to `references/`. `skills/visualcave/SKILL.md` is a byte-identical mirror required by the Antigravity CLI plugin loader — every SKILL.md edit must update both copies (enforced by `tests/skill-md-guard.spec.js`).
 
 3. **One thing per PR.** A fix, a new example, or a SKILL.md change — not all three.
 
