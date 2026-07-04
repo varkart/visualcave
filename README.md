@@ -191,6 +191,7 @@ All examples are in [`examples/`](examples/) and live at the [showcase site](htt
 - [Data Center Energy Flow](examples/sankey-diagram.html) — `sankey-beta`
 - [Internet Banking System Context](examples/c4-context.html) — `C4Context`
 - [Web App Infrastructure](examples/architecture-diagram.html) — `architecture-beta`
+- [Sprint Board](examples/kanban-board.html) — `kanban`
 
 **Knowledge & History**
 

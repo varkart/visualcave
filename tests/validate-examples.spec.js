@@ -35,6 +35,7 @@ const DIAGRAMS = [
   { file: 'examples/sankey-diagram.html', type: 'sankey', stepThrough: false },
   { file: 'examples/c4-context.html', type: 'c4', stepThrough: false },
   { file: 'examples/architecture-diagram.html', type: 'architecture', stepThrough: false },
+  { file: 'examples/kanban-board.html', type: 'kanban', stepThrough: false },
   { file: 'references/template.html', type: 'graph', stepThrough: false },
 ];
 
