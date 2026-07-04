@@ -15,6 +15,7 @@ Pick the Mermaid keyword that matches the user's intent.
 | git, branching, gitflow, commits, merge                         | `gitGraph`              | `examples/git-graph.html`            |
 | pie chart, distribution, percentage breakdown, share            | `pie`                   | `examples/pie-chart.html`            |
 | gantt, schedule, project plan, sprint                           | `gantt`                 | `examples/gantt-chart.html`          |
+| bar chart, line chart, trend, metrics over time                 | `xychart-beta`          | `examples/xy-chart.html`             |
 
 ## Mermaid vs Custom CSS — routing rules
 
