@@ -26,13 +26,18 @@
     select.style-select { font:600 13px 'Inter',sans-serif; padding:9px 12px; border-radius:12px; cursor:pointer; border:1px solid var(--border); background:var(--card-bg); color:var(--text-main); outline:none; transition:border-color 0.2s ease; }
     select.style-select:hover { border-color:var(--accent); }
     .mermaid svg { max-width:100%; height:auto; overflow:visible; }
+    .viewport { position:relative; overflow:hidden; touch-action:pan-y; }
+    .viewport.zoomed { cursor:grab; }
+    .viewport.panning { cursor:grabbing; }
+    .viewport .mermaid { transform-origin:0 0; }
+    .zoom-reset { position:absolute; right:12px; bottom:12px; z-index:2; }
     html:not([data-look="sketch"]) .node rect,html:not([data-look="sketch"]) .node circle,html:not([data-look="sketch"]) .node polygon,html:not([data-look="sketch"]) .node path { stroke-width:2.5px !important; stroke:var(--node-stroke) !important; filter:drop-shadow(4px 4px 0px rgba(0,0,0,0.1)); }
     .node text { font-weight:500 !important; font-size:14px !important; fill:var(--text-main) !important; }
     html:not([data-look="sketch"]) .edgePath .path { stroke-width:2.5px !important; stroke:var(--text-muted) !important; }
     html:not([data-look="sketch"]) .cluster rect { stroke-width:2.5px !important; stroke:var(--node-stroke) !important; fill:var(--bg) !important; }
     .cluster text { font-weight:600 !important; fill:var(--text-main) !important; }
     @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:0.01ms !important; transition-duration:0.01ms !important; } }
-    @media print { .controls,header select { display:none !important; } body { padding:0; background:#fff !important; } .page { box-shadow:none !important; border:none !important; max-width:100% !important; border-radius:0 !important; } }
+    @media print { .controls,header select,.zoom-reset { display:none !important; } body { padding:0; background:#fff !important; } .page { box-shadow:none !important; border:none !important; max-width:100% !important; border-radius:0 !important; } }
   </style>
 </head>
 <body>
@@ -57,7 +62,8 @@
         <button class="btn-secondary" onclick="exportPDF()">⬇ PDF</button>
       </div>
     </header>
-    <div class="mermaid" id="diagram-source">
+    <div class="viewport" id="viewport">
+      <div class="mermaid" id="diagram-source">
       graph TD
         classDef yellow fill:#FFFDE7,stroke:#1A1A1A,stroke-width:2px;
         classDef blue   fill:#E3F2FD,stroke:#1A1A1A,stroke-width:2px;
@@ -67,6 +73,8 @@
         classDef orange fill:#FFF3E0,stroke:#1A1A1A,stroke-width:2px;
         classDef note   fill:#FFF9C4,stroke:#FBC02D,stroke-dasharray:4;
         A[Entry]:::yellow --> B[Process]:::blue
+      </div>
+      <button class="btn-secondary zoom-reset" id="zoom-reset" onclick="resetView()" hidden>⟲ Reset view</button>
     </div>
   </div>
   <script type="module">
@@ -158,6 +166,47 @@
       img.src = url;
     };
     window.exportPDF = function() { window.print(); };
+
+    // Pan & zoom — CSS transform on the .mermaid wrapper only, never the SVG,
+    // so exportSVG/exportPNG always clone an untransformed diagram.
+    const _vp = document.getElementById('viewport');
+    const _resetBtn = document.getElementById('zoom-reset');
+    let _view = { x: 0, y: 0, k: 1 };
+    function _applyView() {
+      _md.style.transform = _view.k === 1 && !_view.x && !_view.y
+        ? '' : `translate(${_view.x}px, ${_view.y}px) scale(${_view.k})`;
+      const active = _view.k !== 1;
+      _vp.classList.toggle('zoomed', active);
+      _resetBtn.hidden = !active && !_view.x && !_view.y;
+    }
+    window.resetView = () => { _view = { x: 0, y: 0, k: 1 }; _applyView(); };
+    _vp.addEventListener('wheel', (e) => {
+      if (!e.ctrlKey && !e.metaKey) return; // plain scroll stays page scroll
+      e.preventDefault();
+      const rect = _vp.getBoundingClientRect();
+      const px = e.clientX - rect.left, py = e.clientY - rect.top;
+      const k = Math.min(8, Math.max(0.25, _view.k * (e.deltaY < 0 ? 1.15 : 1 / 1.15)));
+      // keep the point under the cursor fixed while scaling
+      _view.x = px - ((px - _view.x) / _view.k) * k;
+      _view.y = py - ((py - _view.y) / _view.k) * k;
+      _view.k = k;
+      _applyView();
+    }, { passive: false });
+    let _drag = null;
+    _vp.addEventListener('pointerdown', (e) => {
+      if (_view.k === 1 || e.button !== 0) return;
+      _drag = { x: e.clientX - _view.x, y: e.clientY - _view.y };
+      _vp.classList.add('panning');
+      _vp.setPointerCapture(e.pointerId);
+    });
+    _vp.addEventListener('pointermove', (e) => {
+      if (!_drag) return;
+      _view.x = e.clientX - _drag.x;
+      _view.y = e.clientY - _drag.y;
+      _applyView();
+    });
+    _vp.addEventListener('pointerup', () => { _drag = null; _vp.classList.remove('panning'); });
+    _vp.addEventListener('dblclick', () => window.resetView());
   </script>
 </body>
 </html>
