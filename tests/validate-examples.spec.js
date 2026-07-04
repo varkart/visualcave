@@ -34,6 +34,7 @@ const DIAGRAMS = [
   { file: 'examples/xy-chart.html', type: 'xychart', stepThrough: false },
   { file: 'examples/sankey-diagram.html', type: 'sankey', stepThrough: false },
   { file: 'examples/c4-context.html', type: 'c4', stepThrough: false },
+  { file: 'examples/architecture-diagram.html', type: 'architecture', stepThrough: false },
   { file: 'references/template.html', type: 'graph', stepThrough: false },
 ];
 

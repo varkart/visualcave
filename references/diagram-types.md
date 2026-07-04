@@ -18,6 +18,7 @@ Pick the Mermaid keyword that matches the user's intent.
 | bar chart, line chart, trend, metrics over time                 | `xychart-beta`          | `examples/xy-chart.html`             |
 | flow quantities, energy/traffic/money distribution              | `sankey-beta`           | `examples/sankey-diagram.html`       |
 | system context, C4 model, people + external systems             | `C4Context`             | `examples/c4-context.html`           |
+| cloud infrastructure, services + connections, deployment        | `architecture-beta`     | `examples/architecture-diagram.html` |
 
 ## Mermaid vs Custom CSS — routing rules
 
