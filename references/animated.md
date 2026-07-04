@@ -30,7 +30,7 @@ Target Mermaid's rendered SVG classes after `mermaid.run()` completes. Use `<scr
 **Node glow + staggered reveal — must be triggered by JS after render** (CSS alone fires too early):
 
 ```javascript
-import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
 mermaid.initialize({ startOnLoad: false, theme: 'default' });
 await mermaid.run({ nodes: [el] });
 

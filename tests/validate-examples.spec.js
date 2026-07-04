@@ -36,7 +36,7 @@ const DIAGRAMS = [
 
 for (const diagram of DIAGRAMS) {
   test(`renders: ${diagram.file}`, async ({ page }) => {
-    await page.route('**/cdn.jsdelivr.net/npm/mermaid@10/dist/**', (route) => {
+    await page.route('**/cdn.jsdelivr.net/npm/mermaid@11/dist/**', (route) => {
       const filename = route.request().url().split('/dist/').pop();
       route.fulfill({ path: path.join(MERMAID_DIST, filename) });
     });
