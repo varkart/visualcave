@@ -189,6 +189,7 @@ All examples are in [`examples/`](examples/) and live at the [showcase site](htt
 - [Release Sprint Plan](examples/gantt-chart.html) — `gantt`
 - [Monthly Active Users](examples/xy-chart.html) — `xychart-beta`
 - [Data Center Energy Flow](examples/sankey-diagram.html) — `sankey-beta`
+- [Internet Banking System Context](examples/c4-context.html) — `C4Context`
 
 **Knowledge & History**
 
