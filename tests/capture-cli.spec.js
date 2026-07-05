@@ -48,8 +48,12 @@ test('capture.js --scale=2 doubles PNG pixel dimensions', async () => {
   }
   const p1 = PNG.sync.read(fs.readFileSync(out1));
   const p2 = PNG.sync.read(fs.readFileSync(out2));
-  expect(p2.width).toBe(p1.width * 2);
-  expect(p2.height).toBe(p1.height * 2);
+  // Element bounds × DPR can round a pixel differently per platform;
+  // assert the ratio, not exact equality.
+  expect(p2.width / p1.width).toBeGreaterThan(1.98);
+  expect(p2.width / p1.width).toBeLessThan(2.02);
+  expect(p2.height / p1.height).toBeGreaterThan(1.98);
+  expect(p2.height / p1.height).toBeLessThan(2.02);
 });
 
 test('capture.js --transparent yields alpha-0 corners', async () => {
