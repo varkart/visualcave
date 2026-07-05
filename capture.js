@@ -93,19 +93,41 @@ function formatSize(bytes) {
     : `${Math.round(bytes / 1024)} KB`;
 }
 
-// Prefer system Chrome — bundled puppeteer headless has screenshot timeout issues on macOS
-const SYSTEM_CHROME = [
-  '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
-  '/usr/bin/google-chrome',
-  '/usr/bin/chromium-browser',
-].find((p) => {
-  try {
-    fs.accessSync(p);
-    return true;
-  } catch {
-    return false;
-  }
-});
+// Prefer system Chrome — bundled puppeteer headless has screenshot timeout issues on macOS.
+// Resolution order: PUPPETEER_EXECUTABLE_PATH → platform candidates → bundled Chromium.
+const CHROME_CANDIDATES = {
+  darwin: [
+    '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+    '/Applications/Chromium.app/Contents/MacOS/Chromium',
+    '/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge',
+  ],
+  linux: [
+    '/usr/bin/google-chrome',
+    '/usr/bin/google-chrome-stable',
+    '/usr/bin/chromium',
+    '/usr/bin/chromium-browser',
+    '/snap/bin/chromium',
+  ],
+  win32: [
+    'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
+    'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
+    process.env.LOCALAPPDATA
+      ? path.join(process.env.LOCALAPPDATA, 'Google', 'Chrome', 'Application', 'chrome.exe')
+      : null,
+    'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe',
+  ],
+};
+
+const SYSTEM_CHROME =
+  process.env.PUPPETEER_EXECUTABLE_PATH ||
+  (CHROME_CANDIDATES[process.platform] || []).filter(Boolean).find((p) => {
+    try {
+      fs.accessSync(p);
+      return true;
+    } catch {
+      return false;
+    }
+  });
 
 async function launchPage(vpWidth, vpHeight) {
   const browser = await puppeteer.launch({
