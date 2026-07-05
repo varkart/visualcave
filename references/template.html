@@ -26,13 +26,18 @@
     select.style-select { font:600 13px 'Inter',sans-serif; padding:9px 12px; border-radius:12px; cursor:pointer; border:1px solid var(--border); background:var(--card-bg); color:var(--text-main); outline:none; transition:border-color 0.2s ease; }
     select.style-select:hover { border-color:var(--accent); }
     .mermaid svg { max-width:100%; height:auto; overflow:visible; }
-    .node rect,.node circle,.node polygon,.node path { stroke-width:2.5px !important; stroke:var(--node-stroke) !important; filter:drop-shadow(4px 4px 0px rgba(0,0,0,0.1)); }
+    .viewport { position:relative; overflow:hidden; touch-action:pan-y; }
+    .viewport.zoomed { cursor:grab; }
+    .viewport.panning { cursor:grabbing; }
+    .viewport .mermaid { transform-origin:0 0; }
+    .zoom-reset { position:absolute; right:12px; bottom:12px; z-index:2; }
+    html:not([data-look="sketch"]) .node rect,html:not([data-look="sketch"]) .node circle,html:not([data-look="sketch"]) .node polygon,html:not([data-look="sketch"]) .node path { stroke-width:2.5px !important; stroke:var(--node-stroke) !important; filter:drop-shadow(4px 4px 0px rgba(0,0,0,0.1)); }
     .node text { font-weight:500 !important; font-size:14px !important; fill:var(--text-main) !important; }
-    .edgePath .path { stroke-width:2.5px !important; stroke:var(--text-muted) !important; }
-    .cluster rect { stroke-width:2.5px !important; stroke:var(--node-stroke) !important; fill:var(--bg) !important; }
+    html:not([data-look="sketch"]) .edgePath .path { stroke-width:2.5px !important; stroke:var(--text-muted) !important; }
+    html:not([data-look="sketch"]) .cluster rect { stroke-width:2.5px !important; stroke:var(--node-stroke) !important; fill:var(--bg) !important; }
     .cluster text { font-weight:600 !important; fill:var(--text-main) !important; }
     @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:0.01ms !important; transition-duration:0.01ms !important; } }
-    @media print { .controls,header select { display:none !important; } body { padding:0; background:#fff !important; } .page { box-shadow:none !important; border:none !important; max-width:100% !important; border-radius:0 !important; } }
+    @media print { .controls,header select,.zoom-reset { display:none !important; } body { padding:0; background:#fff !important; } .page { box-shadow:none !important; border:none !important; max-width:100% !important; border-radius:0 !important; } }
   </style>
 </head>
 <body>
@@ -48,6 +53,7 @@
           <option value="minimal">Minimal</option>
           <option value="pastel">Pastel</option>
           <option value="print">Print</option>
+          <option value="sketch">Sketch</option>
         </select>
         <button class="btn-secondary" onclick="toggleTheme()" id="theme-toggle">🌙 Dark Mode</button>
         <button class="btn-secondary" onclick="copyMermaid(this)">📋 Copy Code</button>
@@ -56,7 +62,8 @@
         <button class="btn-secondary" onclick="exportPDF()">⬇ PDF</button>
       </div>
     </header>
-    <div class="mermaid" id="diagram-source">
+    <div class="viewport" id="viewport">
+      <div class="mermaid" id="diagram-source">
       graph TD
         classDef yellow fill:#FFFDE7,stroke:#1A1A1A,stroke-width:2px;
         classDef blue   fill:#E3F2FD,stroke:#1A1A1A,stroke-width:2px;
@@ -66,10 +73,12 @@
         classDef orange fill:#FFF3E0,stroke:#1A1A1A,stroke-width:2px;
         classDef note   fill:#FFF9C4,stroke:#FBC02D,stroke-dasharray:4;
         A[Entry]:::yellow --> B[Process]:::blue
+      </div>
+      <button class="btn-secondary zoom-reset" id="zoom-reset" onclick="resetView()" hidden>⟲ Reset view</button>
     </div>
   </div>
   <script type="module">
-    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
     const _md = document.getElementById('diagram-source');
     _md.dataset.source = _md.textContent.trim();
     const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -79,6 +88,7 @@
       minimal:  { theme:'neutral', vars:{ primaryColor:'#F8FAFC', primaryBorderColor:'#CBD5E1', primaryTextColor:'#111827', lineColor:'#94A3B8', clusterBkg:'#F8FAFC', clusterBorder:'#E2E8F0' }, classDefs:{ yellow:'fill:#FFFFFF,stroke:#D1D5DB,stroke-width:1.5px', blue:'fill:#F8FAFC,stroke:#CBD5E1,stroke-width:1.5px', green:'fill:#F0FDF4,stroke:#86EFAC,stroke-width:1.5px', purple:'fill:#FAF5FF,stroke:#D8B4FE,stroke-width:1.5px', teal:'fill:#F0FDFA,stroke:#99F6E4,stroke-width:1.5px', orange:'fill:#FFF7ED,stroke:#FED7AA,stroke-width:1.5px', note:'fill:#FEFCE8,stroke:#FDE047,stroke-dasharray:4' } },
       pastel:   { theme:'base',    vars:{ primaryColor:'#FEF3C7', primaryBorderColor:'#F59E0B', primaryTextColor:'#1A1A1A', lineColor:'#6B7280', clusterBkg:'#FFF7ED', clusterBorder:'#FED7AA' }, classDefs:{ yellow:'fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px', blue:'fill:#DBEAFE,stroke:#60A5FA,stroke-width:2px', green:'fill:#D1FAE5,stroke:#34D399,stroke-width:2px', purple:'fill:#EDE9FE,stroke:#A78BFA,stroke-width:2px', teal:'fill:#CFFAFE,stroke:#22D3EE,stroke-width:2px', orange:'fill:#FFE4E6,stroke:#FB7185,stroke-width:2px', note:'fill:#FEF9C3,stroke:#FBBF24,stroke-dasharray:4' } },
       print:    { theme:'base',    vars:{ primaryColor:'#FFFFFF', primaryBorderColor:'#000000', primaryTextColor:'#000000', lineColor:'#333333', clusterBkg:'#F5F5F5', clusterBorder:'#000000' }, classDefs:{ yellow:'fill:#FFFFFF,stroke:#000000,stroke-width:2px', blue:'fill:#F5F5F5,stroke:#000000,stroke-width:2px', green:'fill:#EBEBEB,stroke:#000000,stroke-width:2px', purple:'fill:#E0E0E0,stroke:#000000,stroke-width:2px', teal:'fill:#D6D6D6,stroke:#000000,stroke-width:2px', orange:'fill:#CCCCCC,stroke:#000000,stroke-width:2px', note:'fill:#FFFFE0,stroke:#888,stroke-dasharray:4' } },
+      sketch:   { theme:'base',    look:'handDrawn', vars:{ primaryColor:'#FFFDE7', primaryBorderColor:'#1A1A1A', primaryTextColor:'#1A1A1A', lineColor:'#424242', clusterBkg:'#F8F9FA', clusterBorder:'#1A1A1A' }, classDefs:{ yellow:'fill:#FFFDE7,stroke:#1A1A1A,stroke-width:2px', blue:'fill:#E3F2FD,stroke:#1A1A1A,stroke-width:2px', green:'fill:#E8F5E9,stroke:#1A1A1A,stroke-width:2px', purple:'fill:#F3E5F5,stroke:#1A1A1A,stroke-width:2px', teal:'fill:#E0F7FA,stroke:#1A1A1A,stroke-width:2px', orange:'fill:#FFF3E0,stroke:#1A1A1A,stroke-width:2px', note:'fill:#FFF9C4,stroke:#FBC02D,stroke-dasharray:4' } },
     };
     async function applyStyle(name) {
       const t = THEMES[name] || THEMES.default;
@@ -87,11 +97,13 @@
       for (const [cn, def] of Object.entries(t.classDefs)) {
         src = src.replace(new RegExp(`(classDef\\s+${cn}\\s+)[^;\\n]+`, 'g'), `$1${def}`);
       }
-      el.textContent = src;
-      el.removeAttribute('data-processed');
-      mermaid.initialize({ startOnLoad:false, theme:t.theme, flowchart:{ htmlLabels:true, useMaxWidth:true, padding:100 }, themeVariables:{ fontFamily:'Inter, sans-serif', ...t.vars } });
+      document.documentElement.setAttribute('data-look', t.look === 'handDrawn' ? 'sketch' : 'classic');
+      mermaid.initialize({ startOnLoad:false, theme:t.theme, look:t.look || 'classic', flowchart:{ htmlLabels:true, useMaxWidth:true, padding:16 }, themeVariables:{ fontFamily:'Inter, sans-serif', ...t.vars } });
+      const _mw = document.createElement('div');
+      _mw.style.cssText = 'position:absolute;left:-9999px;width:' + (el.clientWidth || 1100) + 'px';
+      document.body.appendChild(_mw);
       try {
-        await mermaid.run({ nodes:[el] });
+        el.innerHTML = (await mermaid.render('vc-' + Date.now(), src, _mw)).svg;
       } catch (err) {
         console.error('Mermaid render error:', err);
         el.style.opacity = '1';
@@ -101,6 +113,7 @@
           <pre style="margin: 0; white-space: pre-wrap; word-break: break-all; background: rgba(0, 0, 0, 0.05); padding: 16px; border-radius: 8px; border: 1px solid rgba(239, 68, 68, 0.2); font-size: 13px; color: inherit; overflow-x: auto;">${err.message || err}</pre>
         </div>`;
       }
+      _mw.remove();
       try { localStorage.setItem('vc-style', name); } catch(e) {}
     }
     const _saved = (() => { try { return localStorage.getItem('vc-style') || 'default'; } catch(e) { return 'default'; } })();
@@ -153,6 +166,47 @@
       img.src = url;
     };
     window.exportPDF = function() { window.print(); };
+
+    // Pan & zoom — CSS transform on the .mermaid wrapper only, never the SVG,
+    // so exportSVG/exportPNG always clone an untransformed diagram.
+    const _vp = document.getElementById('viewport');
+    const _resetBtn = document.getElementById('zoom-reset');
+    let _view = { x: 0, y: 0, k: 1 };
+    function _applyView() {
+      _md.style.transform = _view.k === 1 && !_view.x && !_view.y
+        ? '' : `translate(${_view.x}px, ${_view.y}px) scale(${_view.k})`;
+      const active = _view.k !== 1;
+      _vp.classList.toggle('zoomed', active);
+      _resetBtn.hidden = !active && !_view.x && !_view.y;
+    }
+    window.resetView = () => { _view = { x: 0, y: 0, k: 1 }; _applyView(); };
+    _vp.addEventListener('wheel', (e) => {
+      if (!e.ctrlKey && !e.metaKey) return; // plain scroll stays page scroll
+      e.preventDefault();
+      const rect = _vp.getBoundingClientRect();
+      const px = e.clientX - rect.left, py = e.clientY - rect.top;
+      const k = Math.min(8, Math.max(0.25, _view.k * (e.deltaY < 0 ? 1.15 : 1 / 1.15)));
+      // keep the point under the cursor fixed while scaling
+      _view.x = px - ((px - _view.x) / _view.k) * k;
+      _view.y = py - ((py - _view.y) / _view.k) * k;
+      _view.k = k;
+      _applyView();
+    }, { passive: false });
+    let _drag = null;
+    _vp.addEventListener('pointerdown', (e) => {
+      if (_view.k === 1 || e.button !== 0) return;
+      _drag = { x: e.clientX - _view.x, y: e.clientY - _view.y };
+      _vp.classList.add('panning');
+      _vp.setPointerCapture(e.pointerId);
+    });
+    _vp.addEventListener('pointermove', (e) => {
+      if (!_drag) return;
+      _view.x = e.clientX - _drag.x;
+      _view.y = e.clientY - _drag.y;
+      _applyView();
+    });
+    _vp.addEventListener('pointerup', () => { _drag = null; _vp.classList.remove('panning'); });
+    _vp.addEventListener('dblclick', () => window.resetView());
   </script>
 </body>
 </html>

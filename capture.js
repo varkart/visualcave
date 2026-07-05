@@ -43,11 +43,14 @@ if (!args.length || args[0] === '--help') {
       '   --format=pdf   A4 PDF, print-ready',
       '',
       ' GIF options:',
-      '   --fps=N        Frames per second (default 12)',
-      '   --duration=N   Seconds to capture (default 5)',
+      '   --fps=N          Frames per second (default 12)',
+      '   --duration=N     Seconds to capture (default 5)',
+      '   --max-height=N   Cap GIF frame height in px (default 2400; frames are held in memory)',
       '',
       ' Layout:',
       '   --width=N      Viewport width in px (default 960)',
+      '   --scale=N      Device scale factor (default 1; 2 = retina PNG/GIF)',
+      '   --transparent  Transparent background (PNG and OG only)',
       '',
     ].join('\n')
   );
@@ -70,6 +73,11 @@ const duration = parseFloat(args.find((a) => a.startsWith('--duration='))?.split
 const width = parseInt(
   args.find((a) => a.startsWith('--width='))?.split('=')[1] ?? (format === 'og' ? '1200' : '960')
 );
+const maxHeight = parseInt(
+  args.find((a) => a.startsWith('--max-height='))?.split('=')[1] ?? '2400'
+);
+const scale = parseFloat(args.find((a) => a.startsWith('--scale='))?.split('=')[1] ?? '1');
+const transparent = args.includes('--transparent');
 
 const extMap = { gif: '.gif', png: '.png', svg: '.svg', og: '-og.png', pdf: '.pdf' };
 const ext = extMap[format] ?? '.gif';
@@ -147,17 +155,28 @@ async function launchPage(vpWidth, vpHeight) {
     else req.continue();
   });
 
-  await page.setViewport({ width: vpWidth, height: vpHeight, deviceScaleFactor: 1 });
+  await page.setViewport({ width: vpWidth, height: vpHeight, deviceScaleFactor: scale });
   return { browser, page };
 }
 
-async function loadDiagram(page, url, vpWidth) {
+// Make the page and card backgrounds see-through before a transparent capture
+async function applyTransparency(page) {
+  await page.addStyleTag({
+    content:
+      'html,body,.page{background:transparent !important;box-shadow:none !important;transition:none !important;}',
+  });
+}
+
+// heightCap: GIF frames are raw RGBA held in memory (height × frames), so GIF
+// passes --max-height. PNG captures the full element regardless of viewport,
+// so it uses Chrome's texture limit only.
+async function loadDiagram(page, url, vpWidth, heightCap = 16384) {
   await page.goto(url, { waitUntil: 'networkidle0', timeout: 30000 });
   // Wait for Mermaid SVG if present (fonts.ready + mermaid.initialize are async)
   await page.waitForSelector('.mermaid svg', { timeout: 10000 }).catch(() => {});
   const scrollH = await page.evaluate(() => document.body.scrollHeight);
-  const h = Math.min(scrollH, 2400);
-  await page.setViewport({ width: vpWidth, height: h, deviceScaleFactor: 1 });
+  const h = Math.min(scrollH, heightCap);
+  await page.setViewport({ width: vpWidth, height: h, deviceScaleFactor: scale });
   return h;
 }
 
@@ -219,10 +238,10 @@ async function loadDiagram(page, url, vpWidth) {
     const { browser, page } = await launchPage(width, 900);
     await loadDiagram(page, url, width);
     // Crop screenshot to page element to avoid excess margins
+    if (transparent) await applyTransparency(page);
+    const shotOpts = { type: 'png', omitBackground: transparent, timeout: 60000 };
     const cardEl = await page.$('.page');
-    const buf = await (cardEl
-      ? cardEl.screenshot({ type: 'png', timeout: 60000 })
-      : page.screenshot({ type: 'png', timeout: 60000 }));
+    const buf = await (cardEl ? cardEl.screenshot(shotOpts) : page.screenshot(shotOpts));
     await browser.close();
     fs.writeFileSync(outputFile, buf);
     console.log(` ✓ Saved ${outputFile} (${formatSize(buf.length)})\n`);
@@ -237,8 +256,10 @@ async function loadDiagram(page, url, vpWidth) {
     const { browser, page } = await launchPage(1200, ogH);
     await page.goto(url, { waitUntil: 'networkidle0', timeout: 30000 });
     await page.waitForSelector('.mermaid svg', { timeout: 10000 }).catch(() => {});
+    if (transparent) await applyTransparency(page);
     const buf = await page.screenshot({
       type: 'png',
+      omitBackground: transparent,
       clip: { x: 0, y: 0, width: 1200, height: ogH },
       timeout: 60000,
     });
@@ -277,7 +298,7 @@ async function loadDiagram(page, url, vpWidth) {
   console.log(` Settings: ${fps}fps × ${duration}s = ${frameCount} frames`);
 
   const { browser, page } = await launchPage(width, 900);
-  await loadDiagram(page, url, width);
+  await loadDiagram(page, url, width, maxHeight);
 
   const firstShot = await page.screenshot({ type: 'png', timeout: 60000 });
   const { width: imgW, height: imgH } = await pngBufToPixels(firstShot);

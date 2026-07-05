@@ -157,7 +157,7 @@
       transition: background 0.15s;
     }
     .card { transition: opacity 0.22s ease, transform 0.22s ease; }
-    .card.cap-dim { opacity: 0.07; pointer-events: none; transform: scale(0.98); }
+    .card.cap-hide { display: none; }
     .section-label { transition: opacity 0.22s ease; }
     .cap-empty {
       display: none; max-width: 1200px; margin: 0 auto 40px;
@@ -191,16 +191,16 @@
     <div class="hero-meta">
       <a href="https://github.com/varkart/visualcave">GitHub</a>
       <span>·</span>
-      <span>22 examples</span>
+      <span>28 examples</span>
       <span>·</span>
-      <span>11 diagram types</span>
+      <span>16 diagram types</span>
     </div>
   </div>
 
   <div class="caps">
     <div class="caps-inner">
       <span class="caps-label">Capabilities</span>
-      <span class="cap" data-filter="mermaid"><span class="cap-dot" style="background:#3B82F6"></span>Mermaid — 11 diagram types</span>
+      <span class="cap" data-filter="mermaid"><span class="cap-dot" style="background:#3B82F6"></span>Mermaid — 16 diagram types</span>
       <span class="cap" data-filter="animated"><span class="cap-dot" style="background:#22C55E"></span>CSS flow animation</span>
       <span class="cap" data-filter="canvas"><span class="cap-dot" style="background:#A855F7"></span>Canvas animation</span>
       <span class="cap" data-filter="astro"><span class="cap-dot" style="background:#F59E0B"></span>Astro / React component output</span>
@@ -348,6 +348,32 @@
         </div>
       </a>
 
+    
+      <a class="card" href="examples/c4-context.html" target="_blank">
+        <div class="card-preview">
+          <iframe src="examples/c4-context.html" loading="lazy" title="Internet Banking — System Context preview"></iframe>
+          <div class="card-preview-label">C4Context</div>
+        </div>
+        <div class="card-body">
+          <h3>Internet Banking — System Context</h3>
+          <p>C4 Level 1: customer, banking platform, and the external systems around it.</p>
+          <div class="card-tags"><span class="tag">C4</span><span class="tag">context</span>
+          <div class="card-prompt">/visualcave C4 system context for an internet banking platform</div></div>
+        </div>
+      </a>
+
+      <a class="card" href="examples/architecture-diagram.html" target="_blank">
+        <div class="card-preview">
+          <iframe src="examples/architecture-diagram.html" loading="lazy" title="Web App Infrastructure preview"></iframe>
+          <div class="card-preview-label">architecture-beta</div>
+        </div>
+        <div class="card-body">
+          <h3>Web App Infrastructure</h3>
+          <p>CDN, API server, Postgres, and object storage with grouped cloud services.</p>
+          <div class="card-tags"><span class="tag">architecture</span><span class="tag">cloud</span>
+          <div class="card-prompt">/visualcave cloud architecture, CDN, API, Postgres, object storage</div></div>
+        </div>
+      </a>
     </div>
 
     <div class="section-label">Object &amp; Data Models</div>
@@ -423,6 +449,58 @@
         </div>
       </a>
 
+    
+      <a class="card" href="examples/gantt-chart.html" target="_blank">
+        <div class="card-preview">
+          <iframe src="examples/gantt-chart.html" loading="lazy" title="Release Sprint Plan preview"></iframe>
+          <div class="card-preview-label">gantt</div>
+        </div>
+        <div class="card-body">
+          <h3>Release Sprint Plan</h3>
+          <p>Six-week delivery schedule across design, build, QA, and launch phases.</p>
+          <div class="card-tags"><span class="tag">gantt</span><span class="tag">schedule</span>
+          <div class="card-prompt">/visualcave gantt chart, six week release plan with milestones</div></div>
+        </div>
+      </a>
+
+      <a class="card" href="examples/xy-chart.html" target="_blank">
+        <div class="card-preview">
+          <iframe src="examples/xy-chart.html" loading="lazy" title="Monthly Active Users preview"></iframe>
+          <div class="card-preview-label">xychart-beta</div>
+        </div>
+        <div class="card-body">
+          <h3>Monthly Active Users</h3>
+          <p>Bar + line combo tracking user growth against revenue, January to June.</p>
+          <div class="card-tags"><span class="tag">xychart</span><span class="tag">metrics</span>
+          <div class="card-prompt">/visualcave bar and line chart, MAU vs revenue by month</div></div>
+        </div>
+      </a>
+
+      <a class="card" href="examples/sankey-diagram.html" target="_blank">
+        <div class="card-preview">
+          <iframe src="examples/sankey-diagram.html" loading="lazy" title="Data Center Energy Flow preview"></iframe>
+          <div class="card-preview-label">sankey-beta</div>
+        </div>
+        <div class="card-body">
+          <h3>Data Center Energy Flow</h3>
+          <p>Where the power goes — grid and solar through servers, cooling, and losses.</p>
+          <div class="card-tags"><span class="tag">sankey</span><span class="tag">flow</span>
+          <div class="card-prompt">/visualcave sankey diagram, data center energy distribution</div></div>
+        </div>
+      </a>
+
+      <a class="card" href="examples/kanban-board.html" target="_blank">
+        <div class="card-preview">
+          <iframe src="examples/kanban-board.html" loading="lazy" title="Sprint Board preview"></iframe>
+          <div class="card-preview-label">kanban</div>
+        </div>
+        <div class="card-body">
+          <h3>Sprint Board</h3>
+          <p>Current sprint grouped by workflow state with assignee and priority metadata.</p>
+          <div class="card-tags"><span class="tag">kanban</span><span class="tag">sprint</span>
+          <div class="card-prompt">/visualcave kanban board for the current sprint</div></div>
+        </div>
+      </a>
     </div>
 
     <div class="section-label">Knowledge &amp; History</div>
@@ -549,6 +627,11 @@
           <tr><td>git, branching, gitflow, commits</td><td><code>gitGraph</code></td><td>Branch strategy, release process</td></tr>
           <tr><td>pie chart, distribution, percentage</td><td><code>pie</code></td><td>Traffic split, budget breakdown</td></tr>
           <tr><td>schedule, project plan, sprint</td><td><code>gantt</code></td><td>Project timelines</td></tr>
+          <tr><td>bar chart, line chart, trend over time</td><td><code>xychart-beta</code></td><td>Metrics, growth curves</td></tr>
+          <tr><td>flow quantities, energy/traffic/money split</td><td><code>sankey-beta</code></td><td>Resource distribution</td></tr>
+          <tr><td>system context, C4, external systems</td><td><code>C4Context</code></td><td>High-level architecture docs</td></tr>
+          <tr><td>cloud infrastructure, services + connections</td><td><code>architecture-beta</code></td><td>Deployment diagrams</td></tr>
+          <tr><td>kanban board, sprint tasks, columns</td><td><code>kanban</code></td><td>Work-in-progress boards</td></tr>
         </tbody>
       </table>
     </div>
@@ -587,25 +670,30 @@
 
         cards.forEach(card => {
           const match = !isAstro && fn(card);
-          card.classList.toggle('cap-dim', !match);
+          card.classList.toggle('cap-hide', !match);
         });
 
-        // Dim section labels whose entire grid is dimmed
+        // Collapse sections whose entire grid is hidden
         sections.forEach(label => {
           const grid = label.nextElementSibling;
-          if (!grid) return;
-          const allDimmed = [...grid.querySelectorAll('.card')].every(c =>
-            c.classList.contains('cap-dim')
+          if (!grid || !grid.classList.contains('grid')) return;
+          const allHidden = [...grid.querySelectorAll('.card')].every(c =>
+            c.classList.contains('cap-hide')
           );
-          label.style.opacity = allDimmed ? '0.2' : '';
+          label.style.display = allHidden ? 'none' : '';
+          grid.style.display = allHidden ? 'none' : '';
         });
 
         if (emptyEl) emptyEl.classList.toggle('visible', isAstro);
       }
 
       function clearFilter() {
-        cards.forEach(c => c.classList.remove('cap-dim'));
-        sections.forEach(l => (l.style.opacity = ''));
+        cards.forEach(c => c.classList.remove('cap-hide'));
+        sections.forEach(label => {
+          label.style.display = '';
+          const grid = label.nextElementSibling;
+          if (grid && grid.classList.contains('grid')) grid.style.display = '';
+        });
         if (emptyEl) emptyEl.classList.remove('visible');
       }
 
