@@ -29,15 +29,15 @@ Full instructions and HTML template: see `SKILL.md` in this directory, or at htt
 
 ## Diagram Type Quick Reference
 
-| User says…                         | Mermaid keyword         |
-| ---------------------------------- | ----------------------- |
-| flow, pipeline, architecture       | `graph TD` / `graph LR` |
-| sequence, API calls, actors        | `sequenceDiagram`       |
-| class, OOP, domain model           | `classDiagram`          |
-| state, lifecycle, FSM              | `stateDiagram-v2`       |
-| database, schema, ER               | `erDiagram`             |
-| priority matrix, 2×2               | `quadrantChart`         |
-| timeline, history, milestones      | `timeline`              |
-| mind map, brainstorm               | `mindmap`               |
-| git branching, gitflow             | `gitGraph`              |
-| pie chart, distribution            | `pie`                   |
+| User says…                    | Mermaid keyword         |
+| ----------------------------- | ----------------------- |
+| flow, pipeline, architecture  | `graph TD` / `graph LR` |
+| sequence, API calls, actors   | `sequenceDiagram`       |
+| class, OOP, domain model      | `classDiagram`          |
+| state, lifecycle, FSM         | `stateDiagram-v2`       |
+| database, schema, ER          | `erDiagram`             |
+| priority matrix, 2×2          | `quadrantChart`         |
+| timeline, history, milestones | `timeline`              |
+| mind map, brainstorm          | `mindmap`               |
+| git branching, gitflow        | `gitGraph`              |
+| pie chart, distribution       | `pie`                   |
