@@ -369,67 +369,6 @@
     <main class="sections">
 
       <!-- ══════════════════════════════════════════════
-           SECTION 1 — THE HUMAN STACK
-      ══════════════════════════════════════════════ -->
-      <div class="phase-divider" style="margin-top:0" data-era="0">
-        <span class="phase-label">Phase 0 → 2 &nbsp;·&nbsp; The Stack</span>
-      </div>
-      <h2 class="section-title" style="color:#F59E0B">The Human Stack</h2>
-      <p class="section-sub">Every step in the software lifecycle carried by human expertise — one engineer or an army, the model is the same. Then agents arrive at the edges.</p>
-
-      <div class="diagram-wrap">
-        <div class="diagram-label">The Human Loop — Pre-2020</div>
-        <div class="mermaid" id="diagram-1a">
-          graph LR
-            classDef amber  fill:#2D1C06,stroke:#F59E0B,stroke-width:2px,color:#FDE68A
-            classDef amber2 fill:#1E1204,stroke:#D97706,stroke-width:1.5px,color:#FCD34D
-
-            R[Requirements]:::amber --> RD[Repo Discovery]:::amber2
-            RD --> LP[Language Mastery]:::amber2
-            LP --> AR[Architecture]:::amber2
-            AR --> B[Build]:::amber2
-            B --> CI[CI / CD]:::amber2
-            CI --> QA[QA Testing]:::amber2
-            QA --> PM[PM Sign-off]:::amber2
-            PM --> SEC[Security]:::amber2
-            SEC --> DEP[Deploy]:::amber2
-            DEP --> MON[Monitor]:::amber2
-            MON --> BUG[Bugs &amp; Crashes]:::amber2
-            BUG -.->|loop| R
-        </div>
-      </div>
-
-      <div class="diagram-wrap">
-        <div class="diagram-label">The Augmented Loop — Agent Mesh</div>
-        <div class="mermaid" id="diagram-1b">
-          graph LR
-            classDef human  fill:#2D1C06,stroke:#F59E0B,stroke-width:2px,color:#FDE68A
-            classDef human2 fill:#1E1204,stroke:#D97706,stroke-width:1.5px,color:#FCD34D
-            classDef agent  fill:#0D1829,stroke:#3B82F6,stroke-width:1.5px,color:#93C5FD,stroke-dasharray:5
-
-            R[Requirements]:::human --> RD[Repo Discovery]:::human2
-            RD --> LP[Language]:::human2
-            LP --> AR[Architecture]:::human2
-            AR --> B[Build]:::human2
-            B --> CI[CI / CD]:::human2
-            CI --> QA[QA Testing]:::human2
-            QA --> PM[PM Sign-off]:::human2
-            PM --> SEC[Security]:::human2
-            SEC --> DEP[Deploy]:::human2
-            DEP --> MON[Monitor]:::human2
-            MON --> BUG[Bugs]:::human2
-            BUG -.->|loop| R
-
-            RA[Repo Agent]:::agent -.->|assists| RD
-            LA[Lang Agent]:::agent  -.->|assists| LP
-            TA[Test Agent]:::agent  -.->|assists| QA
-            DA[Deploy Agent]:::agent -.->|assists| DEP
-            MA[Monitor Agent]:::agent -.->|assists| MON
-            BA[Bug Agent]:::agent   -.->|assists| BUG
-        </div>
-      </div>
-
-      <!-- ══════════════════════════════════════════════
            SECTION 2 — ECONOMIC RUPTURE
       ══════════════════════════════════════════════ -->
       <div class="phase-divider" data-era="1">
@@ -682,110 +621,12 @@
       </div>
 
       <!-- ══════════════════════════════════════════════
-           SECTION 4 — PHYSICAL-DIGITAL BRIDGE
-      ══════════════════════════════════════════════ -->
-      <div class="phase-divider" data-era="2">
-        <span class="phase-label">Phase 4+ &nbsp;·&nbsp; Physical World</span>
-      </div>
-      <h2 class="section-title" style="color:#A78BFA">Physical-Digital Bridge</h2>
-      <p class="section-sub">Software automation reaches the physical world. Robotic surgery at a fraction of the cost. AI preventative care. Construction crews of one. The bridge has two plausible shapes.</p>
-
-      <div class="bridge-grid">
-        <div class="bridge-path">
-          <div class="bridge-path-label" style="color:#22D3EE">Path A &mdash; Gradual Hybrid</div>
-          <div class="mermaid" id="diagram-4a">
-            graph TD
-              classDef c1 fill:#071624,stroke:#22D3EE,stroke-width:2px,color:#67E8F9
-              classDef c2 fill:#082030,stroke:#38BDF8,stroke-width:2px,color:#7DD3FC
-              classDef c3 fill:#092840,stroke:#60A5FA,stroke-width:2px,color:#93C5FD
-              classDef c4 fill:#0A304E,stroke:#818CF8,stroke-width:2px,color:#A5B4FC
-              classDef c5 fill:#0B385A,stroke:#A78BFA,stroke-width:1.5px,color:#C4B5FD,stroke-dasharray:6
-
-              A1["Robot Assists Human"]:::c1
-              A1 --> A2["Human Supervises Robot"]:::c2
-              A2 --> A3["Robot Supervises Robot"]:::c3
-              A3 --> A4["Human as Circuit Breaker"]:::c4
-              A4 -.->|eventual| A5["Full Autonomy"]:::c5
-          </div>
-        </div>
-
-        <div class="bridge-divider">
-          <div class="divider-line"></div>
-          <div class="divider-text">Which path depends on regulatory speed vs economic pressure</div>
-          <div class="divider-line"></div>
-        </div>
-
-        <div class="bridge-path">
-          <div class="bridge-path-label" style="color:#F87171">Path B &mdash; Rapid Displacement</div>
-          <div class="mermaid" id="diagram-4b">
-            graph TD
-              classDef h1 fill:#1F0D06,stroke:#FB923C,stroke-width:2px,color:#FED7AA
-              classDef h2 fill:#280A0A,stroke:#EF4444,stroke-width:2px,color:#FCA5A5
-              classDef h3 fill:#320A0A,stroke:#DC2626,stroke-width:2px,color:#FCA5A5
-              classDef h4 fill:#3C0A0A,stroke:#B91C1C,stroke-width:2.5px,color:#FECACA
-              classDef h5 fill:#460A0A,stroke:#991B1B,stroke-width:2.5px,color:#FECACA
-
-              B1["Economic Math Forces It<br/>1/10 the cost"]:::h1
-              B1 --> B2["Immediate Mass Adoption"]:::h2
-              B2 --> B3["Stranded Generation"]:::h3
-              B3 --> B4["No Adjustment Buffer"]:::h4
-              B4 --> B5["Collapse or Adapt"]:::h5
-          </div>
-        </div>
-      </div>
-
-      <!-- ══════════════════════════════════════════════
-           SECTION 5 — THE FAR HORIZON
-      ══════════════════════════════════════════════ -->
-      <div class="phase-divider" data-era="3">
-        <span class="phase-label">Far Horizon &nbsp;·&nbsp; The Question</span>
-      </div>
-      <h2 class="section-title" style="background:linear-gradient(90deg,#818CF8,#A78BFA,#C4B5FD);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">The Far Horizon</h2>
-      <p class="section-sub">When AI generates requirements — deciding what to build based on need, efficiency, and societal signals — the last human moat closes. What remains?</p>
-
-      <div class="diagram-wrap">
-        <div class="mermaid" id="diagram-5">
-          graph TD
-            classDef uv     fill:#0C0920,stroke:#818CF8,stroke-width:2.5px,color:#A5B4FC
-            classDef amber  fill:#1C1006,stroke:#D97706,stroke-width:1.5px,color:#FDE68A
-            classDef gate   fill:#0E0A1C,stroke:#A78BFA,stroke-width:2px,color:#C4B5FD
-            classDef cons   fill:#12122A,stroke:#E8E8F0,stroke-width:2.5px,color:#FFFFFF
-            classDef bright fill:#1A1106,stroke:#F59E0B,stroke-width:2px,color:#FCD34D
-            classDef dark   fill:#1C0606,stroke:#991B1B,stroke-width:2px,color:#FCA5A5
-            classDef final  fill:#181830,stroke:#E8E8F0,stroke-width:3px,color:#FFFFFF
-
-            AI["AI Generates Requirements<br/>need &middot; efficiency &middot; societal signals"]:::uv
-            AI --> MOAT["Human Requirements Moat Closes"]:::amber
-
-            subgraph GATE["The Gatekeeper Layer — Seven Human Roles"]
-              G1[Ethics Arbiter]:::gate
-              G2[Taste Curator]:::gate
-              G3[Conflict Resolver]:::gate
-              G4["Anomaly Detector<br/>Goodhart's Law"]:::gate
-              G5[Trust Anchor]:::gate
-              G6[Meaning Generator]:::gate
-              G7[Adversarial Tester]:::gate
-            end
-
-            MOAT --> G1 & G2 & G3 & G4 & G5 & G6 & G7
-            G1 & G2 & G3 & G4 & G5 & G6 & G7 --> CONS["Consciousness as Scarce Resource"]:::cons
-
-            CONS --> BRIGHT["Bright Path<br/>Post-Scarcity &middot; Art &middot; Meaning &middot; Exploration"]:::bright
-            CONS --> DARK["Dark Path<br/>Symbolic Authority &middot; No Real Power"]:::dark
-            BRIGHT & DARK --> FINAL["?<br/>The only unreplicable thing:<br/>subjective experience of being human"]:::final
-        </div>
-      </div>
-
-      <!-- ══════════════════════════════════════════════
            CLOSING CARD
       ══════════════════════════════════════════════ -->
       <div class="closing-card">
         <div class="closing-title">A Note on Certainty</div>
         <div class="closing-body">
-          <p>None of this is guaranteed. Agents today require significant human hand-holding — they hallucinate, lose context, fail on edge cases, and need careful scaffolding to do anything non-trivial reliably.</p>
-          <p>What stands between the present and everything on this map is not AGI. It is not a sentient machine. It is something more mundane and more achievable: smarter agent ecosystem design — better context management, better multi-agent coordination, better cost-to-reliability ratios. Expensive in tokens and inference today. Cheaper tomorrow. The curve is not linear.</p>
-          <p>That threshold could be a decade away. It could be closer than anyone expects.</p>
-          <p>A single research paper — eight pages, published quietly — restructured how language itself is processed by machines. The displacement and enhancement that followed came faster than most timelines predicted.</p>
+          <p>None of this is guaranteed. Agents today hallucinate, lose context, and need careful scaffolding. What stands between the present and this map is not AGI — it is better agent ecosystem design, and that curve is not linear.</p>
           <p>History does not announce its inflection points in advance.</p>
         </div>
         <div class="closing-divider"></div>
@@ -796,46 +637,14 @@
 
     </main>
 
-    <!-- ══════════════════════════════════════════════
-         HUMAN ARC SIDEBAR
-    ══════════════════════════════════════════════ -->
-    <aside class="human-arc">
-      <div class="arc-label">Human Arc</div>
-      <div class="arc-timeline">
-        <div class="arc-era era-0 active" data-index="0">
-          <div class="era-icon">&#128296;</div>
-          <div class="era-title">Builder</div>
-          <div class="era-desc">Makes the system. Skill = value.</div>
-        </div>
-        <div class="arc-era era-1" data-index="1">
-          <div class="era-icon">&#127918;</div>
-          <div class="era-title">Orchestrator</div>
-          <div class="era-desc">Manages agents building the system.</div>
-        </div>
-        <div class="arc-era era-2" data-index="2">
-          <div class="era-icon">&#128203;</div>
-          <div class="era-title">Req. Holder</div>
-          <div class="era-desc">Knows what to build. Last moat.</div>
-        </div>
-        <div class="arc-era era-3" data-index="3">
-          <div class="era-icon">&#9878;</div>
-          <div class="era-title">Gatekeeper</div>
-          <div class="era-desc">Guards what should be built.</div>
-        </div>
-        <div class="arc-era era-4" data-index="4">
-          <div class="era-icon">&#10022;</div>
-          <div class="era-title">Experiencer</div>
-          <div class="era-desc">The only thing left to be.</div>
-        </div>
-      </div>
-    </aside>
+    
   </div>
 </div>
 
 <script type="module">
   import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
 
-  const DIAGRAM_IDS = ['diagram-1a', 'diagram-1b', 'diagram-2', 'diagram-4a', 'diagram-4b', 'diagram-5'];
+  const DIAGRAM_IDS = ['diagram-2'];
 
   DIAGRAM_IDS.forEach(id => {
     const el = document.getElementById(id);
@@ -890,27 +699,7 @@
 
   document.fonts.ready.then(renderAll);
 
-  // Human Arc scroll tracking
-  const dividers = Array.from(document.querySelectorAll('.phase-divider[data-era]'));
-  const eras = Array.from(document.querySelectorAll('.arc-era'));
-  const eraMap = [0, 1, 2, 2, 3, 4]; // section index → era index
-
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const sIdx = dividers.indexOf(entry.target);
-        const eIdx = eraMap[sIdx] ?? sIdx;
-        eras.forEach((e, i) => {
-          const dist = Math.abs(i - eIdx);
-          e.style.opacity = dist === 0 ? '1' : dist === 1 ? '0.55' : '0.25';
-          e.style.transform = i === eIdx ? 'translateX(4px)' : 'none';
-          e.classList.toggle('active', i === eIdx);
-        });
-      }
-    });
-  }, { threshold: 0.6, rootMargin: '-10% 0px -40% 0px' });
-
-  dividers.forEach(d => obs.observe(d));
+  
 
   window.toggleTheme = () => {
     const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
