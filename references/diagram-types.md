@@ -32,7 +32,7 @@ Switch to custom CSS only when the user explicitly asks for visual richness that
 
 ### CSS component patterns
 
-**Timeline** (spine + dots + cards): grid `60px 24px 1fr`, colored dot + card per entry, hover `translateX(3px)`. See `examples/software-engineering-timeline.html` for a working example — read it and adapt, do not regenerate from scratch.
+**Timeline** (spine + dots + cards): grid `60px 24px 1fr`, colored dot + card per entry, hover `translateX(3px)`. See `examples/ai-evolution-timeline.html` for a working example — read it and adapt, do not regenerate from scratch.
 
 **Pipeline** (phase cards + step badges): centered column, `.vc-pl-num` circle badge, `.vc-pl-phase` label, `.vc-pl-out` artifact line. No working example yet in this repo — use the pattern from `~/.claude/skills/panel-diagram/BRIEF.md` if available.
 
