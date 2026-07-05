@@ -186,6 +186,7 @@ All examples are in [`examples/`](examples/) and live at the [showcase site](htt
 
 - [Feature Priority Matrix](examples/quadrant-chart.html) — `quadrantChart`
 - [API Traffic Distribution](examples/pie-chart.html) — `pie`
+- [Release Sprint Plan](examples/gantt-chart.html) — `gantt`
 
 **Knowledge & History**
 

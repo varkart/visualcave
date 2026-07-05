@@ -14,7 +14,7 @@ Pick the Mermaid keyword that matches the user's intent.
 | mind map, brainstorm, concept map, topics                       | `mindmap`               | `examples/mindmap.html`              |
 | git, branching, gitflow, commits, merge                         | `gitGraph`              | `examples/git-graph.html`            |
 | pie chart, distribution, percentage breakdown, share            | `pie`                   | `examples/pie-chart.html`            |
-| gantt, schedule, project plan, sprint                           | `gantt`                 | —                                    |
+| gantt, schedule, project plan, sprint                           | `gantt`                 | `examples/gantt-chart.html`          |
 
 ## Mermaid vs Custom CSS — routing rules
 
@@ -42,4 +42,4 @@ Switch to custom CSS only when the user explicitly asks for visual richness that
 
 `classDef` color classes (`:::yellow`, `:::blue`, etc.) work in: `graph`, `classDiagram`, `stateDiagram-v2`.
 
-For types that don't support `classDef` (`erDiagram`, `sequenceDiagram`, `timeline`, `mindmap`, `gitGraph`, `pie`, `quadrantChart`), control colors via `themeVariables` in `mermaid.initialize()`. See each example file for the relevant `themeVariables` block.
+For types that don't support `classDef` (`erDiagram`, `sequenceDiagram`, `timeline`, `mindmap`, `gitGraph`, `pie`, `quadrantChart`, `gantt`), control colors via `themeVariables` in `mermaid.initialize()`. See each example file for the relevant `themeVariables` block.
