@@ -157,7 +157,7 @@
       transition: background 0.15s;
     }
     .card { transition: opacity 0.22s ease, transform 0.22s ease; }
-    .card.cap-dim { opacity: 0.07; pointer-events: none; transform: scale(0.98); }
+    .card.cap-hide { display: none; }
     .section-label { transition: opacity 0.22s ease; }
     .cap-empty {
       display: none; max-width: 1200px; margin: 0 auto 40px;
@@ -191,7 +191,7 @@
     <div class="hero-meta">
       <a href="https://github.com/varkart/visualcave">GitHub</a>
       <span>·</span>
-      <span>22 examples</span>
+      <span>28 examples</span>
       <span>·</span>
       <span>16 diagram types</span>
     </div>
@@ -670,25 +670,30 @@
 
         cards.forEach(card => {
           const match = !isAstro && fn(card);
-          card.classList.toggle('cap-dim', !match);
+          card.classList.toggle('cap-hide', !match);
         });
 
-        // Dim section labels whose entire grid is dimmed
+        // Collapse sections whose entire grid is hidden
         sections.forEach(label => {
           const grid = label.nextElementSibling;
-          if (!grid) return;
-          const allDimmed = [...grid.querySelectorAll('.card')].every(c =>
-            c.classList.contains('cap-dim')
+          if (!grid || !grid.classList.contains('grid')) return;
+          const allHidden = [...grid.querySelectorAll('.card')].every(c =>
+            c.classList.contains('cap-hide')
           );
-          label.style.opacity = allDimmed ? '0.2' : '';
+          label.style.display = allHidden ? 'none' : '';
+          grid.style.display = allHidden ? 'none' : '';
         });
 
         if (emptyEl) emptyEl.classList.toggle('visible', isAstro);
       }
 
       function clearFilter() {
-        cards.forEach(c => c.classList.remove('cap-dim'));
-        sections.forEach(l => (l.style.opacity = ''));
+        cards.forEach(c => c.classList.remove('cap-hide'));
+        sections.forEach(label => {
+          label.style.display = '';
+          const grid = label.nextElementSibling;
+          if (grid && grid.classList.contains('grid')) grid.style.display = '';
+        });
         if (emptyEl) emptyEl.classList.remove('visible');
       }
 
