@@ -11,6 +11,63 @@ const { PNG } = require('pngjs');
 const ROOT = path.join(__dirname, '..');
 const OUT = path.join(__dirname, 'screenshots', 'capture-cli-pie.png');
 
+test('capture.js PNG is not clipped at 2400px for tall pages', async () => {
+  test.setTimeout(120000);
+  const tallHtml = path.join(__dirname, 'screenshots', 'capture-tall.html');
+  const tallOut = path.join(__dirname, 'screenshots', 'capture-tall.png');
+  fs.writeFileSync(
+    tallHtml,
+    '<!DOCTYPE html><html><body style="margin:0">' +
+      '<div class="page" style="height:3200px;background:linear-gradient(#fff,#ccc)">tall</div>' +
+      '</body></html>'
+  );
+  fs.rmSync(tallOut, { force: true });
+  execFileSync(process.execPath, ['capture.js', tallHtml, tallOut, '--format=png'], {
+    cwd: ROOT,
+    stdio: 'pipe',
+    timeout: 90000,
+  });
+  const png = PNG.sync.read(fs.readFileSync(tallOut));
+  expect(png.height, 'tall page should not be clipped to 2400px').toBeGreaterThan(2400);
+});
+
+test('capture.js --scale=2 doubles PNG pixel dimensions', async () => {
+  test.setTimeout(180000);
+  const out1 = path.join(__dirname, 'screenshots', 'capture-scale1.png');
+  const out2 = path.join(__dirname, 'screenshots', 'capture-scale2.png');
+  for (const [out, extra] of [
+    [out1, []],
+    [out2, ['--scale=2']],
+  ]) {
+    fs.rmSync(out, { force: true });
+    execFileSync(
+      process.execPath,
+      ['capture.js', 'examples/pie-chart.html', out, '--format=png', ...extra],
+      { cwd: ROOT, stdio: 'pipe', timeout: 90000 }
+    );
+  }
+  const p1 = PNG.sync.read(fs.readFileSync(out1));
+  const p2 = PNG.sync.read(fs.readFileSync(out2));
+  expect(p2.width).toBe(p1.width * 2);
+  expect(p2.height).toBe(p1.height * 2);
+});
+
+test('capture.js --transparent yields alpha-0 corners', async () => {
+  test.setTimeout(120000);
+  const out = path.join(__dirname, 'screenshots', 'capture-transparent.png');
+  fs.rmSync(out, { force: true });
+  execFileSync(
+    process.execPath,
+    ['capture.js', 'examples/pie-chart.html', out, '--format=png', '--transparent'],
+    { cwd: ROOT, stdio: 'pipe', timeout: 90000 }
+  );
+  const png = PNG.sync.read(fs.readFileSync(out));
+  // .page has border-radius:24px — the very first pixel sits outside the
+  // rounded corner, so with a transparent body it must be fully transparent
+  const cornerAlpha = png.data[3];
+  expect(cornerAlpha, 'corner pixel should be fully transparent').toBe(0);
+});
+
 test('capture.js exports a valid PNG', async () => {
   test.setTimeout(120000);
   fs.rmSync(OUT, { force: true });
