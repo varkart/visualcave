@@ -299,16 +299,20 @@
         src = src.replace(new RegExp(`(classDef\\s+${cn}\\s+)[^;\\n]+`, 'g'), `$1${def}`);
       }
       mermaid.initialize({ startOnLoad:false, theme:t.theme, flowchart:{ htmlLabels:true, useMaxWidth:true, padding:100 }, themeVariables:{ fontFamily:'Inter, sans-serif', ...t.vars } });
+      const _mw = document.createElement('div');
+      _mw.style.cssText = 'position:absolute;left:-9999px;width:' + (mermaidDiv.clientWidth || 1100) + 'px';
+      document.body.appendChild(_mw);
       try {
         // Reset step state so setupSteps re-binds to the new SVG
         delete mermaidDiv.dataset.stepsReady;
         mermaidDiv.setAttribute('data-initialized', 'false');
         currentStep = 0;
         document.getElementById('step-label').textContent = 'Click to start guide';
-        mermaidDiv.innerHTML = (await mermaid.render('vc-' + Date.now(), src)).svg;
+        mermaidDiv.innerHTML = (await mermaid.render('vc-' + Date.now(), src, _mw)).svg;
       } catch (err) {
         console.error('Mermaid render error:', err);
       }
+      _mw.remove();
       try { localStorage.setItem('vc-style', name); } catch(e) {}
     }
     const _saved = (() => { try { return localStorage.getItem('vc-style') || 'default'; } catch(e) { return 'default'; } })();

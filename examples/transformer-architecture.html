@@ -127,8 +127,11 @@
         src = src.replace(new RegExp(`(classDef\\s+${cn}\\s+)[^;\\n]+`, 'g'), `$1${def}`);
       }
             mermaid.initialize({ startOnLoad:false, theme:t.theme, flowchart:{ htmlLabels:true, useMaxWidth:true, padding:100 }, themeVariables:{ fontFamily:'Inter, sans-serif', ...t.vars } });
+      const _mw = document.createElement('div');
+      _mw.style.cssText = 'position:absolute;left:-9999px;width:' + (el.clientWidth || 1100) + 'px';
+      document.body.appendChild(_mw);
       try {
-        el.innerHTML = (await mermaid.render('vc-' + Date.now(), src)).svg;
+        el.innerHTML = (await mermaid.render('vc-' + Date.now(), src, _mw)).svg;
       } catch (err) {
         console.error('Mermaid render error:', err);
         el.style.opacity = '1';
@@ -138,6 +141,7 @@
           <pre style="margin: 0; white-space: pre-wrap; word-break: break-all; background: rgba(0, 0, 0, 0.05); padding: 16px; border-radius: 8px; border: 1px solid rgba(239, 68, 68, 0.2); font-size: 13px; color: inherit; overflow-x: auto;">${err.message || err}</pre>
         </div>`;
       }
+      _mw.remove();
       try { localStorage.setItem('vc-style', name); } catch(e) {}
     }
     const _saved = (() => { try { return localStorage.getItem('vc-style') || 'default'; } catch(e) { return 'default'; } })();
