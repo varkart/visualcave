@@ -31,12 +31,17 @@ const DIAGRAMS = [
   { file: 'examples/ai-evolution-timeline.html', type: 'static', stepThrough: false },
   { file: 'examples/llm-training-pipeline.html', type: 'static', stepThrough: false },
   { file: 'examples/gantt-chart.html', type: 'gantt', stepThrough: false },
+  { file: 'examples/xy-chart.html', type: 'xychart', stepThrough: false },
+  { file: 'examples/sankey-diagram.html', type: 'sankey', stepThrough: false },
+  { file: 'examples/c4-context.html', type: 'c4', stepThrough: false },
+  { file: 'examples/architecture-diagram.html', type: 'architecture', stepThrough: false },
+  { file: 'examples/kanban-board.html', type: 'kanban', stepThrough: false },
   { file: 'references/template.html', type: 'graph', stepThrough: false },
 ];
 
 for (const diagram of DIAGRAMS) {
   test(`renders: ${diagram.file}`, async ({ page }) => {
-    await page.route('**/cdn.jsdelivr.net/npm/mermaid@10/dist/**', (route) => {
+    await page.route('**/cdn.jsdelivr.net/npm/mermaid@11/dist/**', (route) => {
       const filename = route.request().url().split('/dist/').pop();
       route.fulfill({ path: path.join(MERMAID_DIST, filename) });
     });
@@ -82,15 +87,49 @@ for (const diagram of DIAGRAMS) {
 
     const styleSelect = page.locator('#style-select');
     if (diagram.type !== 'static' && (await styleSelect.count()) > 0) {
+      // Each style switch re-renders asynchronously; Mermaid assigns the new
+      // SVG a fresh id. Wait for the id to change before the next switch, or
+      // two applyStyle() calls overlap and corrupt the diagram node.
+      const waitForRerender = async (prevId) => {
+        await page.waitForFunction(
+          (id) => {
+            const svg = document.querySelector('.mermaid svg');
+            return svg && svg.id !== id;
+          },
+          prevId,
+          { timeout: 30000 }
+        );
+      };
+
+      let svgId = await page.locator('.mermaid svg').first().getAttribute('id');
       await styleSelect.selectOption('minimal');
-      await page.waitForSelector('.mermaid svg', { timeout: 30000 });
+      await waitForRerender(svgId);
       const svgRoleAfter = await page
         .locator('.mermaid svg')
         .first()
         .getAttribute('aria-roledescription');
       expect(svgRoleAfter, `${diagram.file}: style switch caused parse error`).not.toBe('error');
+
+      svgId = await page.locator('.mermaid svg').first().getAttribute('id');
       await styleSelect.selectOption('default');
-      await page.waitForSelector('.mermaid svg', { timeout: 30000 });
+      await waitForRerender(svgId);
+
+      // Sketch (handDrawn) theme currently ships in the template only
+      const hasSketch = (await styleSelect.locator('option[value="sketch"]').count()) > 0;
+      if (hasSketch) {
+        svgId = await page.locator('.mermaid svg').first().getAttribute('id');
+        await styleSelect.selectOption('sketch');
+        await waitForRerender(svgId);
+        const sketchRole = await page
+          .locator('.mermaid svg')
+          .first()
+          .getAttribute('aria-roledescription');
+        expect(sketchRole, `${diagram.file}: sketch theme caused parse error`).not.toBe('error');
+        expect(await page.locator('html').getAttribute('data-look')).toBe('sketch');
+        svgId = await page.locator('.mermaid svg').first().getAttribute('id');
+        await styleSelect.selectOption('default');
+        await waitForRerender(svgId);
+      }
     }
 
     const screenshotName = diagram.file.replace(/\//g, '-').replace('.html', '.png');
