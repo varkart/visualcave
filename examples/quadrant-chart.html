@@ -91,7 +91,7 @@
       for (const [cn, def] of Object.entries(t.classDefs)) {
         src = src.replace(new RegExp(`(classDef\\s+${cn}\\s+)[^;\\n]+`, 'g'), `$1${def}`);
       }
-            mermaid.initialize({ startOnLoad:false, theme:t.theme, flowchart:{ htmlLabels:true, useMaxWidth:true, padding:100 }, themeVariables:{ fontFamily:'Inter, sans-serif', ...t.vars } });
+            mermaid.initialize({ startOnLoad:false, theme:t.theme, flowchart:{ htmlLabels:true, useMaxWidth:true, padding:16 }, themeVariables:{ fontFamily:'Inter, sans-serif', ...t.vars } });
       const _mw = document.createElement('div');
       _mw.style.cssText = 'position:absolute;left:-9999px;width:' + (el.clientWidth || 1100) + 'px';
       document.body.appendChild(_mw);
